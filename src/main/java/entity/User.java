@@ -21,11 +21,15 @@ public abstract class User {
      * Returns the user's ID.
      * @return the ID of the user.
      */
-    public abstract String getUserID();
+    public String getUserID() {
+        return userID;
+    }
 
     /**
      * Returns the user's password.
      * @return the password of the user.
      */
-    public abstract String getPassword();
+    public String getPassword() {
+        return password;
+    }
 }

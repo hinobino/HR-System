@@ -6,12 +6,4 @@ public class Manager extends User {
         super(userID, password);
     }
 
-    @Override
-    public String getUserID() {
-        return userID;
-    }
-
-    @Override
-    public String getPassword() { return password; }
-
 }
