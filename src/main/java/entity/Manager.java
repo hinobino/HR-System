@@ -12,8 +12,6 @@ public class Manager extends User {
     }
 
     @Override
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
+    public String getPassword() { return password; }
 
 }
