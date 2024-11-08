@@ -1,19 +1,35 @@
 package entity;
 
+/**
+ * The representation of a user.
+ */
 public abstract class User {
-    String userid;
-    String password;
+    private final String userID;
+    private final String password;
 
-    public User(String password, String userid) {
+    /**
+     * Constructor for a basic user object.
+     * @param userID the ID of the user.
+     * @param password the password of the user.
+     */
+    protected User(String userID, String password) {
+        this.userID = userID;
         this.password = password;
-        this.userid = userid;
     }
 
-    public String getUserid() {
-        return userid;
+    /**
+     * Returns the user's ID.
+     * @return the ID of the user.
+     */
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    /**
+     * Returns the user's password.
+     * @return the password of the user.
+     */
+    public String getPassword() {
+        return password;
     }
 }
