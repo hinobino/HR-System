@@ -25,24 +25,6 @@ public class Employee extends User {
     }
 
     /**
-     * Return the ID of the user.
-     * @return the ID of the user.
-     */
-    @Override
-    public String getUserID() {
-        return userID;
-    }
-
-    /**
-     * Return the password of the user.
-     * @return the password of the user.
-     */
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    /**
      * Change the status of the employee to ACTIVE or INACTIVE.
      * @param status the new status of the employee.
      */
