@@ -4,8 +4,8 @@ package entity;
  * The representation of a user.
  */
 public abstract class User {
-    private final String userID;
-    private final String password;
+    protected String userID;
+    protected final String password;
 
     /**
      * Constructor for a basic user object.
@@ -21,15 +21,11 @@ public abstract class User {
      * Returns the user's ID.
      * @return the ID of the user.
      */
-    public String getUserID() {
-        return userID;
-    }
+    public abstract String getUserID();
 
     /**
      * Returns the user's password.
      * @return the password of the user.
      */
-    public String getPassword() {
-        return password;
-    }
+    public abstract String getPassword();
 }
