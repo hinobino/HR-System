@@ -9,11 +9,11 @@ public class Employee extends User {
 
     /**
      * Constructor for an Employee object.
-     * @param userid the id of the employee.
+     * @param userID the id of the employee.
      * @param password the password of the employee.
      */
-    public Employee(String userid, String password) {
-        super(userid, password);
+    public Employee(String userID, String password) {
+        super(userID, password);
     }
 
     /**
