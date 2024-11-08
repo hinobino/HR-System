@@ -25,10 +25,36 @@ public class Employee extends User {
     }
 
     /**
+     * Return the ID of the user.
+     * @return the ID of the user.
+     */
+    @Override
+    public String getUserID() {
+        return userID;
+    }
+
+    /**
+     * Return the password of the user.
+     * @return the password of the user.
+     */
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    /**
      * Change the status of the employee to ACTIVE or INACTIVE.
      * @param status the new status of the employee.
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * Change the userID of the employee.
+     * @param userID the new ID of the user.
+     */
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }
