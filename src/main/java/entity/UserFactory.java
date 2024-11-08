@@ -6,9 +6,9 @@ package entity;
 public interface UserFactory {
     /**
      * Creates a new User.
-     * @param userid the id of the new user.
+     * @param userID the ID of the new user.
      * @param password the password of the new user.
      * @return the new user object.
      */
-    User create(String userid, String password);
+    User create(String userID, String password);
 }
