@@ -9,6 +9,8 @@ public class SignupState {
     private String userIDError;
     private String password = "";
     private String passwordError;
+    private String repeatPassword = "";
+    private String repeatPasswordError;
 
     public String getUserID() {
         return userID;
@@ -24,6 +26,14 @@ public class SignupState {
 
     public String getPasswordError() {
         return passwordError;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public String getRepeatPasswordError() {
+        return repeatPasswordError;
     }
 
     public void setUserID(String userID) {
@@ -42,11 +52,20 @@ public class SignupState {
         this.passwordError = passwordError;
     }
 
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
+
+    public void setRepeatPasswordError(String repeatPasswordError) {
+        this.repeatPasswordError = repeatPasswordError;
+    }
+
     @Override
     public String toString() {
         return "SignupState{" +
                 "userID='" + userID + "'" +
                 ", password='" + password + "'" +
+                ", repeatPassword='" + repeatPassword + "'" +
                 "}";
     }
 
