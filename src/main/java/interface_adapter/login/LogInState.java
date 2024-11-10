@@ -1,4 +1,4 @@
 package main.java.interface_adapter.login;
 
-public class LoginController {
+public class LogInState {
 }
