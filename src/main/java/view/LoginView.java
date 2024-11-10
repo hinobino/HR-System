@@ -28,7 +28,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private final JLabel passwordErrorField = new JLabel();
 
     private final JButton logIn;
-    private final JButton cancel;
+    private final JButton toWelcome;
     private LoginController loginController;
 
     public LoginView(LoginViewModel loginViewModel) {
@@ -49,25 +49,39 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         final JPanel buttons = new JPanel();
         logIn = new JButton("Log In");
         buttons.add(logIn);
-        cancel = new JButton("Cancel");
-        buttons.add(cancel);
+        toWelcome = new JButton("Back to Welcome Page");
+        buttons.add(toWelcome);
 
         logIn.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(logIn)) {
-                            final LoginState currentState = loginViewModel.getState();
+                        // there was an if statement here in Lab 5 that checked if the event was
+                        // caused by logIn being clicked... which I think is implied once we are
+                        // under this actionPerformed...
 
-                            loginController.execute(
-                                    currentState.getUserID(),
-                                    currentState.getPassword()
-                            );
-                        }
+                        final LoginState currentState = loginViewModel.getState();
+
+                        loginController.execute(
+                                currentState.getUserID(),
+                                currentState.getPassword()
+                        );
                     }
                 }
         );
 
-        cancel.addActionListener(this);
+        // TODO: add switchToWelcomeView() method to...
+        //  - use_case.LoginInputBoundary
+        //  - use_case.LoginInteractor
+        //  - interface_adapter.LoginController
+        //  - interface_adapter.LoginPresenter (ACTUAL IMPLEMENTATION HERE)
+        //  Refer to how switchToLoginView is implemented
+        toWelcome.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        loginController.switchToWelcomeView();
+                    }
+                }
+        );
 
         userIDInputField.getDocument().addDocumentListener(new DocumentListener() {
 
