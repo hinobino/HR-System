@@ -20,14 +20,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final String viewName = "sign up";
 
     private final SignupViewModel signupViewModel;
-    private final JTextField usernameInputField = new JTextField(15);
+    private final JTextField userIDInputField = new JTextField(15);
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
     private SignupController signupController;
 
     private final JButton signUp;
-    private final JButton cancel;
-    private final JButton toLogin;
+    private final JButton toWelcome;
 
     public SignupView(SignupViewModel signupViewModel) {
         this.signupViewModel = signupViewModel;
@@ -36,67 +35,72 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         final JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final LabelTextPanel usernameInfo = new LabelTextPanel(
-                new JLabel(SignupViewModel.USERNAME_LABEL), usernameInputField);
+        final LabelTextPanel userIDInfo = new LabelTextPanel(
+                new JLabel(SignupViewModel.USERID_LABEL), userIDInputField);
         final LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.PASSWORD_LABEL), passwordInputField);
         final LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
 
         final JPanel buttons = new JPanel();
-        toLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
-        buttons.add(toLogin);
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
         buttons.add(signUp);
-        cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
-        buttons.add(cancel);
+        toWelcome = new JButton(SignupViewModel.TO_WELCOME_BUTTON_LABEL);
+        buttons.add(toWelcome);
 
         signUp.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(signUp)) {
-                            final SignupState currentState = signupViewModel.getState();
+                        // there was an if statement here in Lab 5 that checked if the event was
+                        // caused by signUp being clicked... which I think is implied once we are
+                        // under this actionPerformed...
 
-                            signupController.execute(
-                                    currentState.getUsername(),
-                                    currentState.getPassword(),
-                                    currentState.getRepeatPassword()
-                            );
-                        }
+                        final SignupState currentState = signupViewModel.getState();
+
+                        // this execute will also switch the Signup View to Login View,
+                        // see SignupPresenter for implementation (prepareSuccessView method)
+                        signupController.execute(
+                                currentState.getUserID(),
+                                currentState.getPassword(),
+                                currentState.getRepeatPassword()
+                        );
                     }
                 }
         );
 
-        toLogin.addActionListener(
+        // TODO: add switchToWelcomeView() method to...
+        //  - use_case.SignupInputBoundary
+        //  - use_case.SignupInteractor
+        //  - interface_adapter.SignupController
+        //  - interface_adapter.SignupPresenter (ACTUAL IMPLEMENTATION HERE)
+        //  Refer to how switchToLoginView is implemented
+        toWelcome.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        signupController.switchToLoginView();
+                        signupController.switchToWelcomeView();
                     }
                 }
         );
 
-        cancel.addActionListener(this);
-
-        addUsernameListener();
+        addUserIDListener();
         addPasswordListener();
         addRepeatPasswordListener();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        this.add(usernameInfo);
+        this.add(userIDInfo);
         this.add(passwordInfo);
         this.add(repeatPasswordInfo);
         this.add(buttons);
     }
 
-    private void addUsernameListener() {
-        usernameInputField.getDocument().addDocumentListener(new DocumentListener() {
+    private void addUserIDListener() {
+        userIDInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
                 final SignupState currentState = signupViewModel.getState();
-                currentState.setUsername(usernameInputField.getText());
+                currentState.setUserID(userIDInputField.getText());
                 signupViewModel.setState(currentState);
             }
 
@@ -170,15 +174,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     }
 
     @Override
-    public void actionPerformed(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Cancel not implemented yet.");
-    }
+    public void actionPerformed(ActionEvent evt) {}
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final SignupState state = (SignupState) evt.getNewValue();
-        if (state.getUsernameError() != null) {
-            JOptionPane.showMessageDialog(this, state.getUsernameError());
+        if (state.getUserIDError() != null) {
+            JOptionPane.showMessageDialog(this, state.getUserIDError());
         }
     }
 
