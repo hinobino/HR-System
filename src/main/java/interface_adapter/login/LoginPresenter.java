@@ -42,4 +42,10 @@ public class LoginPresenter extends LoginOutputBoundary {
         loginState.setLoginError(error);
         loginViewModel.firePropertyChanged();
     }
+
+    @Override
+    public void switchToWelcomeView() {
+        viewManagerModel.setState("WelcomeView");
+        viewManagerModel.firePropertyChanged();
+    }
 }
