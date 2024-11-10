@@ -35,4 +35,11 @@ public class LoginPresenter extends LoginOutputBoundary {
         this.viewManagerModel.setState(loggedInViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
+
+    @Override
+    public void prepareFailureView(String error) {
+        final LoginState loginState = loginViewModel.getState();
+        loginState.setLoginError(error);
+        loginViewModel.firePropertyChanged();
+    }
 }
