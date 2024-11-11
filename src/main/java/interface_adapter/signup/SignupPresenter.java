@@ -9,7 +9,7 @@ import use_case.signup.SignupOutputData;
 /**
  * The Presenter for the Signup use case.
  */
-public class SignupPresenter {
+public class SignupPresenter implements SignupOutputBoundary {
 
     private final SignupViewModel signupViewModel;
     private final LoginViewModel loginViewModel;
