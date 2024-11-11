@@ -69,19 +69,13 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
-        // TODO: add switchToWelcomeView() method to...
-        //  - use_case.LoginInputBoundary
-        //  - use_case.LoginInteractor
-        //  - interface_adapter.LoginController
-        //  - interface_adapter.LoginPresenter (ACTUAL IMPLEMENTATION HERE)
-        //  Refer to how switchToLoginView is implemented
-//        toWelcome.addActionListener(
-//                new ActionListener() {
-//                    public void actionPerformed(ActionEvent evt) {
-//                        loginController.switchToWelcomeView();
-//                    }
-//                }
-//        );
+        toWelcome.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        loginController.switchToWelcomeView();
+                    }
+                }
+        );
 
         userIDInputField.getDocument().addDocumentListener(new DocumentListener() {
 

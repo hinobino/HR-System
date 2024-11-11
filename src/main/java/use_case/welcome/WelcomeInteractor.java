@@ -12,15 +12,8 @@ public class WelcomeInteractor implements WelcomeInputBoundary {
     }
 
     @Override
-    public void switchToLoginView() {
-
-        welcomeOutputBoundary.switchToLoginView();
-
-        System.out.println("Got to WelcomeInteractor");
-    }
+    public void switchToLoginView() { welcomeOutputBoundary.switchToLoginView(); }
 
     @Override
-    public void switchToSignupView() {
-        welcomeOutputBoundary.switchToSignupView();
-    }
+    public void switchToSignupView() { welcomeOutputBoundary.switchToSignupView(); }
 }
