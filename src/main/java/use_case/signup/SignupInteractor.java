@@ -27,6 +27,12 @@ public class SignupInteractor implements SignupInputBoundary {
         else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
             userPresenter.prepareFailView("Passwords don't match.");
         }
+        else if ("".equals(signupInputData.getUserID())) {
+            userPresenter.prepareFailView("Please enter a valid User ID.");
+        }
+        else if ("".equals(signupInputData.getPassword())) {
+            userPresenter.prepareFailView("Please enter a valid password.");
+        }
         else {
             final User user = userFactory.create(signupInputData.getUserID(), signupInputData.getPassword());
             userDataAccessObject.save(user);
