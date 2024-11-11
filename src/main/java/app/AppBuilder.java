@@ -70,7 +70,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Welcome View to the application
+     * Adds the Welcome View to the application.
      * @return this builder
      */
     public AppBuilder addWelcomeView() {
@@ -130,7 +130,7 @@ public class AppBuilder {
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel);
+                signupViewModel, loginViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, employeeFactory);
 

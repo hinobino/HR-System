@@ -68,19 +68,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 }
         );
 
-        // TODO: add switchToWelcomeView() method to...
-        //  - use_case.SignupInputBoundary
-        //  - use_case.SignupInteractor
-        //  - interface_adapter.SignupController
-        //  - interface_adapter.SignupPresenter (ACTUAL IMPLEMENTATION HERE)
-        //  Refer to how switchToLoginView is implemented
-//        toWelcome.addActionListener(
-//                new ActionListener() {
-//                    public void actionPerformed(ActionEvent evt) {
-//                        signupController.switchToWelcomeView();
-//                    }
-//                }
-//        );
+        toWelcome.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        signupController.switchToWelcomeView();
+                    }
+                }
+        );
 
         addUserIDListener();
         addPasswordListener();

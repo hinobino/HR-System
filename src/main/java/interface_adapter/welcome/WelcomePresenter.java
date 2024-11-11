@@ -32,7 +32,6 @@ public class WelcomePresenter implements WelcomeOutputBoundary {
     public void switchToLoginView() {
         viewManagerModel.setState(loginViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
-        System.out.println("Got to WelcomePresenter");
     }
 
     @Override

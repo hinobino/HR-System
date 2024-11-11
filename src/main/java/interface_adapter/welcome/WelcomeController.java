@@ -12,7 +12,6 @@ public class WelcomeController {
 
     public void switchToLoginView() {
         welcomeInputBoundary.switchToLoginView();
-        System.out.println("Got to WelcomeController");
     }
 
     public void switchToSignupView() {

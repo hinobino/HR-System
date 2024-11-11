@@ -34,4 +34,5 @@ public class SignupController {
         userSignupUseCaseInteractor.switchToLoginView();
     }
 
+    public void switchToWelcomeView() { userSignupUseCaseInteractor.switchToWelcomeView(); }
 }
