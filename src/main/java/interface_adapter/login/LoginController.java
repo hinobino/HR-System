@@ -1,4 +1,4 @@
-package main.java.interface_adapter.login;
+package interface_adapter.login;
 
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInputData;
@@ -20,7 +20,7 @@ public class LoginController {
      * @param password the password of the user logging in
      */
     public void execute(String userID, String password) {
-        final LoginInputData loginInputData = new LogininputData(userID, password);
+        final LoginInputData loginInputData = new LoginInputData(userID, password);
 
         loginUseCaseInteractor.execute(loginInputData);
     }

@@ -1,15 +1,15 @@
-package main.java.interface_adapter.login;
+package interface_adapter.login;
 
-import main.java.interface_adapter.ViewManagerModel;
-import main.java.interface_adapter.logged_in.LoggedInState;
-import main.java.interface_adapter.logged_in.LoggedInViewModel;
-import main.java.use_case.LoginOutputBoundary;
-import main.java.use_case.login.LoginOutputData;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logged_in.LoggedInViewModel;
+import use_case.login.LoginOutputBoundary;
+import use_case.login.LoginOutputData;
 
 /**
  * The Presenter for the Login Use Case.
  */
-public class LoginPresenter extends LoginOutputBoundary {
+public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final LoggedInViewModel loggedInViewModel;
@@ -28,11 +28,14 @@ public class LoginPresenter extends LoginOutputBoundary {
         // On success, switch to the logged in view.
 
         final LoggedInState loggedInState = loggedInViewModel.getState();
-        loggedInState.setUsername(response.getUsername());
+        loggedInState.setUserID(response.getUsername());
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();
 
         this.viewManagerModel.setState(loggedInViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
+
+    @Override
+    public void prepareFailView(String errorMessage) {}
 }
