@@ -29,10 +29,16 @@ public class LoginInteractor implements LoginInputBoundary {
             }
             else {
 
+                // TODO: This is where we grab the User object, which, based on our implementation,
+                //  HAS to be either Employee or Manager object: 1. because why would we store
+                //  a regular User lol and 2. because when we pass a User object in LoginOutputData,
+                //  we need it to be either Employee or Manager so we can check its type and see
+                //  what view we want to switch to.
                 final User user = userDataAccessObject.get(loginInputData.getUserID());
 
                 userDataAccessObject.setCurrentUsername(user.getUserID());
-                final LoginOutputData loginOutputData = new LoginOutputData(user.getUserID(), false);
+                // Like above, we should assume here that user is either an Employee or Manager obj
+                final LoginOutputData loginOutputData = new LoginOutputData(user, false);
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
         }
