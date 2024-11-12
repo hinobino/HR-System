@@ -14,4 +14,9 @@ public interface WelcomeInputBoundary {
      * Switches to the Signup View.
      */
     void switchToSignupView();
+
+    /**
+     * Switches to the Activate Account View.
+     */
+    void switchToActivateAccountView();
 }

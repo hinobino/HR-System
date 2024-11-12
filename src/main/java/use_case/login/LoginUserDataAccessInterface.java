@@ -1,6 +1,9 @@
 package use_case.login;
 
+import entity.Employee;
 import entity.User;
+
+import java.util.Map;
 
 /**
  * DAO for the Login Use Case.
@@ -8,11 +11,11 @@ import entity.User;
 public interface LoginUserDataAccessInterface {
 
     /**
-     * Checks if the given username exists.
-     * @param username the username to look for
-     * @return true if a user with the given username exists; false otherwise
+     * Checks if the given userID exists.
+     * @param userID the userID to look for
+     * @return true if a user with the given userID exists; false otherwise
      */
-    boolean existsByName(String username);
+    boolean existsByName(String userID);
 
     /**
      * Saves the user.
@@ -21,21 +24,28 @@ public interface LoginUserDataAccessInterface {
     void save(User user);
 
     /**
-     * Returns the user with the given username.
-     * @param username the username to look up
-     * @return the user with the given username
+     * Returns the user with the given userID.
+     * @param userID the userID to look up
+     * @return the user with the given userID
      */
-    User get(String username);
+    User get(String userID);
 
     /**
-     * Returns the username of the curren user of the application.
-     * @return the username of the current user; null indicates that no one is logged into the application.
+     * Returns the userID of the curren user of the application.
+     * @return the userID of the current user; null indicates that no one is logged into the application.
      */
-    String getCurrentUsername();
+    String getCurrentUserID();
 
     /**
-     * Sets the username indicating who is the current user of the application.
-     * @param username the new current username; null to indicate that no one is currently logged into the application.
+     * Sets the userID indicating who is the current user of the application.
+     * @param userID the new current userID; null to indicate that no one is currently logged into the application.
      */
-    void setCurrentUsername(String username);
+    void setCurrentUserID(String userID);
+
+    /**
+     * Returns a list of all the registered employee objects.
+     * @return a Map of type Employee, containing all registered employees.
+     */
+    Map<String, Employee> getEmployees();
+
 }

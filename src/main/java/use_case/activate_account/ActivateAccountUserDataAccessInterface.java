@@ -1,11 +1,11 @@
-package use_case.signup;
+package use_case.activate_account;
 
 import entity.User;
 
 /**
- * DAO for the Signup Use Case.
+ * DAO for the Activate Account Use Case.
  */
-public interface SignupUserDataAccessInterface {
+public interface ActivateAccountUserDataAccessInterface {
 
     /**
      * Checks if the given userID exists.

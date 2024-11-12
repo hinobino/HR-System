@@ -17,4 +17,8 @@ public class WelcomeController {
     public void switchToSignupView() {
         welcomeInputBoundary.switchToSignupView();
     }
+
+    public void switchToActivateAccountView() {
+        welcomeInputBoundary.switchToActivateAccountView();
+    }
 }

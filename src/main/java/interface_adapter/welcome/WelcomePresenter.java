@@ -1,7 +1,9 @@
 package interface_adapter.welcome;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.activate_account.ActivateAccountViewModel;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import use_case.welcome.WelcomeOutputBoundary;
 
@@ -10,28 +12,17 @@ import use_case.welcome.WelcomeOutputBoundary;
  */
 public class WelcomePresenter implements WelcomeOutputBoundary {
 
-    private final ViewManagerModel viewManagerModel;
-    private final LoginViewModel loginViewModel;
     private final SignupViewModel signupViewModel;
+    private final ActivateAccountViewModel activateAccountViewModel;
+    private final LoginViewModel loginViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public WelcomePresenter(ViewManagerModel viewManagerModel,
-                            LoginViewModel loginViewModel,
-                            SignupViewModel signupViewModel) {
-
-        // To switch views, we use the setState method in the ViewManagerModel class for the
-        // specific viewManagerModel object used in the AppBuilder class. So, we take it as an
-        // input.
-        this.viewManagerModel = viewManagerModel;
-        this.loginViewModel = loginViewModel;
+    public WelcomePresenter(SignupViewModel signupViewModel, ActivateAccountViewModel activateAccountViewModel,
+                            LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
         this.signupViewModel = signupViewModel;
-    }
-
-    // These two methods override WelcomeInteractor which override WelcomeOutputBoundary and
-    // are called on by WelcomeView.
-    @Override
-    public void switchToLoginView() {
-        viewManagerModel.setState(loginViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+        this.activateAccountViewModel = activateAccountViewModel;
+        this.loginViewModel = loginViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
@@ -39,4 +30,17 @@ public class WelcomePresenter implements WelcomeOutputBoundary {
         viewManagerModel.setState(signupViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
+    @Override
+    public void switchToActivateAccountView() {
+        viewManagerModel.setState(activateAccountViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToLoginView() {
+        viewManagerModel.setState(loginViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
 }

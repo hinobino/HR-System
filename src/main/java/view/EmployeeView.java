@@ -1,11 +1,10 @@
 package view;
 
+import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -13,24 +12,25 @@ import java.beans.PropertyChangeListener;
 /**
  * The View for when the user is logged into the program.
  */
-public class LoggedInView extends JPanel implements PropertyChangeListener {
+public class EmployeeView extends JPanel implements PropertyChangeListener {
 
-    private final String viewName = "logged in";
-    private final LoggedInViewModel loggedInViewModel;
+    private final String viewName = "employee";
+    private final EmployeeViewModel employeeViewModel;
 
     private final JLabel userID;
 
-    public LoggedInView(LoggedInViewModel loggedInViewModel) {
-        this.loggedInViewModel = loggedInViewModel;
-        this.loggedInViewModel.addPropertyChangeListener(this);
+    public EmployeeView(EmployeeViewModel employeeViewModel) {
+        this.employeeViewModel = employeeViewModel;
+        this.employeeViewModel.addPropertyChangeListener(this);
 
         // TODO: use the LoggedInViewModel class to name the following buttons/labels.
 
-        final JLabel title = new JLabel("MANAGER Logged In Screen");
+        final JLabel title = new JLabel("EMPLOYEE Logged In Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JLabel userIDInfo = new JLabel("Currently logged in: ");
         userID = new JLabel();
+
 
 //        final JPanel buttons = new JPanel();
 

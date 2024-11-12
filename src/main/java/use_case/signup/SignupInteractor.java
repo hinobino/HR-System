@@ -1,7 +1,6 @@
 package use_case.signup;
 
-import entity.User;
-import entity.UserFactory;
+import entity.*;
 
 /**
  * The Signup Interactor.
@@ -9,14 +8,15 @@ import entity.UserFactory;
 public class SignupInteractor implements SignupInputBoundary {
     private final SignupUserDataAccessInterface userDataAccessObject;
     private final SignupOutputBoundary userPresenter;
-    private final UserFactory userFactory;
+
+    // This user case only creates managers
+    private final ManagerFactory managerFactory;
 
     public SignupInteractor(SignupUserDataAccessInterface signupDataAccessInterface,
-                            SignupOutputBoundary signupOutputBoundary,
-                            UserFactory userFactory) {
+                            SignupOutputBoundary signupOutputBoundary, ManagerFactory managerFactory) {
         this.userDataAccessObject = signupDataAccessInterface;
         this.userPresenter = signupOutputBoundary;
-        this.userFactory = userFactory;
+        this.managerFactory = managerFactory;
     }
 
     @Override
@@ -33,8 +33,9 @@ public class SignupInteractor implements SignupInputBoundary {
         else if ("".equals(signupInputData.getPassword())) {
             userPresenter.prepareFailView("Please enter a valid password.");
         }
+
         else {
-            final User user = userFactory.create(signupInputData.getUserID(), signupInputData.getPassword());
+            User user = managerFactory.create(signupInputData.getUserID(), signupInputData.getPassword());
             userDataAccessObject.save(user);
 
             final SignupOutputData signupOutputData = new SignupOutputData(user.getUserID(), false);
@@ -43,9 +44,7 @@ public class SignupInteractor implements SignupInputBoundary {
     }
 
     @Override
-    public void switchToLoginView() {
-        userPresenter.switchToLoginView();
-    }
+    public void switchToLoginView() { userPresenter.switchToLoginView(); }
 
     @Override
     public void switchToWelcomeView() { userPresenter.switchToWelcomeView(); }

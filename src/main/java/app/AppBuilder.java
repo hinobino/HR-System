@@ -1,11 +1,12 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
-import entity.EmployeeFactory;
-import entity.ManagerFactory;
-import entity.User;
-import entity.UserFactory;
+import entity.*;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.activate_account.ActivateAccountController;
+import interface_adapter.activate_account.ActivateAccountPresenter;
+import interface_adapter.activate_account.ActivateAccountViewModel;
+import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -16,6 +17,9 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import use_case.activate_account.ActivateAccountInputBoundary;
+import use_case.activate_account.ActivateAccountInteractor;
+import use_case.activate_account.ActivateAccountOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -62,8 +66,12 @@ public class AppBuilder {
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
     private LoggedInViewModel loggedInViewModel;
+    private EmployeeViewModel employeeViewModel;
     private LoggedInView loggedInView;
+    private EmployeeView employeeView;
     private LoginView loginView;
+    private ActivateAccountViewModel activateAccountViewModel;
+    private ActivateAccountView activateAccountView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -113,9 +121,23 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addEmployeeView() {
+        employeeViewModel = new EmployeeViewModel();
+        employeeView = new EmployeeView(employeeViewModel);
+        cardPanel.add(employeeView, employeeView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addActivateAccountView() {
+        activateAccountViewModel = new ActivateAccountViewModel();
+        activateAccountView = new ActivateAccountView(activateAccountViewModel);
+        cardPanel.add(activateAccountView, activateAccountView.getViewName());
+        return this;
+    }
+
     public AppBuilder addWelcomeUseCase() {
-        final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(viewManagerModel,
-                loginViewModel, signupViewModel);
+        final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(signupViewModel,
+                activateAccountViewModel, loginViewModel, viewManagerModel);
         final WelcomeInputBoundary welcomeInteractor = new WelcomeInteractor(
                 welcomeOutputBoundary);
 
@@ -132,7 +154,7 @@ public class AppBuilder {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
                 signupViewModel, loginViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
-                userDataAccessObject, signupOutputBoundary, employeeFactory);
+                userDataAccessObject, signupOutputBoundary, managerFactory);
 
         final SignupController controller = new SignupController(userSignupInteractor);
         signupView.setSignupController(controller);
@@ -145,7 +167,7 @@ public class AppBuilder {
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, welcomeViewModel);
+                loggedInViewModel, employeeViewModel, loginViewModel, welcomeViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
@@ -155,11 +177,25 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Activate Account Use Case to the application.
+     * @return this builder.
+     */
+    public AppBuilder addActivateAccountUseCase() {
+        final ActivateAccountOutputBoundary activateAccountOutputBoundary = new ActivateAccountPresenter(
+                viewManagerModel, activateAccountViewModel, loginViewModel, welcomeViewModel);
+        final ActivateAccountInputBoundary activateAccountInteractor = new ActivateAccountInteractor(
+                userDataAccessObject, activateAccountOutputBoundary, employeeFactory);
+        final ActivateAccountController controller = new ActivateAccountController(activateAccountInteractor);
+        activateAccountView.setActivateAccountController(controller);
+        return this;
+    }
+
+    /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("Login Example");
+        final JFrame application = new JFrame("HR System");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);

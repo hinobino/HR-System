@@ -18,14 +18,13 @@ public class WelcomeView extends JPanel implements ActionListener, PropertyChang
     private final WelcomeViewModel welcomeViewModel;
 
     private final JButton loginButton;
-    private final JButton signUpButton;
+    private final JButton managerSignUpButton;
+    private final JButton activateEmployeeButton;
     private WelcomeController welcomeController;
 
     public WelcomeView(WelcomeViewModel welcomeViewModel) {
         this.welcomeViewModel = welcomeViewModel;
         welcomeViewModel.addPropertyChangeListener(this);
-
-        // TODO: use the WelcomeViewModel class to name the following buttons/labels.
 
         final JLabel title = new JLabel(WelcomeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -38,10 +37,15 @@ public class WelcomeView extends JPanel implements ActionListener, PropertyChang
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttons.add(loginButton);
 
-        // Sign-up button
-        signUpButton = new JButton(WelcomeViewModel.SIGNUP_BUTTON_LABEL);
-        signUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttons.add(signUpButton);
+        // Manager Sign-up button
+        managerSignUpButton = new JButton(WelcomeViewModel.MANAGER_SIGNUP_BUTTON_LABEL);
+        managerSignUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttons.add(managerSignUpButton);
+
+        // Activate Employee button
+        activateEmployeeButton = new JButton(WelcomeViewModel.ACTIVATE_EMPLOYEE_BUTTON_LABEL);
+        activateEmployeeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttons.add(activateEmployeeButton);
 
         loginButton.addActionListener(
                 new ActionListener() {
@@ -52,11 +56,20 @@ public class WelcomeView extends JPanel implements ActionListener, PropertyChang
                 }
         );
 
-        signUpButton.addActionListener(
+        managerSignUpButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         welcomeController.switchToSignupView();
+                    }
+                }
+        );
+
+        activateEmployeeButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        welcomeController.switchToActivateAccountView();
                     }
                 }
         );
