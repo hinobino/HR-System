@@ -9,8 +9,10 @@ public class WelcomeViewModel extends ViewModel<WelcomeState> {
 
     public static final String TITLE_LABEL = "Welcome";
 
-    public static final String LOGIN_BUTTON_LABEL = "Login";
-    public static final String SIGNUP_BUTTON_LABEL = "Sign Up";
+    public static final String EMPLOYEE_LOGIN_BUTTON_LABEL = "Log In as Employee";
+    public static final String EMPLOYEE_SIGNUP_BUTTON_LABEL = "Sign Up as Employee";
+    public static final String MANAGER_LOGIN_BUTTON_LABEL = "Log In as Manager";
+    public static final String MANAGER_SIGNUP_BUTTON_LABEL = "Sign Up as Manager";
 
     public WelcomeViewModel() {
         super("welcome");
