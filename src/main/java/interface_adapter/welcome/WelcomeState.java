@@ -11,7 +11,7 @@ public class WelcomeState {
         return role;
     }
 
-    public String setRole(String role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

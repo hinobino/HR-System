@@ -1,11 +1,9 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
-import entity.EmployeeFactory;
-import entity.ManagerFactory;
-import entity.User;
-import entity.UserFactory;
+import entity.*;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -62,7 +60,9 @@ public class AppBuilder {
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
     private LoggedInViewModel loggedInViewModel;
+    private EmployeeViewModel employeeViewModel;
     private LoggedInView loggedInView;
+    private EmployeeView employeeView;
     private LoginView loginView;
 
     public AppBuilder() {
@@ -113,6 +113,13 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addEmployeeView() {
+        employeeViewModel = new EmployeeViewModel();
+        employeeView = new EmployeeView(employeeViewModel);
+        cardPanel.add(employeeView, employeeView.getViewName());
+        return this;
+    }
+
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(viewManagerModel,
                 loginViewModel, signupViewModel);
@@ -132,7 +139,7 @@ public class AppBuilder {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
                 signupViewModel, loginViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
-                userDataAccessObject, signupOutputBoundary, employeeFactory);
+                userDataAccessObject, signupOutputBoundary, employeeFactory, managerFactory);
 
         final SignupController controller = new SignupController(userSignupInteractor);
         signupView.setSignupController(controller);
@@ -145,7 +152,7 @@ public class AppBuilder {
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, welcomeViewModel);
+                loggedInViewModel, employeeViewModel, loginViewModel, welcomeViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 

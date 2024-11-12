@@ -34,12 +34,12 @@ public class WelcomeView extends JPanel implements ActionListener, PropertyChang
         final JPanel buttons = new JPanel();
 
         // Login button
-        loginButton = new JButton(WelcomeViewModel.LOGIN_BUTTON_LABEL);
+        loginButton = new JButton("Login");
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttons.add(loginButton);
 
         // Sign-up button
-        signUpButton = new JButton(WelcomeViewModel.SIGNUP_BUTTON_LABEL);
+        signUpButton = new JButton("Sign Up");
         signUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttons.add(signUpButton);
 
