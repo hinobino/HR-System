@@ -15,4 +15,8 @@ public interface WelcomeOutputBoundary {
      */
     void switchToSignupView();
 
+    /**
+     * Switches ot the Activate Account View.
+     */
+    void switchToActivateAccountView();
 }

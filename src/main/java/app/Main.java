@@ -18,9 +18,11 @@ public class Main {
                                             .addSignupView()
                                             .addLoggedInView()
                                             .addEmployeeView()
+                                            .addActivateAccountView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
+                                            .addActivateAccountUseCase()
                                             .build();
 
         application.pack();

@@ -5,16 +5,16 @@ package use_case.login;
  */
 public class LoginInputData {
 
-    private final String username;
+    private final String userID;
     private final String password;
 
-    public LoginInputData(String username, String password) {
-        this.username = username;
+    public LoginInputData(String userID, String password) {
+        this.userID = userID;
         this.password = password;
     }
 
     String getUserID() {
-        return username;
+        return userID;
     }
 
     String getPassword() {
