@@ -1,10 +1,6 @@
 package use_case.activate_account;
 
 import entity.*;
-import use_case.signup.SignupInputData;
-import use_case.signup.SignupOutputBoundary;
-import use_case.signup.SignupOutputData;
-import use_case.signup.SignupUserDataAccessInterface;
 
 /**
  * The ActivateAccount Interactor.
@@ -14,7 +10,7 @@ public class ActivateAccountInteractor implements ActivateAccountInputBoundary {
     private final ActivateAccountUserDataAccessInterface userDataAccessObject;
     private final ActivateAccountOutputBoundary userPresenter;
 
-    // This user case only creates managers
+    // This user case only creates employees
     private final EmployeeFactory employeeFactory;
 
     public ActivateAccountInteractor(ActivateAccountUserDataAccessInterface activateAccountUserDataAccessInterface,
