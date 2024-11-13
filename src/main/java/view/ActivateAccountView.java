@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
  * The View for the Signup Use Case.
  */
 public class ActivateAccountView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "sign up";
+    private final String viewName = "activate account";
 
     private final ActivateAccountViewModel activateAccountViewModel;
     private final JTextField userIDInputField = new JTextField(15);
