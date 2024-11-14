@@ -1,6 +1,9 @@
 package use_case.login;
 
+import entity.Employee;
 import entity.User;
+
+import java.util.Map;
 
 /**
  * DAO for the Login Use Case.
@@ -38,5 +41,11 @@ public interface LoginUserDataAccessInterface {
      * @param userID the new current userID; null to indicate that no one is currently logged into the application.
      */
     void setCurrentUserID(String userID);
+
+    /**
+     * Returns a list of all the registered employee objects.
+     * @return a Map of type Employee, containing all registered employees.
+     */
+    Map<String, Employee> getEmployees();
 
 }

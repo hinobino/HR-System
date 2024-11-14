@@ -1,5 +1,6 @@
 package data_access;
 
+import entity.Employee;
 import entity.User;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -35,12 +36,26 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public void setCurrentUserID(String ID) {
-        this.currentUserID = ID;
+    public void setCurrentUserID(String iD) {
+        this.currentUserID = iD;
     }
 
     @Override
     public String getCurrentUserID() {
         return this.currentUserID;
     }
+
+    @Override
+    public Map<String, Employee> getEmployees() {
+        Map<String, Employee> employees = new HashMap<>();
+
+        for (Map.Entry<String, User> userObj : users.entrySet()) {
+            if (userObj.getValue() instanceof Employee) {
+                employees.put(userObj.getKey(), (Employee) userObj.getValue());
+            }
+        }
+
+        return employees;
+    }
+
 }
