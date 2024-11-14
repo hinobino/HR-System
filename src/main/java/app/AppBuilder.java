@@ -7,7 +7,7 @@ import interface_adapter.activate_account.ActivateAccountController;
 import interface_adapter.activate_account.ActivateAccountPresenter;
 import interface_adapter.activate_account.ActivateAccountViewModel;
 import interface_adapter.logged_in.EmployeeViewModel;
-import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.logged_in.ManagerViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -65,9 +65,9 @@ public class AppBuilder {
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
-    private LoggedInViewModel loggedInViewModel;
+    private ManagerViewModel managerViewModel;
     private EmployeeViewModel employeeViewModel;
-    private LoggedInView loggedInView;
+    private ManagerView managerView;
     private EmployeeView employeeView;
     private LoginView loginView;
     private ActivateAccountViewModel activateAccountViewModel;
@@ -111,13 +111,13 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the LoggedIn View to the application.
+     * Adds the Manager View to the application.
      * @return this builder
      */
-    public AppBuilder addLoggedInView() {
-        loggedInViewModel = new LoggedInViewModel();
-        loggedInView = new LoggedInView(loggedInViewModel);
-        cardPanel.add(loggedInView, loggedInView.getViewName());
+    public AppBuilder addManagerView() {
+        managerViewModel = new ManagerViewModel();
+        managerView = new ManagerView(managerViewModel);
+        cardPanel.add(managerView, managerView.getViewName());
         return this;
     }
 
@@ -167,7 +167,7 @@ public class AppBuilder {
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                loggedInViewModel, employeeViewModel, loginViewModel, welcomeViewModel);
+                managerViewModel, employeeViewModel, loginViewModel, welcomeViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
