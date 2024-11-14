@@ -1,6 +1,7 @@
 package data_access;
 
 import entity.User;
+import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -12,15 +13,15 @@ import java.util.Map;
  * NOT persist data between runs of the program.
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface {
+        LoginUserDataAccessInterface, ActivateAccountUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 
-    private String currentUsername;
+    private String currentUserID;
 
     @Override
-    public boolean existsByName(String identifier) {
-        return users.containsKey(identifier);
+    public boolean existsByName(String userID) {
+        return users.containsKey(userID);
     }
 
     @Override
@@ -29,17 +30,17 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public User get(String username) {
-        return users.get(username);
+    public User get(String userID) {
+        return users.get(userID);
     }
 
     @Override
-    public void setCurrentUsername(String name) {
-        this.currentUsername = name;
+    public void setCurrentUserID(String ID) {
+        this.currentUserID = ID;
     }
 
     @Override
-    public String getCurrentUsername() {
-        return this.currentUsername;
+    public String getCurrentUserID() {
+        return this.currentUserID;
     }
 }

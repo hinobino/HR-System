@@ -1,15 +1,15 @@
-package use_case.signup;
+package use_case.activate_account;
 
 /**
- * Output Data for the Signup Use Case.
+ * Output Data for the Activate Account Use Case.
  */
-public class SignupOutputData {
+public class ActivateAccountOutputData {
 
     private final String userID;
 
     private final boolean useCaseFailed;
 
-    public SignupOutputData(String userID, boolean useCaseFailed) {
+    public ActivateAccountOutputData(String userID, boolean useCaseFailed) {
         this.userID = userID;
         this.useCaseFailed = useCaseFailed;
     }

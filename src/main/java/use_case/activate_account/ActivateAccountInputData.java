@@ -1,15 +1,15 @@
-package use_case.signup;
+package use_case.activate_account;
 
 /**
- * The Input Data for the Signup Use Case.
+ * The Input Data for the Activate Account Use Case.
  */
-public class SignupInputData {
+public class ActivateAccountInputData {
 
     private final String userID;
     private final String password;
     private final String repeatPassword;
 
-    public SignupInputData(String userID, String password, String repeatPassword) {
+    public ActivateAccountInputData(String userID, String password, String repeatPassword) {
         this.userID = userID;
         this.password = password;
         this.repeatPassword = repeatPassword;
