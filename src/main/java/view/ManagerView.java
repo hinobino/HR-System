@@ -1,6 +1,5 @@
 package view;
 
-import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.ManagerViewModel;
 
@@ -12,23 +11,24 @@ import java.beans.PropertyChangeListener;
 /**
  * The View for when the user is logged into the program.
  */
-public class EmployeeView extends JPanel implements PropertyChangeListener {
+public class ManagerView extends JPanel implements PropertyChangeListener {
 
-    private final String viewName = "employee";
-    private final EmployeeViewModel employeeViewModel;
+    private final String viewName = "logged in";
+    private final ManagerViewModel managerViewModel;
 
     private final JLabel welcomeLabel;
 
     private final JButton schedule;
-    private final JButton shifts;
-    private final JButton requestLeave;
+    private final JButton setShift;
+    private final JButton employees;
+    private final JButton requests;
 
-    public EmployeeView(EmployeeViewModel employeeViewModel) {
-        this.employeeViewModel = employeeViewModel;
-        this.employeeViewModel.addPropertyChangeListener(this);
+    public ManagerView(ManagerViewModel managerViewModel) {
+        this.managerViewModel = managerViewModel;
+        this.managerViewModel.addPropertyChangeListener(this);
 
         // Title
-        final JLabel title = new JLabel(EmployeeViewModel.TITLE_LABEL);
+        final JLabel title = new JLabel(ManagerViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Welcome message
@@ -43,37 +43,42 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        schedule = new JButton(EmployeeViewModel.SCHEDULE_LABEL);
+        schedule = new JButton(ManagerViewModel.SCHEDULE_LABEL);
         buttons.add(schedule, gbc);
 
         gbc.gridy++;
-        shifts = new JButton(EmployeeViewModel.SHIFTS_LABEL);
-        buttons.add(shifts, gbc);
+        setShift = new JButton(ManagerViewModel.SET_SHIFT_LABEL);
+        buttons.add(setShift, gbc);
 
         gbc.gridy++;
-        requestLeave = new JButton(EmployeeViewModel.REQUEST_LABEL);
-        buttons.add(requestLeave, gbc);
+        employees = new JButton(ManagerViewModel.EMPLOYEES_LABEL);
+        buttons.add(employees, gbc);
+
+        gbc.gridy++;
+        requests = new JButton(ManagerViewModel.REQUESTS_LABEL);
+        buttons.add(requests, gbc);
 
         // TODO: Implement these action listeners.
         schedule.addActionListener(e -> {});
-        shifts.addActionListener(e -> {});
-        requestLeave.addActionListener(e -> {});
+        setShift.addActionListener(e -> {});
+        employees.addActionListener(e -> {});
+        requests.addActionListener(e -> {});
 
-        // Format the whole EmployeeView
+        // Format the whole ManagerView
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(title, gbc);
-        this.add(welcomeLabel, gbc);
-        this.add(buttons, gbc);
-
+        this.add(title);
+        this.add(welcomeLabel);
+        this.add(buttons);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final LoggedInState state = (LoggedInState) evt.getNewValue();
-            welcomeLabel.setText(EmployeeViewModel.WELCOME_LABEL + state.getUserID() + ".");
+            welcomeLabel.setText(ManagerViewModel.WELCOME_LABEL + state.getUserID() + ".");
         }
+//        // Leaving this code here for reference if we want to add pop-up messages
 //        else if (evt.getPropertyName().equals("password")) {
 //            final LoggedInState state = (LoggedInState) evt.getNewValue();
 //            JOptionPane.showMessageDialog(null, "password updated for " + state.getUserID());
