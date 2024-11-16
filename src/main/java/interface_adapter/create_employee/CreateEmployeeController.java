@@ -2,6 +2,7 @@ package interface_adapter.create_employee;
 
 import use_case.create_employee.CreateEmployeeInputData;
 import use_case.create_employee.CreateEmployeeInputBoundary;
+import view.CreateEmployeeView;
 
 /**
  * The controller for the create employee use case.
@@ -16,10 +17,13 @@ public class CreateEmployeeController {
 
     /**
      * Executes the create employee use case.
-     * @param newUserID the new User ID to create.
+     *
+     * @param newUserID          the new User ID to create.
+     * @param view               the view to reset.
      */
-    public void execute(String newUserID) {
-        final CreateEmployeeInputData createEmployeeInputData = new CreateEmployeeInputData(newUserID);
+    public void execute(String newUserID, CreateEmployeeView view) {
+        final CreateEmployeeInputData createEmployeeInputData =
+                new CreateEmployeeInputData(newUserID, view);
 
         createEmployeeInteractor.execute(createEmployeeInputData);
     }

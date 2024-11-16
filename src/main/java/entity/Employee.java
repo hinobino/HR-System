@@ -5,7 +5,7 @@ package entity;
  */
 public class Employee extends User {
 
-    private String status = "INACTIVE";
+    private String status = "inactive";
 
     /**
      * Constructor for an Employee object.

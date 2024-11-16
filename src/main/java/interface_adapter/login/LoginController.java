@@ -2,6 +2,7 @@ package interface_adapter.login;
 
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInputData;
+import view.LoginView;
 
 /**
  * The controller for the Login use case.
@@ -16,11 +17,13 @@ public class LoginController {
 
     /**
      * Executes the Login Use Case.
-     * @param userID the username of the user logging in
-     * @param password the password of the user logging in
+     *
+     * @param userID    the username of the user logging in
+     * @param password  the password of the user logging in
+     * @param view      the view to reset
      */
-    public void execute(String userID, String password) {
-        final LoginInputData loginInputData = new LoginInputData(userID, password);
+    public void execute(String userID, String password, LoginView view) {
+        final LoginInputData loginInputData = new LoginInputData(userID, password, view);
 
         loginUseCaseInteractor.execute(loginInputData);
     }

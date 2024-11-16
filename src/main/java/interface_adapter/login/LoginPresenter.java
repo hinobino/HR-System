@@ -89,6 +89,7 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     @Override
     public void switchToWelcomeView() {
+
         viewManagerModel.setState(welcomeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

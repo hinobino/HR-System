@@ -30,6 +30,10 @@ public class CreateEmployeeInteractor implements CreateEmployeeInputBoundary {
             createEmployeePresenter.prepareFailView("Please enter a valid User ID.");
         }
         else {
+            // Resets the CreateEmployeeView for future use.
+            createEmployeeInputData.getView().resetView();
+
+            // Creates a new Employee with the given user ID.
             Employee inactiveEmployee = employeeFactory.create(createEmployeeInputData.getNewUserID(), "");
             userDataAccessObject.save(inactiveEmployee);
 
