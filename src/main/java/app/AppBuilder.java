@@ -6,7 +6,12 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.activate_account.ActivateAccountController;
 import interface_adapter.activate_account.ActivateAccountPresenter;
 import interface_adapter.activate_account.ActivateAccountViewModel;
+import interface_adapter.create_employee.CreateEmployeeController;
+import interface_adapter.create_employee.CreateEmployeePresenter;
+import interface_adapter.create_employee.CreateEmployeeViewModel;
 import interface_adapter.logged_in.EmployeeViewModel;
+import interface_adapter.logged_in.ManagerController;
+import interface_adapter.logged_in.ManagerPresenter;
 import interface_adapter.logged_in.ManagerViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -20,6 +25,7 @@ import interface_adapter.welcome.WelcomeViewModel;
 import use_case.activate_account.ActivateAccountInputBoundary;
 import use_case.activate_account.ActivateAccountInteractor;
 import use_case.activate_account.ActivateAccountOutputBoundary;
+import use_case.create_employee.CreateEmployeeOutputData;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -29,6 +35,12 @@ import use_case.signup.SignupOutputBoundary;
 import use_case.welcome.WelcomeInputBoundary;
 import use_case.welcome.WelcomeInteractor;
 import use_case.welcome.WelcomeOutputBoundary;
+import use_case.logged_in.manager.ManagerInputBoundary;
+import use_case.logged_in.manager.ManagerInteractor;
+import use_case.logged_in.manager.ManagerOutputBoundary;
+import use_case.create_employee.CreateEmployeeInputBoundary;
+import use_case.create_employee.CreateEmployeeInteractor;
+import use_case.create_employee.CreateEmployeeOutputBoundary;
 import view.*;
 
 import javax.swing.*;
@@ -72,6 +84,8 @@ public class AppBuilder {
     private LoginView loginView;
     private ActivateAccountViewModel activateAccountViewModel;
     private ActivateAccountView activateAccountView;
+    private CreateEmployeeViewModel createEmployeeViewModel;
+    private CreateEmployeeView createEmployeeView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -135,6 +149,13 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addCreateEmployeeView() {
+        createEmployeeViewModel = new CreateEmployeeViewModel();
+        createEmployeeView = new CreateEmployeeView(createEmployeeViewModel);
+        cardPanel.add(createEmployeeView, createEmployeeView.getViewName());
+        return this;
+    }
+
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(signupViewModel,
                 activateAccountViewModel, loginViewModel, viewManagerModel);
@@ -187,6 +208,33 @@ public class AppBuilder {
                 userDataAccessObject, activateAccountOutputBoundary, employeeFactory);
         final ActivateAccountController controller = new ActivateAccountController(activateAccountInteractor);
         activateAccountView.setActivateAccountController(controller);
+        return this;
+    }
+
+    public AppBuilder addManagerUseCase() {
+        final ManagerOutputBoundary managerOutputBoundary = new ManagerPresenter(createEmployeeViewModel,
+                viewManagerModel);
+        final ManagerInputBoundary managerInteractor = new ManagerInteractor(managerOutputBoundary);
+        final ManagerController controller = new ManagerController(managerInteractor);
+        managerView.setManagerController(controller);
+        return this;
+    }
+
+    public AppBuilder addCreateEmployeeUseCase() {
+        final CreateEmployeeOutputBoundary createEmployeeOutputBoundary = new CreateEmployeePresenter(
+                viewManagerModel,
+                createEmployeeViewModel,
+                welcomeViewModel
+        );
+
+        final CreateEmployeeInputBoundary createEmployeeInteractor = new CreateEmployeeInteractor(
+                userDataAccessObject,
+                createEmployeeOutputBoundary,
+                employeeFactory
+        );
+
+        final CreateEmployeeController controller = new CreateEmployeeController(createEmployeeInteractor);
+        createEmployeeView.setCreateEmployeeController(controller);
         return this;
     }
 

@@ -1,10 +1,14 @@
 package view;
 
+import entity.Manager;
+import interface_adapter.logged_in.ManagerController;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.ManagerViewModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -22,6 +26,9 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
     private final JButton setShift;
     private final JButton employees;
     private final JButton requests;
+    private final JButton createEmployee;
+
+    private ManagerController managerController;
 
     public ManagerView(ManagerViewModel managerViewModel) {
         this.managerViewModel = managerViewModel;
@@ -43,6 +50,11 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
+
+        createEmployee = new JButton(ManagerViewModel.CREATE_EMPLOYEE_LABEL);
+        buttons.add(createEmployee);
+
+        gbc.gridy++;
         schedule = new JButton(ManagerViewModel.SCHEDULE_LABEL);
         buttons.add(schedule, gbc);
 
@@ -57,6 +69,15 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         gbc.gridy++;
         requests = new JButton(ManagerViewModel.REQUESTS_LABEL);
         buttons.add(requests, gbc);
+
+        createEmployee.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        managerController.switchToCreateEmployeeView();
+                    }
+                }
+        );
 
         // TODO: Implement these action listeners.
         schedule.addActionListener(e -> {});
@@ -89,4 +110,9 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
     public String getViewName() {
         return viewName;
     }
+
+    public void setManagerController(ManagerController managerController) {
+        this.managerController = managerController;
+    }
+
 }

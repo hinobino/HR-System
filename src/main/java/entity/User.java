@@ -5,7 +5,7 @@ package entity;
  */
 public abstract class User {
     protected String userID;
-    protected final String password;
+    protected String password;
 
     /**
      * Constructor for a basic user object.
