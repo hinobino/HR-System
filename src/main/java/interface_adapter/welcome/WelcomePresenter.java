@@ -3,7 +3,6 @@ package interface_adapter.welcome;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.activate_account.ActivateAccountViewModel;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import use_case.welcome.WelcomeOutputBoundary;
 
