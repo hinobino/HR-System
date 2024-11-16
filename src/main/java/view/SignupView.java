@@ -57,13 +57,17 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
                         final SignupState currentState = signupViewModel.getState();
 
-                        // this execute will also switch the Signup View to Login View,
-                        // see SignupPresenter for implementation (prepareSuccessView method)
+                        // This execute will switch the Signup View to Login View,
+                        // see SignupPresenter for implementation (prepareSuccessView method).
+                        // It will also reset the view if successful.
                         signupController.execute(
                                 currentState.getUserID(),
                                 currentState.getPassword(),
-                                currentState.getRepeatPassword()
+                                currentState.getRepeatPassword(),
+                                SignupView.this
                         );
+
+//                        resetView();
                     }
                 }
         );
@@ -72,6 +76,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         signupController.switchToWelcomeView();
+                        resetView();
                     }
                 }
         );
@@ -184,5 +189,14 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     public void setSignupController(SignupController controller) {
         this.signupController = controller;
+    }
+
+    public void resetView() {
+        userIDInputField.setText("");
+        passwordInputField.setText("");
+        repeatPasswordInputField.setText("");
+
+        SignupState initialState = signupViewModel.getState();
+        signupViewModel.setState(initialState);
     }
 }

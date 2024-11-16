@@ -46,10 +46,11 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return this.currentUserID;
     }
 
-    /* TODO: given a userID and a password, find the Employee with the createdID, set their password, and set their
-    status to "ACTIVE" */
-    // @Override
-    public void activateUser() {
+     @Override
+    public void activateUser(String userID, String password) {
+        Employee employee = (Employee) users.get(userID);
+        employee.setPassword(password);
+        employee.setStatus("active");
 
     }
 
