@@ -8,9 +8,7 @@ import java.util.Map;
  */
 public class Workday {
 
-    private Map<String, Shift> shifts;
-
-    public Workday() {}
+    private final Map<String, Shift> shifts;
 
     public Workday(Map<String, Shift> shifts) {
         this.shifts = shifts;

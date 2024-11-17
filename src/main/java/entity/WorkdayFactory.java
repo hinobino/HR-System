@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,7 +13,7 @@ public class WorkdayFactory {
      * @return a Workday object.
      */
     public Workday create() {
-        return new Workday();
+        return new Workday(new HashMap<>());
     }
 
     /**
@@ -21,7 +22,7 @@ public class WorkdayFactory {
      * @return a Workday object.
      */
     public Workday create(Map<String, Shift> shifts) {
-        return new Workday(shifts);
+        return new Workday(new HashMap<>(shifts));
     }
 
 }
