@@ -18,7 +18,6 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
 
     private final String viewName = "employee list";
     private final EmployeeListViewModel employeeListViewModel;
-    private final Object[] columnNames;
     private Object[][] data;
     private final JButton createEmployee;
     private final JButton backButton;
@@ -34,10 +33,10 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //Panel for table
-        columnNames = new Object[]{"User Id", "Status"};
         data = employeeListViewModel.getState().getEmployeeList();
-        JTable table = new JTable(data, columnNames);
+        JTable table = new JTable(data, employeeListViewModel.columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(100, 100));
         table.setFillsViewportHeight(true);
 
         // Panel for buttons
@@ -54,15 +53,6 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         gbc.gridx = 1;
         backButton = new JButton(EmployeeListViewModel.BACK_BUTTON_LABEL);
         buttons.add(backButton, gbc);
-
-        createEmployee.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        employeeListController.createEmployeeList();
-                    }
-                }
-        );
 
         backButton.addActionListener(
                 new ActionListener() {
@@ -86,6 +76,7 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
+            System.out.println("hello");
             final EmployeeListState state = (EmployeeListState) evt.getNewValue();
             employeeListController.createEmployeeList();
             data = state.getEmployeeList();
