@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import entity.Employee;
 import entity.User;
 import entity.UserFactory;
 import use_case.login.LoginUserDataAccessInterface;
@@ -92,12 +93,30 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public void setCurrentUsername(String name) {
+    public void setCurrentUserID(String name) {
         this.currentUsername = name;
     }
 
+    /**
+     * Returns a list of all the registered employee objects.
+     *
+     * @return a Map of type Employee, containing all registered employees.
+     */
     @Override
-    public String getCurrentUsername() {
+    public Map<String, Employee> getEmployees() {
+        Map<String, Employee> employees = new HashMap<>();
+
+        for (Map.Entry<String, User> userObj : accounts.entrySet()) {
+            if (userObj.getValue() instanceof Employee) {
+                employees.put(userObj.getKey(), (Employee) userObj.getValue());
+            }
+        }
+
+        return employees;
+    }
+
+    @Override
+    public String getCurrentUserID() {
         return this.currentUsername;
     }
 
