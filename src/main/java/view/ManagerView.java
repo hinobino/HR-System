@@ -52,7 +52,7 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         gbc.gridy = 0;
 
         createEmployee = new JButton(ManagerViewModel.CREATE_EMPLOYEE_LABEL);
-        buttons.add(createEmployee);
+        buttons.add(createEmployee, gbc);
 
         gbc.gridy++;
         schedule = new JButton(ManagerViewModel.SCHEDULE_LABEL);

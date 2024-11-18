@@ -2,6 +2,7 @@ package use_case.create_employee;
 
 import entity.Employee;
 import entity.EmployeeFactory;
+import entity.Manager;
 
 /**
  * The Create Employee Interactor.
@@ -30,8 +31,16 @@ public class CreateEmployeeInteractor implements CreateEmployeeInputBoundary {
             createEmployeePresenter.prepareFailView("Please enter a valid User ID.");
         }
         else {
+            // Resets the CreateEmployeeView for future use.
+            createEmployeeInputData.getView().resetView();
+
+            // Creates a new Employee with the given user ID.
             Employee inactiveEmployee = employeeFactory.create(createEmployeeInputData.getNewUserID(), "");
             userDataAccessObject.save(inactiveEmployee);
+
+            // Add the new employee to the list of the manager's employees
+            Manager currentManager = (Manager) userDataAccessObject.get(userDataAccessObject.getCurrentUserID());
+            currentManager.addEmployee(inactiveEmployee);
 
             final CreateEmployeeOutputData createEmployeeOutputData = new CreateEmployeeOutputData(
                     createEmployeeInputData.getNewUserID(),

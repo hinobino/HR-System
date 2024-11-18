@@ -3,6 +3,8 @@ package view;
 import interface_adapter.create_employee.CreateEmployeeController;
 import interface_adapter.create_employee.CreateEmployeeState;
 import interface_adapter.create_employee.CreateEmployeeViewModel;
+import interface_adapter.login.LoginState;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -48,12 +50,24 @@ public class CreateEmployeeView extends JPanel implements ActionListener, Proper
                         final CreateEmployeeState currentState = createEmployeeViewModel.getState();
 
                         createEmployeeController.execute(
-                                currentState.getNewUserID()
+                                currentState.getNewUserID(),
+                                CreateEmployeeView.this
                         );
                     }
                 }
         );
 
+        addUserIDListener();
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        this.add(title);
+        this.add(userIDInfo);
+        this.add(userIDErrorField);
+        this.add(buttons);
+    }
+
+    private void addUserIDListener() {
         userIDInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
@@ -77,13 +91,6 @@ public class CreateEmployeeView extends JPanel implements ActionListener, Proper
                 documentListenerHelper();
             }
         });
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        this.add(title);
-        this.add(userIDInfo);
-        this.add(userIDErrorField);
-        this.add(buttons);
     }
 
     @Override
@@ -92,12 +99,9 @@ public class CreateEmployeeView extends JPanel implements ActionListener, Proper
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final CreateEmployeeState state = (CreateEmployeeState) evt.getNewValue();
-        setFields(state);
-        userIDErrorField.setText(state.getNewUserIDError());
-    }
-
-    private void setFields(CreateEmployeeState state) {
-        userIDInputField.setText(state.getNewUserID());
+        if (state.getNewUserIDError() != null) {
+            JOptionPane.showMessageDialog(this, state.getNewUserIDError());
+        }
     }
 
     public String getViewName() {
@@ -107,5 +111,15 @@ public class CreateEmployeeView extends JPanel implements ActionListener, Proper
     public void setCreateEmployeeController(CreateEmployeeController createEmployeeController) {
         this.createEmployeeController = createEmployeeController;
     }
+
+    public void resetView() {
+        userIDInputField.setText("");
+        userIDErrorField.setText("");
+
+        CreateEmployeeState initialState = new CreateEmployeeState();
+        createEmployeeViewModel.setState(initialState);
+    }
+
+    public CreateEmployeeState getCreateEmployeeState() { return createEmployeeViewModel.getState(); }
 
 }

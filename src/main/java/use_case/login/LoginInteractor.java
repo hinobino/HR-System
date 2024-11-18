@@ -30,17 +30,18 @@ public class LoginInteractor implements LoginInputBoundary {
             if (!password.equals(pwd)) {
                 loginPresenter.prepareFailView("Incorrect password for \"" + userID + "\".");
             }
-            else {
+            else { // LOG IN SUCCESSFUL
+                // Since we are preparing to switch views, reset LoginView for future use.
+                loginInputData.getView().resetView();
 
-                // TODO: This is where we grab the User object, which, based on our implementation,
-                //  HAS to be either Employee or Manager object: 1. because why would we store
-                //  a regular User lol and 2. because when we pass a User object in LoginOutputData,
-                //  we need it to be either Employee or Manager so we can check its type and see
-                //  what view we want to switch to.
+                // The given user ID exists, so we can use it to search for the associated User.
                 final User user = userDataAccessObject.get(loginInputData.getUserID());
 
+                // Lets us know who is the current User logged in.
                 userDataAccessObject.setCurrentUserID(user.getUserID());
-                // Like above, we should assume here that user is either an Employee or Manager obj
+
+                // As we prepare the success view, we assume that user is either an Employee or a
+                // Manager, for those are the only two options of user types when we create either.
                 final LoginOutputData loginOutputData = new LoginOutputData(user, false);
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
