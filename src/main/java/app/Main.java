@@ -20,6 +20,7 @@ public class Main {
                                             .addEmployeeView()
                                             .addActivateAccountView()
                                             .addCreateEmployeeView()
+                                            .addEmployeeListView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
