@@ -7,4 +7,5 @@ public interface EmployeeListOutputBoundary {
      * Creates the list of employees.
      */
     void createEmployeeList(Object[][] data);
+    void switchToManagerView();
 }

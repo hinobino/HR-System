@@ -18,6 +18,7 @@ public class EmployeeListInteractor implements EmployeeListInputBoundary {
         this.employeeListPresenter = employeeListPresenter;
     }
 
+    @Override
     public void createEmployeeList() {
         this.employees = userDataAccessObject.getEmployees();
         String[][] employeeList = new String[employees.size()][];
@@ -29,5 +30,10 @@ public class EmployeeListInteractor implements EmployeeListInputBoundary {
             employeeList[i] = row.toArray(new String[row.size()]);
         }
         employeeListPresenter.createEmployeeList(employeeList);
+    }
+
+    @Override
+    public void switchToManagerView() {
+        employeeListPresenter.switchToManagerView();
     }
 }

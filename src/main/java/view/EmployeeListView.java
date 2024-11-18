@@ -55,6 +55,24 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         backButton = new JButton(EmployeeListViewModel.BACK_BUTTON_LABEL);
         buttons.add(backButton, gbc);
 
+        createEmployee.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        employeeListController.createEmployeeList();
+                    }
+                }
+        );
+
+        backButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        employeeListController.switchToManagerView();
+                    }
+                }
+        );
+
         // Format the whole Employee List View
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
