@@ -19,6 +19,6 @@ public interface CreateEmployeeOutputBoundary {
     /**
      * Switches to the Welcome View.
      */
-    void switchToWelcomeView();
+    void switchToManagerView();
 
 }

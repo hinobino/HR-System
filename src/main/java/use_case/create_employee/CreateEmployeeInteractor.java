@@ -46,5 +46,5 @@ public class CreateEmployeeInteractor implements CreateEmployeeInputBoundary {
     }
 
     @Override
-    public void switchToWelcomeView() { createEmployeePresenter.switchToWelcomeView(); }
+    public void switchToManagerView() { createEmployeePresenter.switchToManagerView(); }
 }

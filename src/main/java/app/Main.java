@@ -26,6 +26,7 @@ public class Main {
                                             .addActivateAccountUseCase()
                                             .addManagerUseCase()
                                             .addCreateEmployeeUseCase()
+                                            .addLogoutUseCase()
                                             .build();
 
         application.pack();

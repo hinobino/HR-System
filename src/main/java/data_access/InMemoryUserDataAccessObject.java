@@ -5,6 +5,7 @@ import entity.User;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.util.HashMap;
@@ -15,7 +16,10 @@ import java.util.Map;
  * NOT persist data between runs of the program.
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, ActivateAccountUserDataAccessInterface, CreateEmployeeUserDataAccessInterface {
+        LoginUserDataAccessInterface,
+        ActivateAccountUserDataAccessInterface,
+        CreateEmployeeUserDataAccessInterface,
+        LogoutUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 
