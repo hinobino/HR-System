@@ -1,11 +1,17 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The representation of an employee.
  */
 public class Employee extends User {
 
     private String status = "inactive";
+    private List<Shift> shifts;
+    private int hoursWorked = 0;
+    private double payRate = 17.20;
 
     /**
      * Constructor for an Employee object.
@@ -14,6 +20,7 @@ public class Employee extends User {
      */
     public Employee(String userID, String password) {
         super(userID, password);
+        shifts = new ArrayList<>();
     }
 
     /**
@@ -22,6 +29,30 @@ public class Employee extends User {
      */
     public String getStatus() {
         return status;
+    }
+
+    /**
+     * Return shifts the Employee has.
+     * @return a list of the employee's shifts.
+     */
+    public List<Shift> getShifts() {
+        return shifts;
+    }
+
+    /**
+     * Return the number of hours the employee worked.
+     * @return the number of hours worked.
+     */
+    public int getHoursWorked() {
+        return hoursWorked;
+    }
+
+    /**
+     * Returns the employees pay rate.
+     * @return the pay rate.
+     */
+    public double getPayRate() {
+        return payRate;
     }
 
     /**
@@ -47,4 +78,37 @@ public class Employee extends User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /**
+     * Add a given Shift to the employee's list.
+     * @param shift the Shift to add.
+     */
+    public void addShift(Shift shift) {
+        this.shifts.add(shift);
+    }
+
+    /**
+     * Remove a given Shift from the employee.
+     * @param shift the Shift to remove.
+     */
+    public void removeShift(Shift shift) {
+        this.shifts.remove(shift);
+    }
+
+    /**
+     * Update the number of hours worked.
+     * @param hoursWorked the additional hours worked.
+     */
+    public void addHoursWorked(int hoursWorked) {
+        this.hoursWorked += hoursWorked;
+    }
+
+    /**
+     * Set the employee's pay rate.
+     * @param payRate the new pay rate.
+     */
+    public void setPayRate(double payRate) {
+        this.payRate = payRate;
+    }
+
 }
