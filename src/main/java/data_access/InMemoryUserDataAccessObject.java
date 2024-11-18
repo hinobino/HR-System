@@ -3,6 +3,7 @@ package data_access;
 import entity.Employee;
 import entity.User;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
+import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  * NOT persist data between runs of the program.
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, ActivateAccountUserDataAccessInterface {
+        LoginUserDataAccessInterface, ActivateAccountUserDataAccessInterface, CreateEmployeeUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 
@@ -43,6 +44,14 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public String getCurrentUserID() {
         return this.currentUserID;
+    }
+
+     @Override
+    public void activateUser(String userID, String password) {
+        Employee employee = (Employee) users.get(userID);
+        employee.setPassword(password);
+        employee.setStatus("active");
+
     }
 
     @Override

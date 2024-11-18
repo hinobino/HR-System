@@ -2,7 +2,7 @@ package view;
 
 import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInState;
-import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.logged_in.ManagerViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,41 +17,67 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
     private final String viewName = "employee";
     private final EmployeeViewModel employeeViewModel;
 
-    private final JLabel userID;
+    private final JLabel welcomeLabel;
+
+    private final JButton schedule;
+    private final JButton shifts;
+    private final JButton requestLeave;
 
     public EmployeeView(EmployeeViewModel employeeViewModel) {
         this.employeeViewModel = employeeViewModel;
         this.employeeViewModel.addPropertyChangeListener(this);
 
-        // TODO: use the LoggedInViewModel class to name the following buttons/labels.
-
-        final JLabel title = new JLabel("EMPLOYEE Logged In Screen");
+        // Title
+        final JLabel title = new JLabel(EmployeeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final JLabel userIDInfo = new JLabel("Currently logged in: ");
-        userID = new JLabel();
+        // Welcome message
+        welcomeLabel = new JLabel("");
+        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Panel for buttons
+        final JPanel buttons = new JPanel();
+        buttons.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-//        final JPanel buttons = new JPanel();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        schedule = new JButton(EmployeeViewModel.SCHEDULE_LABEL);
+        buttons.add(schedule, gbc);
 
+        gbc.gridy++;
+        shifts = new JButton(EmployeeViewModel.SHIFTS_LABEL);
+        buttons.add(shifts, gbc);
+
+        gbc.gridy++;
+        requestLeave = new JButton(EmployeeViewModel.REQUEST_LABEL);
+        buttons.add(requestLeave, gbc);
+
+        // TODO: Implement these action listeners.
+        schedule.addActionListener(e -> {});
+        shifts.addActionListener(e -> {});
+        requestLeave.addActionListener(e -> {});
+
+        // Format the whole EmployeeView
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(title);
-        this.add(userIDInfo);
-        this.add(userID);
-//        this.add(buttons);
+        this.add(title, gbc);
+        this.add(welcomeLabel, gbc);
+        this.add(buttons, gbc);
+
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final LoggedInState state = (LoggedInState) evt.getNewValue();
-            userID.setText(state.getUserID());
+            welcomeLabel.setText(EmployeeViewModel.WELCOME_LABEL + state.getUserID() + ".");
         }
-        else if (evt.getPropertyName().equals("password")) {
-            final LoggedInState state = (LoggedInState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "password updated for " + state.getUserID());
-        }
+//        else if (evt.getPropertyName().equals("password")) {
+//            final LoggedInState state = (LoggedInState) evt.getNewValue();
+//            JOptionPane.showMessageDialog(null, "password updated for " + state.getUserID());
+//        }
 
     }
 

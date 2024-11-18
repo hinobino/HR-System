@@ -34,11 +34,15 @@ public class SignupInteractor implements SignupInputBoundary {
             userPresenter.prepareFailView("Please enter a valid password.");
         }
 
-        else {
-            User user = managerFactory.create(signupInputData.getUserID(), signupInputData.getPassword());
-            userDataAccessObject.save(user);
+        else { // SIGN UP SUCCESSFUL
+            // Since we are switching views, reset the SignupView for future use.
+            signupInputData.getView().resetView();
 
-            final SignupOutputData signupOutputData = new SignupOutputData(user.getUserID(), false);
+            // The given user ID exists, so we can use it to create and save a new User object.
+            Manager manager = managerFactory.create(signupInputData.getUserID(), signupInputData.getPassword());
+            userDataAccessObject.save(manager);
+
+            final SignupOutputData signupOutputData = new SignupOutputData(manager.getUserID(), false);
             userPresenter.prepareSuccessView(signupOutputData);
         }
     }

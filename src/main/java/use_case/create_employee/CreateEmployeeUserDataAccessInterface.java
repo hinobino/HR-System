@@ -1,12 +1,16 @@
-package use_case.activate_account;
+package use_case.create_employee;
 
-import entity.Employee;
 import entity.User;
 
 /**
- * DAO for the Activate Account Use Case.
+ * DAO for the Create Employee Use Case.
  */
-public interface ActivateAccountUserDataAccessInterface {
+public interface CreateEmployeeUserDataAccessInterface {
+    /**
+     * Saves the user.
+     * @param user the user to save
+     */
+    void save(User user);
 
     /**
      * Checks if the given userID exists.
@@ -23,10 +27,8 @@ public interface ActivateAccountUserDataAccessInterface {
     User get(String userID);
 
     /**
-     * Saves the user.
-     * @param user the user to save
+     * Returns the userID of the curren user of the application.
+     * @return the userID of the current user; null indicates that no one is logged into the application.
      */
-    void save(User user);
-
-    void activateUser(String userID, String password);
+    String getCurrentUserID();
 }

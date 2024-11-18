@@ -16,13 +16,16 @@ public class Main {
                                             .addWelcomeView()
                                             .addLoginView()
                                             .addSignupView()
-                                            .addLoggedInView()
+                                            .addManagerView()
                                             .addEmployeeView()
                                             .addActivateAccountView()
+                                            .addCreateEmployeeView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             .addActivateAccountUseCase()
+                                            .addManagerUseCase()
+                                            .addCreateEmployeeUseCase()
                                             .build();
 
         application.pack();

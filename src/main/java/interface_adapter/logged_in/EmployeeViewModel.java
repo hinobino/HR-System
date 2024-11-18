@@ -7,6 +7,13 @@ import interface_adapter.ViewModel;
  */
 public class EmployeeViewModel extends ViewModel<LoggedInState> {
 
+    public static final String TITLE_LABEL = "Employee View";
+    public static final String WELCOME_LABEL = "Welcome, ";
+
+    public static final String SCHEDULE_LABEL = "This week's schedule";
+    public static final String SHIFTS_LABEL = "Your shifts";
+    public static final String REQUEST_LABEL = "Request leave";
+
     public EmployeeViewModel() {
         super("employee");
         setState(new LoggedInState());

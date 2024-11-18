@@ -27,7 +27,7 @@ public class LoggedInState {
     public LoggedInState() {}
 
     public String getUserID() {
-        return userID;
+        return user.getUserID();
     }
 
     public String getPassword() {
@@ -40,6 +40,7 @@ public class LoggedInState {
 
     public void setUser(User user) { this.user = user; }
 
+    // TODO: this only changes the class userID, not the user object's userID
     public void setUserID(String userID) {
         this.userID = userID;
     }

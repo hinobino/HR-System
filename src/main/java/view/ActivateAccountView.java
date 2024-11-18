@@ -35,10 +35,18 @@ public class ActivateAccountView extends JPanel implements ActionListener, Prope
         final JLabel title = new JLabel(ActivateAccountViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        final JPanel inputs = new JPanel();
+        inputs.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         final LabelTextPanel userIDInfo = new LabelTextPanel(
                 new JLabel(ActivateAccountViewModel.USERID_LABEL), userIDInputField);
+        gbc.gridy++;
         final LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel(ActivateAccountViewModel.PASSWORD_LABEL), passwordInputField);
+        gbc.gridy++;
         final LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
                 new JLabel(ActivateAccountViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
 
@@ -53,12 +61,14 @@ public class ActivateAccountView extends JPanel implements ActionListener, Prope
                     public void actionPerformed(ActionEvent evt) {
                         final ActivateAccountState currentState = activateAccountViewModel.getState();
 
-                        // this execute will also switch the Signup View to Login View,
-                        // see SignupPresenter for implementation (prepareSuccessView method)
+                        // This execute will switch the Signup View to Login View,
+                        // see SignupPresenter for implementation (prepareSuccessView method).
+                        // It will also reset the view if successful.
                         activateAccountController.execute(
                                 currentState.getUserID(),
                                 currentState.getPassword(),
-                                currentState.getRepeatPassword()
+                                currentState.getRepeatPassword(),
+                                ActivateAccountView.this
                         );
                     }
                 }
@@ -68,6 +78,7 @@ public class ActivateAccountView extends JPanel implements ActionListener, Prope
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         activateAccountController.switchToWelcomeView();
+                        resetView();
                     }
                 }
         );
@@ -180,5 +191,14 @@ public class ActivateAccountView extends JPanel implements ActionListener, Prope
 
     public void setActivateAccountController(ActivateAccountController controller) {
         this.activateAccountController = controller;
+    }
+
+    public void resetView() {
+        userIDInputField.setText("");
+        passwordInputField.setText("");
+        repeatPasswordInputField.setText("");
+
+        ActivateAccountState initialState = activateAccountViewModel.getState();
+        activateAccountViewModel.setState(initialState);
     }
 }

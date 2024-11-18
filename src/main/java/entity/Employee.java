@@ -5,7 +5,7 @@ package entity;
  */
 public class Employee extends User {
 
-    private String status = "INACTIVE";
+    private String status = "inactive";
 
     /**
      * Constructor for an Employee object.
@@ -38,5 +38,13 @@ public class Employee extends User {
      */
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    /**
+     * Change the password of the employee.
+     * @param password the new password of the user.
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

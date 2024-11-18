@@ -11,21 +11,24 @@ Michelle Zaporozhets (mzaporoz)
 Andy Kaiyuan Shi (Andy232306)
 
 User Stories:
-1. A manager uses the system to set a shift for one of their employees. The
-employee is then able to log on to the software and check their schedule for that
-week. [Team Story]
-2. An employee wants time off, so they submit a request to their boss. The boss can
-then approve or deny the request, and the employee can log on to check if their
-request has been approved. [Jake]
-3. An employee wants to check how much money they make that week. The
-employee logs on to the system to check their total pay for that week. [Hinar]
-4. An employer wants to schedule people to work on a specific day but is unsure
-whether or not it is a public holiday. They can log on to the system and check
-whether the workday is a holiday or not, if it's a holiday then there are no regular
-working hours for all employees. [Michelle]
-5. An employer wants to see how long an employee has worked at the company.
-They log on to the system and can check how long an employee has worked
-under this manager or this system from the starting date to the end date. [Andy]
-6. A manager wants to see if they can schedule another employee to work on a
-specific workday. They log on to the system and view the employees working that
-day and see if there are open time slots available. [Emmett]
+1. **TEAM STORY**: A Manager creates an account on the system and logs in. From there, they can create
+   new employees, which have user IDs. Employees can then activate an account using one of the
+   created employee user IDs and choosing a password, and then log in.
+2. **ANDY**: An employee wants time off, so they submit a request to their boss (Manager). Time off
+   requests must be submitted at least 7 days in advance. The manager can then approve or deny the
+   request and the employee can view their pending requests to see if they have been approved. If
+   a request has been approved, the employee's existing shifts, if any, are removed.
+3. **EMMETT**: Managers can view a list of all of their employees, and click on each one to view more
+   information about them. They can view their employment period, hours worked, current pay, change
+   their pay rate, fire them, etc. Employees can view their own information, including hours worked,
+   pay for their scheduled shifts, etc.
+4. **JAKE**: A manager wants to schedule an employee to work on a specific day. They can schedule a
+   shift on a specific date, with the start and end time, as long as it is not a public holiday or
+   outside of the company's working hours and assign employees to that shift (that are not currently
+   on leave). They can also remove and modify existing shifts.
+5. **MICHELLE**: Employees can view their current personal weekly schedule which includes their shifts
+   and if any holidays occur. Managers can view the entire schedule for the week, including all of
+   the employees' shifts, the employees who are working, and if any holidays occur.
+6. **HINAR**: Employees and managers are able to download a .ics file of their schedule to import to
+   their calendar application of choice. As well, any employees, managers, shifts, etc. are stored
+   in a database that will be accessed by the HR system.
