@@ -1,6 +1,5 @@
 package view;
 
-import interface_adapter.create_employee.CreateEmployeeState;
 import interface_adapter.employee_list.EmployeeListController;
 import interface_adapter.employee_list.EmployeeListState;
 import interface_adapter.employee_list.EmployeeListViewModel;
@@ -19,6 +18,10 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
 
     private final String viewName = "employee list";
     private final EmployeeListViewModel employeeListViewModel;
+    private final Object[] columnNames;
+    private Object[][] data;
+    private final JButton createEmployee;
+    private final JButton backButton;
 
     private EmployeeListController employeeListController;
 
@@ -30,9 +33,33 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         final JLabel title = new JLabel(employeeListViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        //Panel for table
+        columnNames = new Object[]{"User Id", "Status"};
+        data = employeeListViewModel.getState().getEmployeeList();
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        table.setFillsViewportHeight(true);
+
+        // Panel for buttons
+        final JPanel buttons = new JPanel();
+        buttons.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        createEmployee = new JButton(EmployeeListViewModel.CREATE_EMPLOYEE_LABEL);
+        buttons.add(createEmployee);
+
+        gbc.gridx = 1;
+        backButton = new JButton(EmployeeListViewModel.BACK_BUTTON_LABEL);
+        buttons.add(backButton, gbc);
+
         // Format the whole Employee List View
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
+        this.add(buttons);
+        this.add(scrollPane);
     }
 
     @Override
@@ -40,7 +67,11 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final CreateEmployeeState state = (CreateEmployeeState) evt.getNewValue();
+        if (evt.getPropertyName().equals("state")) {
+            final EmployeeListState state = (EmployeeListState) evt.getNewValue();
+            employeeListController.createEmployeeList();
+            data = state.getEmployeeList();
+        }
     }
 
     public String getViewName() {
