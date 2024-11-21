@@ -10,4 +10,9 @@ public interface ManagerInputBoundary {
      */
     void switchToCreateEmployeeView();
 
+    /**
+     * Switches to the Employee List View
+     */
+    void switchToEmployeeListView();
+
 }

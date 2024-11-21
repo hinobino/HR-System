@@ -14,4 +14,8 @@ public class ManagerController {
         managerInputBoundary.switchToCreateEmployeeView();
     }
 
+    public void switchToEmployeeListView() {
+        managerInputBoundary.switchToEmployeeListView();
+    }
+
 }

@@ -9,6 +9,9 @@ import interface_adapter.activate_account.ActivateAccountViewModel;
 import interface_adapter.create_employee.CreateEmployeeController;
 import interface_adapter.create_employee.CreateEmployeePresenter;
 import interface_adapter.create_employee.CreateEmployeeViewModel;
+import interface_adapter.employee_list.EmployeeListController;
+import interface_adapter.employee_list.EmployeeListPresenter;
+import interface_adapter.employee_list.EmployeeListViewModel;
 import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.ManagerController;
 import interface_adapter.logged_in.ManagerPresenter;
@@ -26,6 +29,9 @@ import use_case.activate_account.ActivateAccountInputBoundary;
 import use_case.activate_account.ActivateAccountInteractor;
 import use_case.activate_account.ActivateAccountOutputBoundary;
 import use_case.create_employee.CreateEmployeeOutputData;
+import use_case.employee_list.EmployeeListInputBoundary;
+import use_case.employee_list.EmployeeListInteractor;
+import use_case.employee_list.EmployeeListOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -86,6 +92,8 @@ public class AppBuilder {
     private ActivateAccountView activateAccountView;
     private CreateEmployeeViewModel createEmployeeViewModel;
     private CreateEmployeeView createEmployeeView;
+    private EmployeeListViewModel employeeListViewModel;
+    private EmployeeListView employeeListView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -156,6 +164,13 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addEmployeeListView() {
+        employeeListViewModel = new EmployeeListViewModel();
+        employeeListView = new EmployeeListView(employeeListViewModel);
+        cardPanel.add(employeeListView, employeeListView.getViewName());
+        return this;
+    }
+
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(signupViewModel,
                 activateAccountViewModel, loginViewModel, viewManagerModel);
@@ -213,7 +228,7 @@ public class AppBuilder {
 
     public AppBuilder addManagerUseCase() {
         final ManagerOutputBoundary managerOutputBoundary = new ManagerPresenter(createEmployeeViewModel,
-                viewManagerModel);
+                employeeListViewModel, viewManagerModel);
         final ManagerInputBoundary managerInteractor = new ManagerInteractor(managerOutputBoundary);
         final ManagerController controller = new ManagerController(managerInteractor);
         managerView.setManagerController(controller);
@@ -235,6 +250,18 @@ public class AppBuilder {
 
         final CreateEmployeeController controller = new CreateEmployeeController(createEmployeeInteractor);
         createEmployeeView.setCreateEmployeeController(controller);
+        return this;
+    }
+
+    public AppBuilder addEmployeeListUseCase() {
+        final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(employeeListViewModel, managerViewModel, viewManagerModel);
+        final EmployeeListInputBoundary employeeListInteractor = new EmployeeListInteractor(
+                userDataAccessObject,
+                employeeListOutputBoundary
+        );
+
+        final EmployeeListController controller = new EmployeeListController(employeeListInteractor);
+        employeeListView.setEmployeeListController(controller);
         return this;
     }
 

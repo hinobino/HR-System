@@ -20,12 +20,14 @@ public class Main {
                                             .addEmployeeView()
                                             .addActivateAccountView()
                                             .addCreateEmployeeView()
+                                            .addEmployeeListView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             .addActivateAccountUseCase()
                                             .addManagerUseCase()
                                             .addCreateEmployeeUseCase()
+                                            .addEmployeeListUseCase()
                                             .build();
 
         application.pack();
