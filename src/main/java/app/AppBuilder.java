@@ -19,6 +19,9 @@ import interface_adapter.logged_in.ManagerViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.schedule_shift.ScheduleShiftController;
+import interface_adapter.schedule_shift.ScheduleShiftPresenter;
+import interface_adapter.schedule_shift.ScheduleShiftViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -35,6 +38,9 @@ import use_case.employee_list.EmployeeListOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.schedule_shift.ScheduleShiftInputBoundary;
+import use_case.schedule_shift.ScheduleShiftInteractor;
+import use_case.schedule_shift.ScheduleShiftOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -71,6 +77,8 @@ public class AppBuilder {
     // NEED TO IMPLEMENT DIFFERENT FACTORIES LATER
     private final EmployeeFactory employeeFactory = new EmployeeFactory();
     private final ManagerFactory managerFactory = new ManagerFactory();
+    private final ShiftFactory shiftFactory = new ShiftFactory();
+    private final WorkdayFactory workdayFactory = new WorkdayFactory();
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -94,6 +102,8 @@ public class AppBuilder {
     private CreateEmployeeView createEmployeeView;
     private EmployeeListViewModel employeeListViewModel;
     private EmployeeListView employeeListView;
+    private ScheduleShiftView scheduleShiftView;
+    private ScheduleShiftViewModel scheduleShiftViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -171,6 +181,13 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addScheduleShiftView() {
+        scheduleShiftViewModel = new ScheduleShiftViewModel();
+        scheduleShiftView = new ScheduleShiftView(scheduleShiftViewModel);
+        cardPanel.add(scheduleShiftView, scheduleShiftView.getViewName());
+        return this;
+    }
+
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(signupViewModel,
                 activateAccountViewModel, loginViewModel, viewManagerModel);
@@ -228,7 +245,7 @@ public class AppBuilder {
 
     public AppBuilder addManagerUseCase() {
         final ManagerOutputBoundary managerOutputBoundary = new ManagerPresenter(createEmployeeViewModel,
-                employeeListViewModel, viewManagerModel);
+                employeeListViewModel, scheduleShiftViewModel, viewManagerModel);
         final ManagerInputBoundary managerInteractor = new ManagerInteractor(managerOutputBoundary);
         final ManagerController controller = new ManagerController(managerInteractor);
         managerView.setManagerController(controller);
@@ -262,6 +279,23 @@ public class AppBuilder {
 
         final EmployeeListController controller = new EmployeeListController(employeeListInteractor);
         employeeListView.setEmployeeListController(controller);
+        return this;
+    }
+
+    public AppBuilder addScheduleShiftUseCase() {
+        final ScheduleShiftOutputBoundary scheduleShiftOutputBoundary = new ScheduleShiftPresenter(
+                viewManagerModel,
+                scheduleShiftViewModel,
+                managerViewModel
+        );
+        final ScheduleShiftInputBoundary scheduleShiftInteractor = new ScheduleShiftInteractor(
+                userDataAccessObject,
+                scheduleShiftOutputBoundary,
+                shiftFactory,
+                workdayFactory
+        );
+        final ScheduleShiftController controller = new ScheduleShiftController(scheduleShiftInteractor);
+        scheduleShiftView.setScheduleShiftController(controller);
         return this;
     }
 

@@ -81,7 +81,17 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
 
         // TODO: Implement these action listeners.
         schedule.addActionListener(e -> {});
-        setShift.addActionListener(e -> {});
+        requests.addActionListener(e -> {});
+
+        setShift.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        managerController.switchToScheduleShiftView();
+                    }
+                }
+        );
+
         employees.addActionListener(
                 new ActionListener() {
                     @Override
@@ -90,7 +100,6 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                     }
                 }
         );
-        requests.addActionListener(e -> {});
 
         // Format the whole ManagerView
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
