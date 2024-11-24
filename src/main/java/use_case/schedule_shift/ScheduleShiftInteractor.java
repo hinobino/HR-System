@@ -1,5 +1,6 @@
 package use_case.schedule_shift;
 
+import data_access.PublicHolidayAPIAccessObject;
 import entity.*;
 
 import java.time.LocalDate;
@@ -11,6 +12,8 @@ import java.time.LocalTime;
 public class ScheduleShiftInteractor implements ScheduleShiftInputBoundary {
 
     private final ScheduleShiftUserDataAccessInterface userDataAccessObject;
+    private final PublicHolidayAPIAccessObject publicHolidayAPIAccessObject = new PublicHolidayAPIAccessObject("CA");
+
     private final ScheduleShiftOutputBoundary scheduleShiftPresenter;
 
     private final ShiftFactory shiftFactory;
@@ -32,14 +35,14 @@ public class ScheduleShiftInteractor implements ScheduleShiftInputBoundary {
         final LocalTime endTime = scheduleShiftInputData.getEndTime();
         final Employee employee = scheduleShiftInputData.getEmployee();
 
-        // TODO: Implement checks for pre-approved leave and public holidays
+        // TODO: Implement checks for pre-approved leave
         // Ensure fields not blank
         if (day == null || startTime == null || endTime == null || employee == null) {
             scheduleShiftPresenter.prepareFailView("Please fill in all fields.");
         }
 
         // Ensure the scheduled takes place at least one day in the future
-        else if (!day.isBefore(LocalDate.now().plusDays(1))) {
+        else if (day.isBefore(LocalDate.now().plusDays(1))) {
             scheduleShiftPresenter.prepareFailView("The shift must take place tomorrow or later.");
         }
 
@@ -59,6 +62,13 @@ public class ScheduleShiftInteractor implements ScheduleShiftInputBoundary {
         // Ensure the employee exists
         else if (!userDataAccessObject.existsByName(employee.getUserID())) {
             scheduleShiftPresenter.prepareFailView("An employee with that user ID does not exist.");
+        }
+
+        // Ensure not on a public holiday
+        else if (publicHolidayAPIAccessObject.holidayOn(day)) {
+            scheduleShiftPresenter.prepareFailView(
+                    "That day is a public holiday; no shifts may be scheduled."
+            );
         }
 
         else {
