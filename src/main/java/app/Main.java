@@ -28,6 +28,7 @@ public class Main {
                                             .addActivateAccountUseCase()
                                             .addManagerUseCase()
                                             .addCreateEmployeeUseCase()
+                                            .addLogoutUseCase()
                                             .addEmployeeListUseCase()
                                             .addScheduleShiftUseCase()
                                             .build();

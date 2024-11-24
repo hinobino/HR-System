@@ -31,8 +31,8 @@ public class CreateEmployeeController {
     /**
      * Executes the "switch to WelcomeView" Use Case.
      */
-    public void switchToWelcomeView() {
-        createEmployeeInteractor.switchToWelcomeView();
+    public void switchToManagerView() {
+        createEmployeeInteractor.switchToManagerView();
     }
 
 }

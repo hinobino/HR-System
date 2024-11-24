@@ -8,6 +8,7 @@ import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
 import use_case.employee_list.EmployeeListUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -20,8 +21,12 @@ import java.util.Map;
  * NOT persist data between runs of the program.
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, ActivateAccountUserDataAccessInterface, CreateEmployeeUserDataAccessInterface,
-        EmployeeListUserDataAccessInterface, ScheduleShiftUserDataAccessInterface {
+        LoginUserDataAccessInterface,
+        ActivateAccountUserDataAccessInterface,
+        CreateEmployeeUserDataAccessInterface,
+        LogoutUserDataAccessInterface, 
+        EmployeeListUserDataAccessInterface, 
+        ScheduleShiftUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
     private final Map<LocalDate, Workday> workdays = new HashMap<>();

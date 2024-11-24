@@ -3,9 +3,12 @@ package view;
 import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.ManagerViewModel;
+import interface_adapter.logout.LogoutController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -22,6 +25,8 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
     private final JButton schedule;
     private final JButton shifts;
     private final JButton requestLeave;
+    private final JButton logOut;
+    private LogoutController logoutController;
 
     public EmployeeView(EmployeeViewModel employeeViewModel) {
         this.employeeViewModel = employeeViewModel;
@@ -54,6 +59,20 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
         requestLeave = new JButton(EmployeeViewModel.REQUEST_LABEL);
         buttons.add(requestLeave, gbc);
 
+        gbc.gridy++;
+        logOut = new JButton("Log Out");
+        buttons.add(logOut, gbc);
+
+        logOut.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final LoggedInState currentState = employeeViewModel.getState();
+                        logoutController.execute(currentState.getUserID());
+                    }
+                }
+        );
+
         // TODO: Implement these action listeners.
         schedule.addActionListener(e -> {});
         shifts.addActionListener(e -> {});
@@ -83,5 +102,9 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
 
     public String getViewName() {
         return viewName;
+    }
+
+    public void setLogoutController(LogoutController logoutController) {
+        this.logoutController = logoutController;
     }
 }

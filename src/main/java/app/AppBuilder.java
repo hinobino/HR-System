@@ -19,6 +19,8 @@ import interface_adapter.logged_in.ManagerViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.logout.LogoutController;
+import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.schedule_shift.ScheduleShiftController;
 import interface_adapter.schedule_shift.ScheduleShiftPresenter;
 import interface_adapter.schedule_shift.ScheduleShiftViewModel;
@@ -38,6 +40,9 @@ import use_case.employee_list.EmployeeListOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.logout.LogoutInputBoundary;
+import use_case.logout.LogoutInteractor;
+import use_case.logout.LogoutOutputBoundary;
 import use_case.schedule_shift.ScheduleShiftInputBoundary;
 import use_case.schedule_shift.ScheduleShiftInteractor;
 import use_case.schedule_shift.ScheduleShiftOutputBoundary;
@@ -256,7 +261,7 @@ public class AppBuilder {
         final CreateEmployeeOutputBoundary createEmployeeOutputBoundary = new CreateEmployeePresenter(
                 viewManagerModel,
                 createEmployeeViewModel,
-                welcomeViewModel
+                managerViewModel
         );
 
         final CreateEmployeeInputBoundary createEmployeeInteractor = new CreateEmployeeInteractor(
@@ -269,6 +274,15 @@ public class AppBuilder {
         createEmployeeView.setCreateEmployeeController(controller);
         return this;
     }
+
+    public AppBuilder addLogoutUseCase() {
+        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
+                managerViewModel, employeeViewModel, welcomeViewModel, userDataAccessObject);
+        final LogoutInputBoundary logoutInteractor = new LogoutInteractor(userDataAccessObject,
+                logoutOutputBoundary);
+        final LogoutController logoutController = new LogoutController(logoutInteractor);
+        managerView.setLogoutController(logoutController);
+        employeeView.setLogoutController(logoutController);
 
     public AppBuilder addEmployeeListUseCase() {
         final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(employeeListViewModel, managerViewModel, viewManagerModel);
