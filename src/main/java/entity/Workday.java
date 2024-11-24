@@ -8,9 +8,7 @@ import java.util.Map;
  */
 public class Workday {
 
-    private Map<String, Shift> shifts;
-
-    public Workday() {}
+    private final Map<String, Shift> shifts;
 
     public Workday(Map<String, Shift> shifts) {
         this.shifts = shifts;
@@ -40,6 +38,10 @@ public class Workday {
      */
     public boolean isWorking(String userID) {
         return shifts.containsKey(userID);
+    }
+
+    public boolean isWorking (Employee employee) {
+        return shifts.containsKey(employee.getUserID());
     }
 
     public void addShift(Shift shift) {

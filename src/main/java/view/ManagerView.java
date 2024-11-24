@@ -98,9 +98,25 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
 
         // TODO: Implement these action listeners.
         schedule.addActionListener(e -> {});
-        setShift.addActionListener(e -> {});
-        employees.addActionListener(e -> {});
         requests.addActionListener(e -> {});
+
+        setShift.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        managerController.switchToScheduleShiftView();
+                    }
+                }
+        );
+
+        employees.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        managerController.switchToEmployeeListView();
+                    }
+                }
+        );
 
         // Format the whole ManagerView
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
