@@ -56,8 +56,6 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
                 new JLabel(ScheduleShiftViewModel.END_TIME_LABEL), endTimeInputField
         );
 
-        // TODO: figure out how to get currently logged-in manager
-        // TODO: JComboBox for employee select
         employeeSelect.setEditable(false);
         final LabelTextPanel employeeSelectInfo = new LabelTextPanel(
                 new JLabel(ScheduleShiftViewModel.EMPLOYEE_LABEL), employeeSelect
