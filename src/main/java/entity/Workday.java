@@ -40,6 +40,10 @@ public class Workday {
         return shifts.containsKey(userID);
     }
 
+    public boolean isWorking (Employee employee) {
+        return shifts.containsKey(employee.getUserID());
+    }
+
     public void addShift(Shift shift) {
         this.shifts.put(shift.getEmployee().getUserID(), shift);
     }

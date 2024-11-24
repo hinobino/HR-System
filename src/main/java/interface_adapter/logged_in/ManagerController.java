@@ -18,4 +18,7 @@ public class ManagerController {
         managerInputBoundary.switchToEmployeeListView();
     }
 
+    public void switchToScheduleShiftView() {
+        managerInputBoundary.switchToScheduleShiftView();
+    }
 }

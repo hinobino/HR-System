@@ -1,13 +1,17 @@
 package data_access;
 
 import entity.Employee;
+import entity.Shift;
 import entity.User;
+import entity.Workday;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
 import use_case.employee_list.EmployeeListUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +21,10 @@ import java.util.Map;
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface, ActivateAccountUserDataAccessInterface, CreateEmployeeUserDataAccessInterface,
-        EmployeeListUserDataAccessInterface {
+        EmployeeListUserDataAccessInterface, ScheduleShiftUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
+    private final Map<LocalDate, Workday> workdays = new HashMap<>();
 
     private String currentUserID;
 
@@ -29,8 +34,29 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
+    public boolean workdayExists(LocalDate day) {
+        return workdays.containsKey(day);
+    }
+
+    @Override
+    public Workday getWorkdayByDate(LocalDate day) {
+        return workdays.get(day);
+    }
+
+    @Override
+    public void addShiftToWorkday(Shift newShift, Workday workday) {
+        workday.addShift(newShift);
+    }
+
+    @Override
     public void save(User user) {
         users.put(user.getUserID(), user);
+    }
+
+    @Override
+    public void save(Shift shift) {
+        Employee employee = shift.getEmployee();
+        employee.addShift(shift);
     }
 
     @Override
