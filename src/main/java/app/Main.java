@@ -20,6 +20,8 @@ public class Main {
                                             .addEmployeeView()
                                             .addActivateAccountView()
                                             .addCreateEmployeeView()
+                                            .addEmployeeListView()
+                                            .addScheduleShiftView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
@@ -27,6 +29,8 @@ public class Main {
                                             .addManagerUseCase()
                                             .addCreateEmployeeUseCase()
                                             .addLogoutUseCase()
+                                            .addEmployeeListUseCase()
+                                            .addScheduleShiftUseCase()
                                             .build();
 
         application.pack();

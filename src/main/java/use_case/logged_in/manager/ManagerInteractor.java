@@ -15,4 +15,13 @@ public class ManagerInteractor implements ManagerInputBoundary {
     public void switchToCreateEmployeeView() {
         managerOutputBoundary.switchToCreateEmployeeView();
     }
+
+    @Override
+    public void switchToEmployeeListView() {
+        managerOutputBoundary.switchToEmployeeListView();
+    }
+
+    public void switchToScheduleShiftView() {
+        managerOutputBoundary.switchToScheduleShiftView();
+    }
 }
