@@ -21,13 +21,16 @@ public class Main {
                                             .addActivateAccountView()
                                             .addCreateEmployeeView()
                                             .addEmployeeListView()
+                                            .addScheduleShiftView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             .addActivateAccountUseCase()
                                             .addManagerUseCase()
                                             .addCreateEmployeeUseCase()
+                                            .addLogoutUseCase()
                                             .addEmployeeListUseCase()
+                                            .addScheduleShiftUseCase()
                                             .build();
 
         application.pack();

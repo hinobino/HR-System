@@ -4,6 +4,7 @@ import entity.Manager;
 import interface_adapter.logged_in.ManagerController;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.ManagerViewModel;
+import interface_adapter.logout.LogoutController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "logged in";
     private final ManagerViewModel managerViewModel;
+    private LogoutController logoutController;
 
     private final JLabel welcomeLabel;
 
@@ -27,6 +29,7 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
     private final JButton employees;
     private final JButton requests;
     private final JButton createEmployee;
+    private final JButton logOut;
 
     private ManagerController managerController;
 
@@ -70,6 +73,10 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         requests = new JButton(ManagerViewModel.REQUESTS_LABEL);
         buttons.add(requests, gbc);
 
+        gbc.gridy++;
+        logOut = new JButton("Log Out");
+        buttons.add(logOut, gbc);
+
         createEmployee.addActionListener(
                 new ActionListener() {
                     @Override
@@ -79,9 +86,29 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        logOut.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final LoggedInState currentState = managerViewModel.getState();
+                        logoutController.execute(currentState.getUserID());
+                    }
+                }
+        );
+
         // TODO: Implement these action listeners.
         schedule.addActionListener(e -> {});
-        setShift.addActionListener(e -> {});
+        requests.addActionListener(e -> {});
+
+        setShift.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        managerController.switchToScheduleShiftView();
+                    }
+                }
+        );
+
         employees.addActionListener(
                 new ActionListener() {
                     @Override
@@ -90,7 +117,6 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                     }
                 }
         );
-        requests.addActionListener(e -> {});
 
         // Format the whole ManagerView
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -105,6 +131,9 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         if (evt.getPropertyName().equals("state")) {
             final LoggedInState state = (LoggedInState) evt.getNewValue();
             welcomeLabel.setText(ManagerViewModel.WELCOME_LABEL + state.getUserID() + ".");
+        }
+        else if (evt.getPropertyName().equals("log out")) {
+//            JOptionPane.showMessageDialog(ManagerView.this, "You have logged out successfully.");
         }
 //        // Leaving this code here for reference if we want to add pop-up messages
 //        else if (evt.getPropertyName().equals("password")) {
@@ -122,4 +151,7 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         this.managerController = managerController;
     }
 
+    public void setLogoutController(LogoutController logoutController) {
+        this.logoutController = logoutController;
+    }
 }

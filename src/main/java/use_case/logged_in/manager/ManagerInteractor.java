@@ -5,9 +5,12 @@ package use_case.logged_in.manager;
  */
 public class ManagerInteractor implements ManagerInputBoundary {
 
+    private final ManagerUserDataAccessInterface userDataAccessObject;
     private final ManagerOutputBoundary managerOutputBoundary;
 
-    public ManagerInteractor(ManagerOutputBoundary managerOutputBoundary) {
+    public ManagerInteractor(ManagerUserDataAccessInterface userDataAccessObject,
+            ManagerOutputBoundary managerOutputBoundary) {
+        this.userDataAccessObject = userDataAccessObject;
         this.managerOutputBoundary = managerOutputBoundary;
     }
 
@@ -19,5 +22,12 @@ public class ManagerInteractor implements ManagerInputBoundary {
     @Override
     public void switchToEmployeeListView() {
         managerOutputBoundary.switchToEmployeeListView();
+    }
+
+    public void switchToScheduleShiftView() {
+        ManagerOutputData outputData = new ManagerOutputData(
+                userDataAccessObject.getEmployees(userDataAccessObject.getCurrentUserID())
+        );
+        managerOutputBoundary.switchToScheduleShiftView(outputData);
     }
 }

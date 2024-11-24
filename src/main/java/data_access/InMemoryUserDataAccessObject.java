@@ -1,13 +1,20 @@
 package data_access;
 
 import entity.Employee;
+import entity.Manager;
+import entity.Shift;
 import entity.User;
+import entity.Workday;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
 import use_case.employee_list.EmployeeListUserDataAccessInterface;
+import use_case.logged_in.manager.ManagerUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.logout.LogoutUserDataAccessInterface;
+import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,10 +23,16 @@ import java.util.Map;
  * NOT persist data between runs of the program.
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, ActivateAccountUserDataAccessInterface, CreateEmployeeUserDataAccessInterface,
-        EmployeeListUserDataAccessInterface {
+        LoginUserDataAccessInterface,
+        ActivateAccountUserDataAccessInterface,
+        CreateEmployeeUserDataAccessInterface,
+        LogoutUserDataAccessInterface, 
+        EmployeeListUserDataAccessInterface, 
+        ScheduleShiftUserDataAccessInterface,
+        ManagerUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
+    private final Map<LocalDate, Workday> workdays = new HashMap<>();
 
     private String currentUserID;
 
@@ -29,8 +42,29 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
+    public boolean workdayExists(LocalDate day) {
+        return workdays.containsKey(day);
+    }
+
+    @Override
+    public Workday getWorkdayByDate(LocalDate day) {
+        return workdays.get(day);
+    }
+
+    @Override
+    public void addShiftToWorkday(Shift newShift, Workday workday) {
+        workday.addShift(newShift);
+    }
+
+    @Override
     public void save(User user) {
         users.put(user.getUserID(), user);
+    }
+
+    @Override
+    public void save(Shift shift) {
+        Employee employee = shift.getEmployee();
+        employee.addShift(shift);
     }
 
     @Override
@@ -69,4 +103,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return employees;
     }
 
+    @Override
+    public Map<String, Employee> getEmployees(String managerID) {
+        return ((Manager) users.get(managerID)).getEmployees();
+    }
 }

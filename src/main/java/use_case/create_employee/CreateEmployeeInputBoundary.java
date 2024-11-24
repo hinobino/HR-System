@@ -13,5 +13,5 @@ public interface CreateEmployeeInputBoundary {
     /**
      * Executes the switch to welcome view use case.
      */
-    void switchToWelcomeView();
+    void switchToManagerView();
 }
