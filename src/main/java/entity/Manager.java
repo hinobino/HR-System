@@ -16,6 +16,10 @@ public class Manager extends User {
         return employees.get(userID);
     }
 
+    public Map<String, Employee> getEmployees() {
+        return employees;
+    }
+
     public void addEmployee(Employee employee) {
         employees.put(employee.getUserID(), employee);
     }
