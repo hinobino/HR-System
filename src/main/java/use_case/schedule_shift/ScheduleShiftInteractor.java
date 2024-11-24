@@ -12,7 +12,7 @@ import java.time.LocalTime;
 public class ScheduleShiftInteractor implements ScheduleShiftInputBoundary {
 
     private final ScheduleShiftUserDataAccessInterface userDataAccessObject;
-    private final PublicHolidayAPIAccessObject publicHolidayAPIAccessObject = new PublicHolidayAPIAccessObject("US");
+    private final PublicHolidayAPIAccessObject publicHolidayAPIAccessObject = new PublicHolidayAPIAccessObject("CA");
 
     private final ScheduleShiftOutputBoundary scheduleShiftPresenter;
 
