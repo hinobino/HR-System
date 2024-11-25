@@ -21,7 +21,10 @@ public class ManagerInteractor implements ManagerInputBoundary {
 
     @Override
     public void switchToEmployeeListView() {
-        managerOutputBoundary.switchToEmployeeListView();
+        ManagerOutputData outputData = new ManagerOutputData(
+                userDataAccessObject.getEmployees(userDataAccessObject.getCurrentUserID())
+        );
+        managerOutputBoundary.switchToEmployeeListView(outputData);
     }
 
     public void switchToScheduleShiftView() {

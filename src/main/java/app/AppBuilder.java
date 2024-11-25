@@ -21,6 +21,9 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.manage_employee.ManageEmployeeController;
+import interface_adapter.manage_employee.ManageEmployeePresenter;
+import interface_adapter.manage_employee.ManageEmployeeViewModel;
 import interface_adapter.schedule_shift.ScheduleShiftController;
 import interface_adapter.schedule_shift.ScheduleShiftPresenter;
 import interface_adapter.schedule_shift.ScheduleShiftViewModel;
@@ -43,6 +46,9 @@ import use_case.login.LoginOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.manage_employee.ManageEmployeeInputBoundary;
+import use_case.manage_employee.ManageEmployeeInteractor;
+import use_case.manage_employee.ManageEmployeeOutputBoundary;
 import use_case.schedule_shift.ScheduleShiftInputBoundary;
 import use_case.schedule_shift.ScheduleShiftInteractor;
 import use_case.schedule_shift.ScheduleShiftOutputBoundary;
@@ -107,6 +113,8 @@ public class AppBuilder {
     private CreateEmployeeView createEmployeeView;
     private EmployeeListViewModel employeeListViewModel;
     private EmployeeListView employeeListView;
+    private ManageEmployeeViewModel manageEmployeeViewModel;
+    private ManageEmployeeView manageEmployeeView;
     private ScheduleShiftView scheduleShiftView;
     private ScheduleShiftViewModel scheduleShiftViewModel;
 
@@ -183,6 +191,17 @@ public class AppBuilder {
         employeeListViewModel = new EmployeeListViewModel();
         employeeListView = new EmployeeListView(employeeListViewModel);
         cardPanel.add(employeeListView, employeeListView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Manage Employee View to the application.
+     * @return this builder
+     */
+    public AppBuilder addManageEmployeeView() {
+        manageEmployeeViewModel = new ManageEmployeeViewModel();
+        manageEmployeeView = new ManageEmployeeView(manageEmployeeViewModel);
+        cardPanel.add(manageEmployeeView, manageEmployeeView.getViewName());
         return this;
     }
 
@@ -288,7 +307,7 @@ public class AppBuilder {
     }
 
     public AppBuilder addEmployeeListUseCase() {
-        final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(employeeListViewModel, managerViewModel, viewManagerModel);
+        final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(manageEmployeeViewModel, managerViewModel, viewManagerModel);
         final EmployeeListInputBoundary employeeListInteractor = new EmployeeListInteractor(
                 userDataAccessObject,
                 employeeListOutputBoundary
@@ -296,6 +315,14 @@ public class AppBuilder {
 
         final EmployeeListController controller = new EmployeeListController(employeeListInteractor);
         employeeListView.setEmployeeListController(controller);
+        return this;
+    }
+
+    public AppBuilder addManageEmployeeUseCase() {
+        final ManageEmployeeOutputBoundary manageEmployeeOutputBoundary = new ManageEmployeePresenter(employeeListViewModel, viewManagerModel);
+        final ManageEmployeeInputBoundary manageEmployeeInteractor = new ManageEmployeeInteractor(manageEmployeeOutputBoundary);
+        final ManageEmployeeController controller = new ManageEmployeeController(manageEmployeeInteractor);
+        manageEmployeeView.setManageEmployeeController(controller);
         return this;
     }
 
