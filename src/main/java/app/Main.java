@@ -21,6 +21,7 @@ public class Main {
                                             .addActivateAccountView()
                                             .addCreateEmployeeView()
                                             .addEmployeeListView()
+                                            .addManageEmployeeView()
                                             .addScheduleShiftView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()

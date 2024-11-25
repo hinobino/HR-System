@@ -4,5 +4,7 @@ import java.util.ArrayList;
 
 public interface EmployeeListOutputBoundary {
 
+    void selectEmployee(EmployeeListOutputData employeeListOutputData);
+
     void switchToManagerView();
 }

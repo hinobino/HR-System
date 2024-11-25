@@ -51,7 +51,7 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         buttons.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
 
         manageEmployee = new JButton(EmployeeListViewModel.MANAGE_EMPLOYEE_LABEL);
@@ -65,6 +65,24 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         gbc.gridx = 1;
         backButton = new JButton(EmployeeListViewModel.BACK_BUTTON_LABEL);
         buttons.add(backButton, gbc);
+
+        manageEmployee.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final int row = table.getSelectedRow();
+                        if (row == -1) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Please select an employee.",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else {
+                            final EmployeeListState currentState = employeeListViewModel.getState();
+                            employeeListController.selectEmployee(currentState.getEmployee((String) table.getValueAt(row, 0)));
+                        }
+                    }
+                }
+        );
 
         backButton.addActionListener(
                 new ActionListener() {

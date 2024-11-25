@@ -1,5 +1,6 @@
 package interface_adapter.employee_list;
 
+import entity.Employee;
 import use_case.employee_list.EmployeeListInputBoundary;
 import view.EmployeeListView;
 
@@ -8,6 +9,13 @@ public class EmployeeListController {
 
     public EmployeeListController(EmployeeListInputBoundary employeeListInteractor) {
         this.employeeListInteractor = employeeListInteractor;
+    }
+
+    /**
+     * Executes the select employee use case
+     */
+    public void selectEmployee(Employee employee) {
+        employeeListInteractor.selectEmployee(employee);
     }
 
     /**

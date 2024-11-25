@@ -28,4 +28,8 @@ public class EmployeeListState {
         }
         return employeeList;
     }
+
+    public Employee getEmployee(String id) {
+        return employees.get(id);
+    }
 }
