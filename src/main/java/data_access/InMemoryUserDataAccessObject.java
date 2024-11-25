@@ -1,12 +1,14 @@
 package data_access;
 
 import entity.Employee;
+import entity.Manager;
 import entity.Shift;
 import entity.User;
 import entity.Workday;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
 import use_case.employee_list.EmployeeListUserDataAccessInterface;
+import use_case.logged_in.manager.ManagerUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
@@ -26,7 +28,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         CreateEmployeeUserDataAccessInterface,
         LogoutUserDataAccessInterface,
         EmployeeListUserDataAccessInterface,
-        ScheduleShiftUserDataAccessInterface {
+        ScheduleShiftUserDataAccessInterface,
+        ManagerUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
     private final Map<LocalDate, Workday> workdays = new HashMap<>();
@@ -100,4 +103,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return employees;
     }
 
+    @Override
+    public Map<String, Employee> getEmployees(String managerID) {
+        return ((Manager) users.get(managerID)).getEmployees();
+    }
 }

@@ -251,7 +251,8 @@ public class AppBuilder {
     public AppBuilder addManagerUseCase() {
         final ManagerOutputBoundary managerOutputBoundary = new ManagerPresenter(createEmployeeViewModel,
                 employeeListViewModel, scheduleShiftViewModel, viewManagerModel);
-        final ManagerInputBoundary managerInteractor = new ManagerInteractor(managerOutputBoundary);
+        final ManagerInputBoundary managerInteractor = new ManagerInteractor(userDataAccessObject,
+                managerOutputBoundary);
         final ManagerController controller = new ManagerController(managerInteractor);
         managerView.setManagerController(controller);
         return this;

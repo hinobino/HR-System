@@ -30,5 +30,8 @@ out/
 .idea/easycode.ignore
 target/
 
+### API KEY ###
+key.txt
+
 ### MacOS ###
 .DS_Store

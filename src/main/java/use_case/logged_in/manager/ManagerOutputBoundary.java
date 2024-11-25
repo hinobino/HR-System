@@ -5,5 +5,5 @@ public interface ManagerOutputBoundary {
 
     void switchToEmployeeListView();
 
-    void switchToScheduleShiftView();
+    void switchToScheduleShiftView(ManagerOutputData managerOutputData);
 }

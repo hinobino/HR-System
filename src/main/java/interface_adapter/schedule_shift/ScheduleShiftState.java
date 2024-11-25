@@ -4,6 +4,7 @@ import entity.Employee;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Map;
 
 /**
  * State object for the ScheduleShift use case.
@@ -14,6 +15,7 @@ public class ScheduleShiftState {
     private LocalTime startTime;
     private LocalTime endTime;
     private Employee employee;
+    private Map<String, Employee> employees;
 
     private String dayError;
     private String startTimeError;
@@ -52,6 +54,10 @@ public class ScheduleShiftState {
         return employeeError;
     }
 
+    public Map<String, Employee> getEmployees() {
+        return employees;
+    }
+
     public void setDay(LocalDate day) {
         this.day = day;
     }
@@ -82,5 +88,9 @@ public class ScheduleShiftState {
 
     public void setEmployeeError(String employeeError) {
         this.employeeError = employeeError;
+    }
+
+    public void setEmployees(Map<String, Employee> employees) {
+        this.employees = employees;
     }
 }
