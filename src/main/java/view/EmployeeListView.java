@@ -5,6 +5,7 @@ import interface_adapter.employee_list.EmployeeListState;
 import interface_adapter.employee_list.EmployeeListViewModel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +19,9 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
 
     private final String viewName = "employee list";
     private final EmployeeListViewModel employeeListViewModel;
-    private Object[][] data;
+    private final JTable table;
+    private final JScrollPane scrollPane;
+    private final JButton manageEmployee;
     private final JButton createEmployee;
     private final JButton backButton;
 
@@ -29,13 +32,17 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         this.employeeListViewModel.addPropertyChangeListener(this);
 
         // Title
-        final JLabel title = new JLabel(employeeListViewModel.TITLE_LABEL);
+        final JLabel title = new JLabel(EmployeeListViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //Panel for table
-        data = employeeListViewModel.getState().getEmployeeList();
-        JTable table = new JTable(data, employeeListViewModel.columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
+        table = new JTable(new Object[1][2], EmployeeListViewModel.COLUMN_NAMES) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(100, 100));
         table.setFillsViewportHeight(true);
 
@@ -44,11 +51,16 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         buttons.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 0;
 
+        manageEmployee = new JButton(EmployeeListViewModel.MANAGE_EMPLOYEE_LABEL);
+        buttons.add(manageEmployee, gbc);
+
+        gbc.gridy++;
+        gbc.gridx = 0;
         createEmployee = new JButton(EmployeeListViewModel.CREATE_EMPLOYEE_LABEL);
-        buttons.add(createEmployee);
+        buttons.add(createEmployee,gbc);
 
         gbc.gridx = 1;
         backButton = new JButton(EmployeeListViewModel.BACK_BUTTON_LABEL);
@@ -66,8 +78,8 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         // Format the whole Employee List View
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
-        this.add(buttons);
         this.add(scrollPane);
+        this.add(buttons);
     }
 
     @Override
@@ -76,10 +88,13 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
-            System.out.println("hello");
             final EmployeeListState state = (EmployeeListState) evt.getNewValue();
-            employeeListController.createEmployeeList();
-            data = state.getEmployeeList();
+            table.setModel(new DefaultTableModel(state.getEmployeeList(), EmployeeListViewModel.COLUMN_NAMES) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            });
         }
     }
 
