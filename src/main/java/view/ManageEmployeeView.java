@@ -6,6 +6,8 @@ import interface_adapter.manage_employee.ManageEmployeeViewModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -15,6 +17,9 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
     private final ManageEmployeeViewModel manageEmployeeViewModel;
 
     private final JLabel userIDLabel;
+    private final JLabel statusLabel;
+
+    private final JButton backButton;
 
     private ManageEmployeeController manageEmployeeController;
 
@@ -30,10 +35,32 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
         userIDLabel = new JLabel("");
         userIDLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Status label
+        statusLabel = new JLabel("");
+        statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Panel for buttons
+        final JPanel buttons = new JPanel();
+        buttons.setLayout(new GridBagLayout());
+
+        backButton = new JButton(ManageEmployeeViewModel.BACK_BUTTON);
+        buttons.add(backButton);
+
+        backButton.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    manageEmployeeController.switchToEmployeeListView();
+                }
+            }
+        );
+
         // Format the Manage Employee View
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(userIDLabel);
+        this.add(statusLabel);
+        this.add(buttons);
     }
 
     @Override
@@ -41,6 +68,7 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
         if (evt.getPropertyName().equals("state")) {
             final ManageEmployeeState state = (ManageEmployeeState) evt.getNewValue();
             userIDLabel.setText(ManageEmployeeViewModel.USERID_LABEL + state.getUserId() + ".");
+            statusLabel.setText(ManageEmployeeViewModel.STATUS_LABEL + state.getStaus());
         }
     }
 
@@ -48,7 +76,7 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
         return viewName;
     }
 
-    public void setManagerController(ManageEmployeeController manageEmployeeController) {
+    public void setManageEmployeeController(ManageEmployeeController manageEmployeeController) {
         this.manageEmployeeController = manageEmployeeController;
     }
 }

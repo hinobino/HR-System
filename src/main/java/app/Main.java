@@ -31,6 +31,7 @@ public class Main {
                                             .addCreateEmployeeUseCase()
                                             .addLogoutUseCase()
                                             .addEmployeeListUseCase()
+                                            .addManageEmployeeUseCase()
                                             .addScheduleShiftUseCase()
                                             .build();
 

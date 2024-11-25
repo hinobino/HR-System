@@ -21,6 +21,8 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.manage_employee.ManageEmployeeController;
+import interface_adapter.manage_employee.ManageEmployeePresenter;
 import interface_adapter.manage_employee.ManageEmployeeViewModel;
 import interface_adapter.schedule_shift.ScheduleShiftController;
 import interface_adapter.schedule_shift.ScheduleShiftPresenter;
@@ -44,6 +46,9 @@ import use_case.login.LoginOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.manage_employee.ManageEmployeeInputBoundary;
+import use_case.manage_employee.ManageEmployeeInteractor;
+import use_case.manage_employee.ManageEmployeeOutputBoundary;
 import use_case.schedule_shift.ScheduleShiftInputBoundary;
 import use_case.schedule_shift.ScheduleShiftInteractor;
 import use_case.schedule_shift.ScheduleShiftOutputBoundary;
@@ -310,6 +315,14 @@ public class AppBuilder {
 
         final EmployeeListController controller = new EmployeeListController(employeeListInteractor);
         employeeListView.setEmployeeListController(controller);
+        return this;
+    }
+
+    public AppBuilder addManageEmployeeUseCase() {
+        final ManageEmployeeOutputBoundary manageEmployeeOutputBoundary = new ManageEmployeePresenter(employeeListViewModel, viewManagerModel);
+        final ManageEmployeeInputBoundary manageEmployeeInteractor = new ManageEmployeeInteractor(manageEmployeeOutputBoundary);
+        final ManageEmployeeController controller = new ManageEmployeeController(manageEmployeeInteractor);
+        manageEmployeeView.setManageEmployeeController(controller);
         return this;
     }
 

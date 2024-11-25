@@ -13,4 +13,8 @@ public class ManageEmployeeState {
     public String getUserId() {
         return employee.getUserID();
     }
+
+    public String getStaus() {
+        return employee.getStatus().toUpperCase();
+    }
 }
