@@ -357,7 +357,6 @@ public class AppBuilder {
     public JFrame build() {
         final JFrame application = new JFrame("HR System");
         application.setMinimumSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        application.setResizable(false);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);
