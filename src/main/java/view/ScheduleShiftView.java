@@ -40,6 +40,7 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
 
         final JLabel title = new JLabel(ScheduleShiftViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Calibri", Font.BOLD, 24));
 
         dateInputField.setColumns(10);
         final LabelTextPanel dateInfo = new LabelTextPanel(
@@ -136,11 +137,20 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
                 }
         );
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        this.add(title);
-        this.add(inputs);
-        this.add(buttons);
+        c.gridx = 0;
+        c.gridy = 0;
+        this.add(title, c);
+
+        c.gridx = 0;
+        c.gridy = 1;
+        this.add(inputs, c);
+
+        c.gridx = 0;
+        c.gridy = 2;
+        this.add(buttons, c);
     }
 
     @Override

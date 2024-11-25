@@ -81,6 +81,13 @@ import java.awt.*;
 //                  if your team decides to work with this as your starter code
 //                  for your final project this term.
 public class AppBuilder {
+
+    private static final int SCALE_FACTOR = 50;
+    private static final int ASPECT_RATIO_X = 16;
+    private static final int ASPECT_RATIO_Y = 9;
+    private static final int WINDOW_WIDTH = SCALE_FACTOR * ASPECT_RATIO_X;
+    private static final int WINDOW_HEIGHT = SCALE_FACTOR * ASPECT_RATIO_Y;
+
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
 
@@ -349,6 +356,8 @@ public class AppBuilder {
      */
     public JFrame build() {
         final JFrame application = new JFrame("HR System");
+        application.setMinimumSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        application.setResizable(false);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);
