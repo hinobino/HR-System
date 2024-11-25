@@ -18,13 +18,6 @@ public class EmployeeListPresenter implements EmployeeListOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
-    public void createEmployeeList(Object[][] employeeList) {
-        final EmployeeListState employeeListState = employeeListViewModel.getState();
-        employeeListState.setEmployeeList(employeeList);
-        this.employeeListViewModel.setState(employeeListState);
-        this.employeeListViewModel.firePropertyChanged();
-    }
-
     public void switchToManagerView() {
         viewManagerModel.setState(managerViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
