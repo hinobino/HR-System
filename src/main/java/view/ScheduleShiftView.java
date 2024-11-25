@@ -22,8 +22,8 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
     private final ScheduleShiftViewModel scheduleShiftViewModel;
 
     private final JFormattedTextField dateInputField = new JFormattedTextField(new DateFormatter().dateFormat);
-    private final JFormattedTextField startTimeInputField = new JFormattedTextField(new TimeFormatter().timeFormat);
-    private final JFormattedTextField endTimeInputField = new JFormattedTextField(new TimeFormatter().timeFormat);
+    private final JComboBox startTimeSelect = new JComboBox<String>(TimeFormatter.VALID_TIMES);
+    private final JComboBox endTimeSelect = new JComboBox<String>(TimeFormatter.VALID_TIMES);
     private final JComboBox employeeSelect = new JComboBox<String>();
 
     private final JButton back;
@@ -46,14 +46,14 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
                 new JLabel(ScheduleShiftViewModel.DAY_LABEL), dateInputField
         );
 
-        startTimeInputField.setColumns(5);
-        final LabelTextPanel startTimeInfo = new LabelTextPanel(
-                new JLabel(ScheduleShiftViewModel.START_TIME_LABEL), startTimeInputField
+        endTimeSelect.setEditable(false);
+        final LabelTextPanel endTimeSelectInfo = new LabelTextPanel(
+                new JLabel(ScheduleShiftViewModel.END_TIME_LABEL), endTimeSelect
         );
 
-        endTimeInputField.setColumns(5);
-        final LabelTextPanel endTimeInfo = new LabelTextPanel(
-                new JLabel(ScheduleShiftViewModel.END_TIME_LABEL), endTimeInputField
+        startTimeSelect.setEditable(false);
+        final LabelTextPanel startTimeSelectInfo = new LabelTextPanel(
+                new JLabel(ScheduleShiftViewModel.START_TIME_LABEL), startTimeSelect
         );
 
         employeeSelect.setEditable(false);
@@ -61,6 +61,13 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
                 new JLabel(ScheduleShiftViewModel.EMPLOYEE_LABEL), employeeSelect
         );
 
+        final JPanel inputs = new JPanel();
+        inputs.setLayout(new BoxLayout(inputs, BoxLayout.Y_AXIS));
+
+        inputs.add(dateInfo);
+        inputs.add(startTimeSelectInfo);
+        inputs.add(endTimeSelectInfo);
+        inputs.add(employeeSelectInfo);
 
         final JPanel buttons = new JPanel();
         back = new JButton(ScheduleShiftViewModel.BACK_WELCOME_LABEL);
@@ -91,7 +98,8 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
                         }
 
                         // Verify start time
-                        if (!TimeFormatter.verifyTime(startTimeInputField.getText())) {
+                        final String selectedStartTime = (String) startTimeSelect.getSelectedItem();
+                        if (!TimeFormatter.verifyTime(selectedStartTime)) {
                             JOptionPane.showMessageDialog(ScheduleShiftView.this,
                                     "Invalid start time.");
                             resetView();
@@ -99,7 +107,8 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
                         }
 
                         // Verify end time
-                        if (!TimeFormatter.verifyTime(endTimeInputField.getText())) {
+                        final String selectedEndTime = (String) endTimeSelect.getSelectedItem();
+                        if (!TimeFormatter.verifyTime(selectedEndTime)) {
                             JOptionPane.showMessageDialog(ScheduleShiftView.this,
                                     "Invalid end time.");
                             resetView();
@@ -109,8 +118,8 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
                         // Execute the ScheduleShift use case and switch back to the manager view
                         final ScheduleShiftState currentState = scheduleShiftViewModel.getState();
                         currentState.setDay(DateFormatter.makeDate(dateInputField.getText()));
-                        currentState.setStartTime(TimeFormatter.makeTime(startTimeInputField.getText()));
-                        currentState.setEndTime(TimeFormatter.makeTime(endTimeInputField.getText()));
+                        currentState.setStartTime(TimeFormatter.makeTime(selectedStartTime));
+                        currentState.setEndTime(TimeFormatter.makeTime(selectedEndTime));
 
                         final String currentEmployeeID = (String) employeeSelect.getSelectedItem();
                         currentState.setEmployee(currentState.getEmployees().get(currentEmployeeID));
@@ -130,10 +139,7 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        this.add(dateInfo);
-        this.add(startTimeInfo);
-        this.add(endTimeInfo);
-        this.add(employeeSelectInfo);
+        this.add(inputs);
         this.add(buttons);
     }
 
@@ -159,9 +165,6 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
 
     public void resetView() {
         dateInputField.setValue(null);
-        startTimeInputField.setValue(null);
-        endTimeInputField.setValue(null);
-
         ScheduleShiftState newState = new ScheduleShiftState();
         newState.setEmployees(scheduleShiftViewModel.getState().getEmployees());
         scheduleShiftViewModel.setState(newState);
