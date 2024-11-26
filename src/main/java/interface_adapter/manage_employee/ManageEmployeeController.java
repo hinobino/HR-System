@@ -18,9 +18,11 @@ public class ManageEmployeeController {
     }
 
     public void changePay(Employee employee, String newPayRate) {
-        final ManageEmployeeInputData manageEmployeeInputData = new ManageEmployeeInputData(employee);
-        manageEmployeeInputData.setNewPayRate(newPayRate);
-        manageEmployeeInteractor.changePay(manageEmployeeInputData);
+        if(newPayRate != null) {
+            final ManageEmployeeInputData manageEmployeeInputData = new ManageEmployeeInputData(employee);
+            manageEmployeeInputData.setNewPayRate(newPayRate);
+            manageEmployeeInteractor.changePay(manageEmployeeInputData);
+        }
     }
 
     public void switchToEmployeeListView() {
