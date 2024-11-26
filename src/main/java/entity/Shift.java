@@ -1,5 +1,6 @@
 package entity;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -57,5 +58,9 @@ public class Shift {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public float length() {
+        return (float) Duration.between(startTime, endTime).toMinutes() / 60;
     }
 }
