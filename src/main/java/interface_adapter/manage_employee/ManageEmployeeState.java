@@ -10,11 +10,23 @@ public class ManageEmployeeState {
         this.employee = employee;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
     public String getUserId() {
         return employee.getUserID();
     }
 
     public String getStaus() {
         return employee.getStatus().toUpperCase();
+    }
+
+    public String getPay() {
+        return Double.toString(employee.getPayRate());
+    }
+
+    public String getHoursWorked() {
+        return Double.toString(employee.getHoursWorked());
     }
 }

@@ -7,10 +7,30 @@ import entity.Employee;
  */
 public class ManageEmployeeInteractor implements ManageEmployeeInputBoundary {
 
+    private final ManageEmployeeUserDataAccessInterface userDataAccessInterface;
     private final ManageEmployeeOutputBoundary manageEmployeeOutputBoundary;
 
-    public ManageEmployeeInteractor(ManageEmployeeOutputBoundary manageEmployeeOutputBoundary) {
+    public ManageEmployeeInteractor(ManageEmployeeUserDataAccessInterface manageEmployeeUserDataAccessInterface,ManageEmployeeOutputBoundary manageEmployeeOutputBoundary) {
+        this.userDataAccessInterface = manageEmployeeUserDataAccessInterface;
         this.manageEmployeeOutputBoundary = manageEmployeeOutputBoundary;
+    }
+
+    @Override
+    public void changeStatus(ManageEmployeeInputData manageEmployeeInputData) {
+        if("active".equals(manageEmployeeInputData.getStatus())) {
+            userDataAccessInterface.inactivateUser(manageEmployeeInputData.getUserId());
+        }
+        else if("inactive".equals(manageEmployeeInputData.getStatus())) {
+            userDataAccessInterface.activateUser(
+                    manageEmployeeInputData.getUserId(),
+                    manageEmployeeInputData.getPassword());
+        }
+        Employee updatedEmployee =
+                (Employee) userDataAccessInterface.get(
+                        manageEmployeeInputData.getUserId());
+        final ManageEmployeeOutputData update =
+                new ManageEmployeeOutputData(updatedEmployee);
+        manageEmployeeOutputBoundary.updateManageEmployeeView(update);
     }
 
     @Override
