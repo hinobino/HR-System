@@ -11,6 +11,8 @@ import use_case.employee_list.EmployeeListUserDataAccessInterface;
 import use_case.logged_in.manager.ManagerUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
+import use_case.manage_employee.ManageEmployeeInteractor;
+import use_case.manage_employee.ManageEmployeeUserDataAccessInterface;
 import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -27,8 +29,9 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         LoginUserDataAccessInterface,
         ActivateAccountUserDataAccessInterface,
         CreateEmployeeUserDataAccessInterface,
-        LogoutUserDataAccessInterface,
+        LogoutUserDataAccessInterface, 
         EmployeeListUserDataAccessInterface,
+        ManageEmployeeUserDataAccessInterface,
         ScheduleShiftUserDataAccessInterface,
         ManagerUserDataAccessInterface {
 
@@ -83,12 +86,24 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return this.currentUserID;
     }
 
-     @Override
+    @Override
+    public void setPayRate(String userID, Double newPayRate) {
+        Employee employee = (Employee) users.get(userID);
+        employee.setPayRate(newPayRate);
+    }
+
+    @Override
     public void activateUser(String userID, String password) {
         Employee employee = (Employee) users.get(userID);
         employee.setPassword(password);
         employee.setStatus("active");
 
+    }
+
+    @Override
+    public void inactivateUser(String userID) {
+        Employee employee = (Employee) users.get(userID);
+        employee.setStatus("inactive");
     }
 
     @Override

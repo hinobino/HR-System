@@ -9,13 +9,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
  * The View where the manager can see a list of employees
  */
-public class EmployeeListView extends JPanel implements ActionListener, PropertyChangeListener {
+public class EmployeeListView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "employee list";
     private final EmployeeListViewModel employeeListViewModel;
@@ -99,9 +101,6 @@ public class EmployeeListView extends JPanel implements ActionListener, Property
         this.add(scrollPane);
         this.add(buttons);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent evt) {}
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
