@@ -1,6 +1,10 @@
 package use_case.manage_employee;
 
+import entity.Employee;
 import entity.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * DAO for the Activate Account Use Case.
@@ -21,4 +25,6 @@ public interface ManageEmployeeUserDataAccessInterface {
      * Inactivates the employee
      */
     void inactivateUser(String userID);
+
+    Map<String, Employee> getEmployees();
 }

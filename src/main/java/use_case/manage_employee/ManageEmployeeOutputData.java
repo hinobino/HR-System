@@ -4,7 +4,7 @@ import entity.Employee;
 
 public class ManageEmployeeOutputData {
 
-    private Employee employee;
+    private final Employee employee;
 
     public ManageEmployeeOutputData(Employee employee) {
         this.employee = employee;

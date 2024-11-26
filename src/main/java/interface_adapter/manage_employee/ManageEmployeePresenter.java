@@ -1,13 +1,13 @@
 package interface_adapter.manage_employee;
 
+import entity.Employee;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.employee_list.EmployeeListState;
 import interface_adapter.employee_list.EmployeeListViewModel;
-import interface_adapter.logged_in.EmployeeViewModel;
-import use_case.employee_list.EmployeeListOutputBoundary;
-import use_case.employee_list.EmployeeListOutputData;
 import use_case.manage_employee.ManageEmployeeOutputBoundary;
 import use_case.manage_employee.ManageEmployeeOutputData;
+
+import java.util.Map;
 
 public class ManageEmployeePresenter implements ManageEmployeeOutputBoundary {
 
@@ -44,9 +44,12 @@ public class ManageEmployeePresenter implements ManageEmployeeOutputBoundary {
     }
 
     @Override
-    public void switchToEmployeeListView() {
+    public void switchToEmployeeListView(Map<String, Employee> employees) {
         // Update the Employee List View
         final EmployeeListState employeeListState = employeeListViewModel.getState();
+        employeeListState.setEmployeeList(employees);
+        employeeListViewModel.setState(employeeListState);
+        employeeListViewModel.firePropertyChanged();
 
         viewManagerModel.setState(employeeListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
