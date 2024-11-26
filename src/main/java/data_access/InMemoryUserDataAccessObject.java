@@ -97,13 +97,15 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         Employee employee = (Employee) users.get(userID);
         employee.setPassword(password);
         employee.setStatus("active");
-
+        employee.setStartDate(LocalDate.now());
+        employee.setEndDate(null);
     }
 
     @Override
     public void inactivateUser(String userID) {
         Employee employee = (Employee) users.get(userID);
         employee.setStatus("inactive");
+        employee.setEndDate(LocalDate.now());
     }
 
     @Override
