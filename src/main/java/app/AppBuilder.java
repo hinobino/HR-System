@@ -12,15 +12,13 @@ import interface_adapter.create_employee.CreateEmployeeViewModel;
 import interface_adapter.employee_list.EmployeeListController;
 import interface_adapter.employee_list.EmployeeListPresenter;
 import interface_adapter.employee_list.EmployeeListViewModel;
-import interface_adapter.logged_in.EmployeeViewModel;
-import interface_adapter.logged_in.ManagerController;
-import interface_adapter.logged_in.ManagerPresenter;
-import interface_adapter.logged_in.ManagerViewModel;
+import interface_adapter.logged_in.*;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.schedule.ScheduleViewModel;
 import interface_adapter.schedule_shift.ScheduleShiftController;
 import interface_adapter.schedule_shift.ScheduleShiftPresenter;
 import interface_adapter.schedule_shift.ScheduleShiftViewModel;
@@ -37,6 +35,9 @@ import use_case.create_employee.CreateEmployeeOutputData;
 import use_case.employee_list.EmployeeListInputBoundary;
 import use_case.employee_list.EmployeeListInteractor;
 import use_case.employee_list.EmployeeListOutputBoundary;
+import use_case.logged_in.employee.EmployeeInputBoundary;
+import use_case.logged_in.employee.EmployeeInteractor;
+import use_case.logged_in.employee.EmployeeOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -109,6 +110,8 @@ public class AppBuilder {
     private EmployeeListView employeeListView;
     private ScheduleShiftView scheduleShiftView;
     private ScheduleShiftViewModel scheduleShiftViewModel;
+    private ScheduleView scheduleView;
+    private ScheduleViewModel scheduleViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -193,6 +196,12 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addScheduleView() {
+        scheduleViewModel = new ScheduleViewModel();
+        scheduleView = new ScheduleView(scheduleViewModel);
+        return this;
+    }
+
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(signupViewModel,
                 activateAccountViewModel, loginViewModel, viewManagerModel);
@@ -245,6 +254,14 @@ public class AppBuilder {
                 userDataAccessObject, activateAccountOutputBoundary, employeeFactory);
         final ActivateAccountController controller = new ActivateAccountController(activateAccountInteractor);
         activateAccountView.setActivateAccountController(controller);
+        return this;
+    }
+
+    public AppBuilder addEmployeeUseCase() {
+        final EmployeeOutputBoundary employeeOutputBoundary = new EmployeePresenter(viewManagerModel,scheduleViewModel);
+        final EmployeeInputBoundary employeeInteractor = new EmployeeInteractor(userDataAccessObject, employeeOutputBoundary);
+        final EmployeeController controller = new EmployeeController(employeeInteractor);
+        employeeView.setEmployeeController(controller);
         return this;
     }
 

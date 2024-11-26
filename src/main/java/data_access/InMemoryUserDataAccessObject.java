@@ -16,6 +16,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,5 +107,9 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public Map<String, Employee> getEmployees(String managerID) {
         return ((Manager) users.get(managerID)).getEmployees();
+    }
+
+    public List<Shift> getShifts(String employeeID) {
+        return ((Employee) users.get(employeeID)).getShifts();
     }
 }

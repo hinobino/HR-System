@@ -1,0 +1,187 @@
+package view;
+
+import entity.Shift;
+import entity.WorkWeek;
+import interface_adapter.logged_in.EmployeeController;
+import interface_adapter.schedule.ScheduleViewModel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * The View for the Welcome Use Case.
+ */
+public class ScheduleView extends JFrame implements ActionListener, PropertyChangeListener {
+    private final String viewName = "schedule";
+    private final ScheduleViewModel scheduleViewModel;
+
+    private List<Shift> shiftList = new ArrayList<>();
+    private final List<LocalDate> currentWeek = new ArrayList<>();
+
+    private EmployeeController employeeController;
+
+    public ScheduleView(ScheduleViewModel scheduleViewModel) {
+        this.scheduleViewModel = scheduleViewModel;
+        this.scheduleViewModel.addPropertyChangeListener(this);
+
+        this.setTitle(ScheduleViewModel.VIEW_LABEL);
+        this.setSize(900, 540);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+
+        // Title
+        LocalDate today = LocalDate.now();
+        WorkWeek currentWeek = new WorkWeek(today, scheduleViewModel.getState().getShifts());
+        // TODO add buttons to navigate through weeks (from this week to 3 weeks ahead?)
+
+        final JLabel title = new JLabel(currentWeek.toString());
+        title.setFont(new Font("Calibri", Font.BOLD, 20));
+
+        gbc.gridy = 0; // first row
+        gbc.weightx = 1.0; // allow horizontal expansion
+        gbc.weighty = 0; // don't allow vertical expansion
+        gbc.gridwidth = GridBagConstraints.REMAINDER; // span full grid width
+        gbc.anchor = GridBagConstraints.CENTER; // center title
+        gbc.fill = GridBagConstraints.NONE; // don't stretch
+        gbc.insets = new Insets(1,1,1,1);
+        this.add(title, gbc);
+
+        // Schedule Panel
+        JPanel schedulePanel = new JPanel();
+        schedulePanel.setLayout(new GridBagLayout());
+        schedulePanel.setBackground(ScheduleViewModel.GRID_COLOR);
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1.0;
+        c.weighty = 1.0;
+        c.insets = new Insets(1,1,1,1);
+
+        // Schedule Headers
+        String[] days = {"", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+        String[] times = {
+                "09:00", //               _______
+                "10:00", //              | Shift |_______
+                "11:00", //              |_______| Shift |
+                "12:00", //                      |       |
+                "13:00", //                      |_______|
+                "14:00",
+                "15:00",
+                "16:00",
+                "17:00"
+        };
+        // add column headers (days of the week)
+        for (int i = 0; i < days.length; i++) {
+            JLabel day = new JLabel(days[i], JLabel.CENTER);
+            day.setFont(day.getFont().deriveFont(Font.BOLD));
+            day.setBackground(ScheduleViewModel.HEADER_COLOR);
+            day.setOpaque(true);
+            c.gridx = i;
+            c.weightx = 1.0;
+            c.weighty = 0;
+            schedulePanel.add(day, c);
+        }
+        // add row headers (times of the day)
+        for (int i = 0; i < times.length; i++) {
+            JLabel time = new JLabel(times[i], JLabel.CENTER);
+            time.setVerticalAlignment(SwingConstants.TOP);
+            time.setBackground(ScheduleViewModel.HEADER_COLOR);
+            time.setFont(time.getFont().deriveFont(Font.BOLD));
+            time.setOpaque(true);
+            c.gridheight = 2;
+            c.gridx = 0;
+            c.gridy = i * 2 + 1;
+            c.weightx = 0;
+            c.weighty = 1.0;
+            schedulePanel.add(time, c);
+        }
+
+        this.shiftList = currentWeek.getShifts();
+        // CUSTOM SHIFTS FOR DISPLAY TESTS
+//        this.shiftList.add(new Shift(LocalDate.now(), LocalTime.of(9,30), LocalTime.of(15,0), new Employee("e", "e")));
+//        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(11,0), LocalTime.of(16,30), new Employee("e", "e")));
+        for (Shift shift : shiftList) {
+            GridBagConstraints shiftConstraints = new GridBagConstraints();
+            shiftConstraints.fill = GridBagConstraints.BOTH;
+            shiftConstraints.weightx = 1.0;
+            shiftConstraints.weighty = 1.0;
+            shiftConstraints.insets = new Insets(1,1,1,1);
+
+            // get time as an hour float (ex. 09:30 = 9.5 hours), convert to half hour
+            // (ex. 09:30 = 19 half hours), and subtract offset to get start index.
+            shiftConstraints.gridy = (int) ((shift.getStartTime().getHour() +
+                    (shift.getStartTime().getMinute() / 60.0)) * 2
+                    - ScheduleViewModel.TIME_TO_GRIDY_OFFSET);
+
+            shiftConstraints.gridx = shift.getDay().getDayOfWeek().getValue() % 7 + 1;
+            shiftConstraints.gridwidth = 1;
+            shiftConstraints.gridheight = (int) (shift.length() * 2);
+
+            JPanel shiftBlock = new JPanel();
+            shiftBlock.setBackground(ScheduleViewModel.SHIFT_COLOR);
+            JLabel shiftLabel = new JLabel("Shift", JLabel.CENTER);
+            shiftLabel.setForeground(Color.WHITE);
+            shiftBlock.add(shiftLabel);
+            schedulePanel.add(shiftBlock, shiftConstraints);
+
+        }
+
+        // Empty cells for shift grid
+        for (int row = 1; row <= times.length * 2; row++) {
+            for (int col = 1; col <= days.length - 1; col++) {
+                JPanel cell = new JPanel();
+
+                // differentiate the cell colours based on hour / half hour for clear visuals
+                if (row % 2 == 1) { cell.setBackground(ScheduleViewModel.HOUR_COLOR); }
+                else { cell.setBackground(ScheduleViewModel.HALF_HOUR_COLOR); }
+
+                cell.setOpaque(true);
+                c.insets = new Insets(1,1,1,1);
+                c.gridheight = 1;
+                c.gridx = col;
+                c.gridy = row;
+                schedulePanel.add(cell, c);
+            }
+        }
+
+        // add schedule panel
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        this.add(schedulePanel, gbc);
+
+        // Download Button
+        JButton downloadButton = new JButton(ScheduleViewModel.DOWNLOAD_LABEL);
+        downloadButton.addActionListener(e -> {});
+        gbc.gridy++;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.NONE;
+        this.add(downloadButton, gbc);
+
+        // FOR DISPLAY TEST
+//        this.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+}
