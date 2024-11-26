@@ -1,10 +1,13 @@
 package use_case.employee_list;
 
+import entity.Employee;
+
 public interface EmployeeListInputBoundary {
+
     /**
-     * Executes the create employee list use case.
+     * Executes the select employee use case.
      */
-    void createEmployeeList();
+    void selectEmployee(Employee employee);
 
     /**
      * Executes the switch to manger view use case.
