@@ -8,9 +8,18 @@ import entity.Employee;
 public class ManageEmployeeInputData {
 
     private final Employee employee;
+    private String newPayRate;
 
     public ManageEmployeeInputData(Employee employee) {
         this.employee = employee;
+    }
+
+    public void setNewPayRate(String newPayRate) {
+        this.newPayRate = newPayRate;
+    }
+
+    public String getNewPayRate() {
+        return newPayRate;
     }
 
     public String getUserId() {

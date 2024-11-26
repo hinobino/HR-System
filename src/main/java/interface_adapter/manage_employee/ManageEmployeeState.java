@@ -5,6 +5,7 @@ import entity.Employee;
 public class ManageEmployeeState {
 
     private Employee employee;
+    private Boolean payError = false;
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
@@ -28,5 +29,13 @@ public class ManageEmployeeState {
 
     public String getHoursWorked() {
         return Double.toString(employee.getHoursWorked());
+    }
+
+    public Boolean getPayError() {
+        return payError;
+    }
+
+    public void togglePayError() {
+        payError = !payError;
     }
 }

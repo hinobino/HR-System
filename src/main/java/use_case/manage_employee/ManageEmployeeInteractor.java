@@ -34,6 +34,25 @@ public class ManageEmployeeInteractor implements ManageEmployeeInputBoundary {
     }
 
     @Override
+    public void changePay(ManageEmployeeInputData manageEmployeeInputData) {
+        try {
+            userDataAccessInterface.setPayRate(
+                    manageEmployeeInputData.getUserId(),
+                    Double.parseDouble(manageEmployeeInputData.getNewPayRate())
+            );
+            Employee updatedEmployee =
+                    (Employee) userDataAccessInterface.get(
+                            manageEmployeeInputData.getUserId());
+            final ManageEmployeeOutputData update =
+                    new ManageEmployeeOutputData(updatedEmployee);
+            manageEmployeeOutputBoundary.updateManageEmployeeView(update);
+        }
+        catch (NumberFormatException | NullPointerException e) {
+            manageEmployeeOutputBoundary.prepareFailView();
+        }
+    }
+
+    @Override
     public void switchToEmployeeListView() {
         manageEmployeeOutputBoundary.switchToEmployeeListView();
     }

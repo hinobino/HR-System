@@ -85,7 +85,13 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return this.currentUserID;
     }
 
-     @Override
+    @Override
+    public void setPayRate(String userID, Double newPayRate) {
+        Employee employee = (Employee) users.get(userID);
+        employee.setPayRate(newPayRate);
+    }
+
+    @Override
     public void activateUser(String userID, String password) {
         Employee employee = (Employee) users.get(userID);
         employee.setPassword(password);

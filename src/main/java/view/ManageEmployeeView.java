@@ -94,6 +94,21 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
                 }
         );
 
+        changePay.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String newPayRate = JOptionPane.showInputDialog(
+                        ManageEmployeeView.this,
+                        "Enter new pay rate: ",
+                        "Change Pay",
+                        JOptionPane.QUESTION_MESSAGE);
+                    final ManageEmployeeState currentState = manageEmployeeViewModel.getState();
+                    manageEmployeeController.changePay(currentState.getEmployee(), newPayRate);
+                }
+            }
+        );
+
         backButton.addActionListener(
             new ActionListener() {
                 @Override
@@ -118,6 +133,13 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
             statusLabel.setText(ManageEmployeeViewModel.STATUS_LABEL + state.getStaus());
             payLabel.setText(ManageEmployeeViewModel.PAY_LABEL + state.getPay());
             hoursWorkedLabel.setText(ManageEmployeeViewModel.HOURS_WORKED_LABEL + state.getHoursWorked());
+            if(state.getPayError()) {
+                JOptionPane.showMessageDialog(
+                        ManageEmployeeView.this,
+                        "Please enter a valid pay rate (In the form XX.XX)",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                state.togglePayError();
+            }
         }
     }
 

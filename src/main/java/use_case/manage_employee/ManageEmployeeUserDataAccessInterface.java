@@ -13,6 +13,8 @@ public interface ManageEmployeeUserDataAccessInterface {
      */
     User get(String userID);
 
+    void setPayRate(String userID, Double newPayRate);
+
     void activateUser(String userID, String password);
 
     /**

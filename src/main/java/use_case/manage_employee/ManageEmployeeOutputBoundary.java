@@ -4,5 +4,7 @@ public interface ManageEmployeeOutputBoundary {
 
     void updateManageEmployeeView(ManageEmployeeOutputData update);
 
+    void prepareFailView();
+
     void switchToEmployeeListView();
 }

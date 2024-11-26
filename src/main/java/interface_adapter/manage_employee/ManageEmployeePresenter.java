@@ -37,6 +37,13 @@ public class ManageEmployeePresenter implements ManageEmployeeOutputBoundary {
     }
 
     @Override
+    public void prepareFailView() {
+        final ManageEmployeeState manageEmployeeState = manageEmployeeViewModel.getState();
+        manageEmployeeState.togglePayError();
+        manageEmployeeViewModel.firePropertyChanged();
+    }
+
+    @Override
     public void switchToEmployeeListView() {
         // Update the Employee List View
         final EmployeeListState employeeListState = employeeListViewModel.getState();

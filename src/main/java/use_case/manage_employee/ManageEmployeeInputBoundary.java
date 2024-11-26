@@ -11,6 +11,11 @@ public interface ManageEmployeeInputBoundary {
     void changeStatus(ManageEmployeeInputData manageEmployeeInputData);
 
     /**
+     * Change the Employee's pay
+     */
+    void changePay(ManageEmployeeInputData manageEmployeeInputData);
+
+    /**
      * Switches to the Employee List View.
      */
     void switchToEmployeeListView();
