@@ -5,9 +5,14 @@ import entity.Employee;
 public class ManageEmployeeState {
 
     private Employee employee;
+    private Boolean payError = false;
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Employee getEmployee() {
+        return employee;
     }
 
     public String getUserId() {
@@ -16,5 +21,21 @@ public class ManageEmployeeState {
 
     public String getStaus() {
         return employee.getStatus().toUpperCase();
+    }
+
+    public String getPay() {
+        return Double.toString(employee.getPayRate());
+    }
+
+    public String getHoursWorked() {
+        return Double.toString(employee.getHoursWorked());
+    }
+
+    public Boolean getPayError() {
+        return payError;
+    }
+
+    public void togglePayError() {
+        payError = !payError;
     }
 }

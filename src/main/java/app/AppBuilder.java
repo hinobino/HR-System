@@ -326,8 +326,8 @@ public class AppBuilder {
     }
 
     public AppBuilder addManageEmployeeUseCase() {
-        final ManageEmployeeOutputBoundary manageEmployeeOutputBoundary = new ManageEmployeePresenter(employeeListViewModel, viewManagerModel);
-        final ManageEmployeeInputBoundary manageEmployeeInteractor = new ManageEmployeeInteractor(manageEmployeeOutputBoundary);
+        final ManageEmployeeOutputBoundary manageEmployeeOutputBoundary = new ManageEmployeePresenter(manageEmployeeViewModel, employeeListViewModel, viewManagerModel);
+        final ManageEmployeeInputBoundary manageEmployeeInteractor = new ManageEmployeeInteractor(userDataAccessObject, manageEmployeeOutputBoundary);
         final ManageEmployeeController controller = new ManageEmployeeController(manageEmployeeInteractor);
         manageEmployeeView.setManageEmployeeController(controller);
         return this;
