@@ -10,8 +10,8 @@ public class EmployeeController {
         this.employeeInputBoundary = employeeInputBoundary;
     }
 
-    public void switchToScheduleView(String userID) {
-        final EmployeeInputData employeeInputData = new EmployeeInputData(userID);
+    public void switchToScheduleView(LoggedInState loggedInState) {
+        final EmployeeInputData employeeInputData = new EmployeeInputData(loggedInState);
         employeeInputBoundary.switchToScheduleView(employeeInputData);
     }
 }

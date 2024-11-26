@@ -69,7 +69,7 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final LoggedInState currentState = employeeViewModel.getState();
-                        logoutController.execute(currentState.getUserID());
+                        logoutController.execute(currentState);
                     }
                 }
         );
@@ -80,7 +80,9 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final LoggedInState currentState = employeeViewModel.getState();
-                        employeeController.switchToScheduleView(currentState.getUserID());
+                        if (currentState.getScheduleView() == null) {
+                            employeeController.switchToScheduleView(currentState);
+                        }
                     }
                 }
         );

@@ -65,11 +65,11 @@ public class ScheduleShiftInteractor implements ScheduleShiftInputBoundary {
         }
 
         // Ensure not on a public holiday
-        else if (publicHolidayAPIAccessObject.holidayOn(day)) {
-            scheduleShiftPresenter.prepareFailView(
-                    "That day is a public holiday; no shifts may be scheduled."
-            );
-        }
+//        else if (publicHolidayAPIAccessObject.holidayOn(day)) {
+//            scheduleShiftPresenter.prepareFailView(
+//                    "That day is a public holiday; no shifts may be scheduled."
+//            );
+//        }
 
         else {
             // Create a new shift with the given data

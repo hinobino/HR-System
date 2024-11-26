@@ -20,14 +20,18 @@ public class EmployeePresenter implements EmployeeOutputBoundary {
 
     public void switchToScheduleView(EmployeeOutputData employeeOutputData) {
         String userID = employeeOutputData.getUserID();
+        LoggedInState loggedInState = employeeOutputData.getLoggedInState();
+
         final ScheduleState scheduleState = scheduleViewModel.getState();
         scheduleState.setUserID(userID);
         scheduleState.setShifts(employeeOutputData.getShifts());
+        scheduleState.setParentState(loggedInState);
 
         this.scheduleViewModel.setState(scheduleState);
         this.scheduleViewModel.firePropertyChanged();
 
         ScheduleView scheduleView = new ScheduleView(scheduleViewModel);
+        loggedInState.setScheduleView(scheduleView);
         scheduleView.setVisible(true);
     }
 }

@@ -14,7 +14,7 @@ public class EmployeeInteractor implements EmployeeInputBoundary {
     @Override
     public void switchToScheduleView(EmployeeInputData employeeInputData) {
         final EmployeeOutputData employeeOutputData = new EmployeeOutputData(employeeInputData
-                .getUserID(), userDataAccessObject.getShifts(employeeInputData.getUserID()));
+                .getLoggedInState(), userDataAccessObject.getShifts(employeeInputData.getUserID()));
         employeeOutputBoundary.switchToScheduleView(employeeOutputData);
     }
 }

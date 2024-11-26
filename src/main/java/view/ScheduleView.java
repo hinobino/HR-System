@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
@@ -36,6 +38,16 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                scheduleViewModel.getState().getParentState().setScheduleView(null);
+                System.out.println("schedule view removed");
+                ScheduleView.this.dispose();
+            }
+
+        });
 
         // Title
         LocalDate today = LocalDate.now();

@@ -91,7 +91,7 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final LoggedInState currentState = managerViewModel.getState();
-                        logoutController.execute(currentState.getUserID());
+                        logoutController.execute(currentState);
                     }
                 }
         );
