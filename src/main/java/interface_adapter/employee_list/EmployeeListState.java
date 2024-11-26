@@ -3,6 +3,7 @@ package interface_adapter.employee_list;
 import entity.Employee;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -25,6 +26,7 @@ public class EmployeeListState {
             row.add(userObj.getKey());
             row.add(userObj.getValue().getStatus());
             employeeList[i] = row.toArray(new String[row.size()]);
+            i++;
         }
         return employeeList;
     }
