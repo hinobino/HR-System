@@ -6,5 +6,7 @@ public interface EmployeeListOutputBoundary {
 
     void selectEmployee(EmployeeListOutputData employeeListOutputData);
 
+    void switchToCreateEmployeeView();
+
     void switchToManagerView();
 }

@@ -86,6 +86,15 @@ public class EmployeeListView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        createEmployee.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        employeeListController.switchToCreateEmployeeView();
+                    }
+                }
+        );
+
         backButton.addActionListener(
                 new ActionListener() {
                     @Override

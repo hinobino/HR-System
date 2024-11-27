@@ -18,6 +18,11 @@ public class EmployeeListInteractor implements EmployeeListInputBoundary {
     }
 
     @Override
+    public void switchToCreateEmployeeView() {
+        employeeListPresenter.switchToCreateEmployeeView();
+    }
+
+    @Override
     public void switchToManagerView() {
         employeeListPresenter.switchToManagerView();
     }
