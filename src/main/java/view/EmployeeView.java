@@ -81,7 +81,7 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                     public void actionPerformed(ActionEvent e) {
                         final LoggedInState currentState = employeeViewModel.getState();
                         if (currentState.getScheduleView() == null) {
-                            employeeController.switchToScheduleView(currentState);
+                            employeeController.openScheduleView(currentState);
                         }
                     }
                 }

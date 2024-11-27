@@ -1,6 +1,7 @@
 package use_case.logged_in.manager;
 
 import entity.Employee;
+import entity.Shift;
 
 import java.util.Map;
 

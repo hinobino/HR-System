@@ -97,7 +97,17 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         );
 
         // TODO: Implement these action listeners.
-        schedule.addActionListener(e -> {});
+        schedule.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    final LoggedInState currentState = managerViewModel.getState();
+                    if (currentState.getScheduleView() == null) {
+                        managerController.openScheduleView(currentState);
+                    }
+                }
+            }
+        );
         requests.addActionListener(e -> {});
 
         setShift.addActionListener(

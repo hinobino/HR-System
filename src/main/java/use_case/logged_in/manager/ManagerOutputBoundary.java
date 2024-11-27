@@ -8,4 +8,6 @@ public interface ManagerOutputBoundary {
     void switchToEmployeeListView(ManagerOutputData managerOutputData);
 
     void switchToScheduleShiftView(ManagerOutputData managerOutputData);
+
+    void openScheduleView(ManagerOutputData managerOutputData);
 }

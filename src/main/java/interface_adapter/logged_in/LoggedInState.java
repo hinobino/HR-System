@@ -22,6 +22,8 @@ public class LoggedInState {
 
     public LoggedInState() {}
 
+    public User getUser() { return user; }
+
     public String getUserID() {
         return user.getUserID();
     }

@@ -18,7 +18,7 @@ public class EmployeePresenter implements EmployeeOutputBoundary {
         this.scheduleViewModel = scheduleViewModel;
     }
 
-    public void switchToScheduleView(EmployeeOutputData employeeOutputData) {
+    public void openScheduleView(EmployeeOutputData employeeOutputData) {
         String userID = employeeOutputData.getUserID();
         LoggedInState loggedInState = employeeOutputData.getLoggedInState();
 

@@ -1,15 +1,18 @@
 package interface_adapter.schedule;
 
+import entity.Employee;
 import entity.Shift;
 import interface_adapter.logged_in.LoggedInState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleState {
     private String userID;
     private List<Shift> shifts;
-    private LoggedInState loggedInState;
+    private Map<Employee, List<Shift>> allEmployeeShifts;
+    private LoggedInState loggedInState = new LoggedInState();
 
     public ScheduleState() {}
 
@@ -24,6 +27,7 @@ public class ScheduleState {
     public void setShifts(List<Shift> shifts) {
         this.shifts = shifts;
     }
+
     public List<Shift> getShifts() {
         return shifts;
     }

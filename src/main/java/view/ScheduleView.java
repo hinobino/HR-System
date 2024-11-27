@@ -1,5 +1,7 @@
 package view;
 
+import entity.Employee;
+import entity.Manager;
 import entity.Shift;
 import entity.WorkWeek;
 import interface_adapter.logged_in.EmployeeController;
@@ -13,8 +15,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -43,7 +49,6 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
             @Override
             public void windowClosing(WindowEvent e) {
                 scheduleViewModel.getState().getParentState().setScheduleView(null);
-                System.out.println("schedule view removed");
                 ScheduleView.this.dispose();
             }
 
@@ -52,7 +57,9 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
         // Title
         LocalDate today = LocalDate.now();
         WorkWeek currentWeek = new WorkWeek(today, scheduleViewModel.getState().getShifts());
-        // TODO add buttons to navigate through weeks (from this week to 3 weeks ahead?)
+//        if (scheduleViewModel.getState().getParentState().getUser() instanceof Manager) {
+//            currentWeek.combineAllOverlappingShifts();
+//        }
 
         final JLabel title = new JLabel(currentWeek.toString());
         title.setFont(new Font("Calibri", Font.BOLD, 20));
@@ -96,6 +103,7 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
             day.setBackground(ScheduleViewModel.HEADER_COLOR);
             day.setOpaque(true);
             c.gridx = i;
+            c.gridy = 0;
             c.weightx = 1.0;
             c.weighty = 0;
             schedulePanel.add(day, c);
@@ -116,33 +124,94 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
         }
 
         this.shiftList = currentWeek.getShifts();
+
         // CUSTOM SHIFTS FOR DISPLAY TESTS
-//        this.shiftList.add(new Shift(LocalDate.now(), LocalTime.of(9,30), LocalTime.of(15,0), new Employee("e", "e")));
-//        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(11,0), LocalTime.of(16,30), new Employee("e", "e")));
-        for (Shift shift : shiftList) {
-            GridBagConstraints shiftConstraints = new GridBagConstraints();
-            shiftConstraints.fill = GridBagConstraints.BOTH;
-            shiftConstraints.weightx = 1.0;
-            shiftConstraints.weighty = 1.0;
-            shiftConstraints.insets = new Insets(1,1,1,1);
+//        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(9,30), LocalTime.of(10,0), new Employee("e", "e")));
+//        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(11,0), LocalTime.of(16,30), new Employee("f", "f")));
+//        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(13,30), LocalTime.of(16,30), new Employee("g", "g")));
 
-            // get time as an hour float (ex. 09:30 = 9.5 hours), convert to half hour
-            // (ex. 09:30 = 19 half hours), and subtract offset to get start index.
-            shiftConstraints.gridy = (int) ((shift.getStartTime().getHour() +
-                    (shift.getStartTime().getMinute() / 60.0)) * 2
-                    - ScheduleViewModel.TIME_TO_GRIDY_OFFSET);
+//        Collections.sort(shiftList, new Comparator<Shift>() {
+//            @Override
+//            public int compare(Shift o1, Shift o2) {
+//                int value1 = o1.getDay().compareTo(o2.getDay());
+//                if (value1 == 0) {
+//                    return o1.getStartTime().compareTo(o2.getStartTime());
+//                }
+//                return value1;
+//            }
+//        });
 
-            shiftConstraints.gridx = shift.getDay().getDayOfWeek().getValue() % 7 + 1;
-            shiftConstraints.gridwidth = 1;
-            shiftConstraints.gridheight = (int) (shift.length() * 2);
+        if (scheduleViewModel.getState().getParentState().getUser() instanceof Manager) {
+            for (LocalDate day : currentWeek.getDaysOfWeek()) {
+                List<Shift> dayShifts = new ArrayList<>();
+                List<List<Shift>> shiftBlocks = WorkWeek.getShiftBlocks(dayShifts);
 
-            JPanel shiftBlock = new JPanel();
-            shiftBlock.setBackground(ScheduleViewModel.SHIFT_COLOR);
-            JLabel shiftLabel = new JLabel("Shift", JLabel.CENTER);
-            shiftLabel.setForeground(Color.WHITE);
-            shiftBlock.add(shiftLabel);
-            schedulePanel.add(shiftBlock, shiftConstraints);
+                GridBagConstraints constraints = new GridBagConstraints();
+                constraints.fill = GridBagConstraints.BOTH;
+                constraints.weightx = 1.0;
+                constraints.weighty = 1.0;
+                constraints.insets = new Insets(1, 1, 1, 1);
 
+                for (List<Shift> block : shiftBlocks) {
+                    if (block.size() > 0) {
+                        Shift firstShift = block.get(0);
+                        Shift lastShift = block.get(block.size() - 1);
+                        constraints.gridx = firstShift.getDay().getDayOfWeek().getValue() % 7 + 1;
+                        constraints.gridy = (int) ((firstShift.getStartTime().getHour() +
+                                (firstShift.getStartTime().getMinute() / 60.0)) * 2
+                                - ScheduleViewModel.TIME_TO_GRIDY_OFFSET);
+
+                        constraints.gridwidth = 1;
+                        constraints.gridheight = (int) ((Duration.between(firstShift.getStartTime(), lastShift.getEndTime()).toMinutes() / 60.0) * 2);
+
+                        JPanel shiftBlock = new JPanel();
+                        shiftBlock.setBackground(ScheduleViewModel.SHIFT_COLOR);
+
+                        String description = "";
+                        for (Shift shift : block) {
+                            description += "<html>" + shift.getStartTime() + "-" + shift.getEndTime()
+                                    + ": " + shift.getEmployee().getUserID() + "<br>";
+                        }
+                        if (!description.isEmpty()) {
+                            description += "<html>";
+                        }
+
+                        JLabel shiftLabel = new JLabel(description, JLabel.CENTER);
+                        shiftLabel.setForeground(Color.WHITE);
+                        shiftBlock.add(shiftLabel);
+                        schedulePanel.add(shiftBlock, constraints);
+                    }
+                }
+            }
+        }
+
+        if (scheduleViewModel.getState().getParentState().getUser() instanceof Employee) {
+            for (Shift shift : shiftList) {
+
+                GridBagConstraints shiftConstraints = new GridBagConstraints();
+                shiftConstraints.fill = GridBagConstraints.BOTH;
+                shiftConstraints.weightx = 1.0;
+                shiftConstraints.weighty = 1.0;
+                shiftConstraints.insets = new Insets(1, 1, 1, 1);
+
+                // get time as an hour float (ex. 09:30 = 9.5 hours), convert to half hour
+                // (ex. 09:30 = 19 half hours), and subtract offset to get start index.
+                shiftConstraints.gridy = (int) ((shift.getStartTime().getHour() +
+                        (shift.getStartTime().getMinute() / 60.0)) * 2
+                        - ScheduleViewModel.TIME_TO_GRIDY_OFFSET);
+
+                shiftConstraints.gridx = shift.getDay().getDayOfWeek().getValue() % 7 + 1;
+                shiftConstraints.gridwidth = 1;
+                shiftConstraints.gridheight = (int) (shift.length() * 2);
+
+                JPanel shiftBlock = new JPanel();
+                shiftBlock.setBackground(ScheduleViewModel.SHIFT_COLOR);
+
+                JLabel shiftLabel = new JLabel("Shift", JLabel.CENTER);
+                shiftLabel.setForeground(Color.WHITE);
+                shiftBlock.add(shiftLabel);
+                schedulePanel.add(shiftBlock, shiftConstraints);
+            }
         }
 
         // Empty cells for shift grid
