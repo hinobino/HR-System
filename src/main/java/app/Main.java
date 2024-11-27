@@ -11,6 +11,18 @@ public class Main {
      * @param args unused arguments
      */
     public static void main(String[] args) {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
                                             .addWelcomeView()
@@ -22,6 +34,7 @@ public class Main {
                                             .addCreateEmployeeView()
                                             .addEmployeeListView()
                                             .addManageEmployeeView()
+                                            .addManageShiftsView()
                                             .addScheduleShiftView()
                                             .addScheduleView()
                                             .addWelcomeUseCase()
@@ -35,6 +48,7 @@ public class Main {
                                             .addEmployeeListUseCase()
                                             .addManageEmployeeUseCase()
                                             .addScheduleShiftUseCase()
+                                            .addManageShiftsUseCase()
                                             .build();
 
         application.pack();

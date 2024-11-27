@@ -33,4 +33,12 @@ public class ManagerInteractor implements ManagerInputBoundary {
         );
         managerOutputBoundary.switchToScheduleShiftView(outputData);
     }
+
+    @Override
+    public void switchToManageShiftsView() {
+        ManagerOutputData outputData = new ManagerOutputData(
+                userDataAccessObject.getEmployees(userDataAccessObject.getCurrentUserID())
+        );
+        managerOutputBoundary.switchToManageShiftsView(outputData);
+    }
 }

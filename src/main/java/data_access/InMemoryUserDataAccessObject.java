@@ -13,6 +13,7 @@ import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.manage_employee.ManageEmployeeInteractor;
 import use_case.manage_employee.ManageEmployeeUserDataAccessInterface;
+import use_case.manage_shifts.ManageShiftsUserDataAccessInterface;
 import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -33,7 +34,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         EmployeeListUserDataAccessInterface,
         ManageEmployeeUserDataAccessInterface,
         ScheduleShiftUserDataAccessInterface,
-        ManagerUserDataAccessInterface {
+        ManagerUserDataAccessInterface,
+        ManageShiftsUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
     private final Map<LocalDate, Workday> workdays = new HashMap<>();

@@ -21,4 +21,8 @@ public class ManagerController {
     public void switchToScheduleShiftView() {
         managerInputBoundary.switchToScheduleShiftView();
     }
+
+    public void switchToManageShiftsView() {
+        managerInputBoundary.switchToManageShiftsView();
+    }
 }

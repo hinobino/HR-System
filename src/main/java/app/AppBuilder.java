@@ -23,6 +23,9 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.manage_shifts.ManageShiftsController;
+import interface_adapter.manage_shifts.ManageShiftsPresenter;
+import interface_adapter.manage_shifts.ManageShiftsViewModel;
 import interface_adapter.schedule.ScheduleViewModel;
 import interface_adapter.manage_employee.ManageEmployeeController;
 import interface_adapter.manage_employee.ManageEmployeePresenter;
@@ -55,6 +58,9 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.manage_employee.ManageEmployeeInputBoundary;
 import use_case.manage_employee.ManageEmployeeInteractor;
 import use_case.manage_employee.ManageEmployeeOutputBoundary;
+import use_case.manage_shifts.ManageShiftsInputBoundary;
+import use_case.manage_shifts.ManageShiftsInteractor;
+import use_case.manage_shifts.ManageShiftsOutputBoundary;
 import use_case.schedule_shift.ScheduleShiftInputBoundary;
 import use_case.schedule_shift.ScheduleShiftInteractor;
 import use_case.schedule_shift.ScheduleShiftOutputBoundary;
@@ -132,6 +138,8 @@ public class AppBuilder {
     private ScheduleShiftViewModel scheduleShiftViewModel;
     private ScheduleView scheduleView;
     private ScheduleViewModel scheduleViewModel;
+    private ManageShiftsView manageShiftsView;
+    private ManageShiftsViewModel manageShiftsViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -233,6 +241,12 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addManageShiftsView() {
+        manageShiftsViewModel = new ManageShiftsViewModel();
+        manageShiftsView = new ManageShiftsView(manageShiftsViewModel);
+        return this;
+    }
+
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(signupViewModel,
                 activateAccountViewModel, loginViewModel, viewManagerModel);
@@ -298,7 +312,7 @@ public class AppBuilder {
 
     public AppBuilder addManagerUseCase() {
         final ManagerOutputBoundary managerOutputBoundary = new ManagerPresenter(createEmployeeViewModel,
-                employeeListViewModel, scheduleShiftViewModel, viewManagerModel);
+                employeeListViewModel, scheduleShiftViewModel, viewManagerModel, manageShiftsViewModel);
         final ManagerInputBoundary managerInteractor = new ManagerInteractor(userDataAccessObject,
                 managerOutputBoundary);
         final ManagerController controller = new ManagerController(managerInteractor);
@@ -369,6 +383,18 @@ public class AppBuilder {
         );
         final ScheduleShiftController controller = new ScheduleShiftController(scheduleShiftInteractor);
         scheduleShiftView.setScheduleShiftController(controller);
+        return this;
+    }
+
+    public AppBuilder addManageShiftsUseCase() {
+        final ManageShiftsOutputBoundary manageShiftsOutputBoundary = new ManageShiftsPresenter(
+                managerViewModel,
+                viewManagerModel
+        );
+        final ManageShiftsInputBoundary manageShiftsInteractor = new ManageShiftsInteractor(userDataAccessObject,
+                manageShiftsOutputBoundary);
+        final ManageShiftsController controller = new ManageShiftsController(manageShiftsInteractor);
+        manageShiftsView.setManageShiftsController(controller);
         return this;
     }
 

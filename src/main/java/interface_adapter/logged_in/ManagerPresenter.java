@@ -4,6 +4,8 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.create_employee.CreateEmployeeViewModel;
 import interface_adapter.employee_list.EmployeeListState;
 import interface_adapter.employee_list.EmployeeListViewModel;
+import interface_adapter.manage_shifts.ManageShiftsState;
+import interface_adapter.manage_shifts.ManageShiftsViewModel;
 import interface_adapter.schedule_shift.ScheduleShiftState;
 import interface_adapter.schedule_shift.ScheduleShiftViewModel;
 import use_case.logged_in.manager.ManagerOutputBoundary;
@@ -16,14 +18,17 @@ public class ManagerPresenter implements ManagerOutputBoundary {
     private final CreateEmployeeViewModel createEmployeeViewModel;
     private ScheduleShiftViewModel scheduleShiftViewModel;
     private final EmployeeListViewModel employeeListViewModel;
+    private final ManageShiftsViewModel manageShiftsViewModel;
 
     public ManagerPresenter(CreateEmployeeViewModel createEmployeeViewModel,
                 EmployeeListViewModel employeeListViewModel, ScheduleShiftViewModel scheduleShiftViewModel,
-                ViewManagerModel viewManagerModel) {
+                ViewManagerModel viewManagerModel,
+                            ManageShiftsViewModel manageShiftsViewModel) {
         this.createEmployeeViewModel = createEmployeeViewModel;
         this.scheduleShiftViewModel = scheduleShiftViewModel;
         this.viewManagerModel = viewManagerModel;
         this.employeeListViewModel = employeeListViewModel;
+        this.manageShiftsViewModel = manageShiftsViewModel;
     }
 
     public void switchToCreateEmployeeView() {
@@ -50,6 +55,17 @@ public class ManagerPresenter implements ManagerOutputBoundary {
         scheduleShiftViewModel.firePropertyChanged();
 
         viewManagerModel.setState(scheduleShiftViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToManageShiftsView(ManagerOutputData outputData) {
+        final ManageShiftsState manageShiftsState = manageShiftsViewModel.getState();
+        manageShiftsState.setShifts(outputData.getEmployees());
+        manageShiftsViewModel.setState(manageShiftsState);
+        manageShiftsViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(manageShiftsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

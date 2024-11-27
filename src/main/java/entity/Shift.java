@@ -9,10 +9,13 @@ import java.time.LocalTime;
  */
 public class Shift {
 
+    private static long iDCounter = 0;
+
     private LocalDate day;
     private LocalTime startTime;
     private LocalTime endTime;
     private Employee employee;
+    private String ID;
 
     /**
      * Constructor for a shift.
@@ -26,6 +29,7 @@ public class Shift {
         this.startTime = startTime;
         this.endTime = endTime;
         this.employee = employee;
+        this.ID = String.valueOf(iDCounter++);
     }
 
     public LocalDate getDay() {
@@ -58,6 +62,10 @@ public class Shift {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public String getID() {
+        return this.ID;
     }
 
     public float length() {
