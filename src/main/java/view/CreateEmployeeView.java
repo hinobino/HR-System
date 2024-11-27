@@ -3,7 +3,6 @@ package view;
 import interface_adapter.create_employee.CreateEmployeeController;
 import interface_adapter.create_employee.CreateEmployeeState;
 import interface_adapter.create_employee.CreateEmployeeViewModel;
-import interface_adapter.login.LoginState;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -35,11 +34,27 @@ public class CreateEmployeeView extends JPanel implements ActionListener, Proper
 
         final JLabel title = new JLabel(createEmployeeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         final LabelTextPanel userIDInfo = new LabelTextPanel(
                 new JLabel(createEmployeeViewModel.NEW_USERID_LABEL), userIDInputField);
 
         final JPanel buttons = new JPanel();
+
+        JButton backButton = new JButton(CreateEmployeeViewModel.BACK_BUTTON_LABEL);
+        buttons.add(backButton);
+
+        backButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        createEmployeeController.switchToEmployeeListView();
+                        CreateEmployeeView.this.resetView();
+                    }
+                }
+        );
+
         createEmployee = new JButton(createEmployeeViewModel.CREATE_EMPLOYEE_BUTTON_LABEL);
         buttons.add(createEmployee);
 
@@ -59,12 +74,18 @@ public class CreateEmployeeView extends JPanel implements ActionListener, Proper
 
         addUserIDListener();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        this.add(title);
-        this.add(userIDInfo);
-        this.add(userIDErrorField);
-        this.add(buttons);
+        c.gridx = 0;
+        c.gridy = 0;
+        this.add(title, c);
+        c.gridy++;
+        this.add(userIDInfo, c);
+        c.gridy++;
+        this.add(userIDErrorField, c);
+        c.gridy++;
+        this.add(buttons, c);
     }
 
     private void addUserIDListener() {

@@ -28,7 +28,7 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
     private final JButton setShift;
     private final JButton employees;
     private final JButton requests;
-    private final JButton createEmployee;
+//    private final JButton createEmployee;
     private final JButton logOut;
 
     private ManagerController managerController;
@@ -40,10 +40,12 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         // Title
         final JLabel title = new JLabel(ManagerViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         // Welcome message
         welcomeLabel = new JLabel("");
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        welcomeLabel.setFont(welcomeLabel.getFont().deriveFont(Font.PLAIN, 16));
 
         // Panel for buttons
         final JPanel buttons = new JPanel();
@@ -54,8 +56,8 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        createEmployee = new JButton(ManagerViewModel.CREATE_EMPLOYEE_LABEL);
-        buttons.add(createEmployee, gbc);
+//        createEmployee = new JButton(ManagerViewModel.CREATE_EMPLOYEE_LABEL);
+//        buttons.add(createEmployee, gbc);
 
         gbc.gridy++;
         schedule = new JButton(ManagerViewModel.SCHEDULE_LABEL);
@@ -77,14 +79,14 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         logOut = new JButton("Log Out");
         buttons.add(logOut, gbc);
 
-        createEmployee.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        managerController.switchToCreateEmployeeView();
-                    }
-                }
-        );
+//        createEmployee.addActionListener(
+//                new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        managerController.switchToCreateEmployeeView();
+//                    }
+//                }
+//        );
 
         logOut.addActionListener(
                 new ActionListener() {

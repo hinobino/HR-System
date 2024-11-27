@@ -7,6 +7,9 @@ import use_case.logged_in.employee.EmployeeOutputData;
 import use_case.logged_in.employee.EmployeeOutputBoundary;
 import view.ScheduleView;
 
+/**
+ * The Presenter for the Employee Use Case.
+ */
 public class EmployeePresenter implements EmployeeOutputBoundary {
 
     private ViewManagerModel viewManagerModel;

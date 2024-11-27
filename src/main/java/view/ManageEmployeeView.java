@@ -35,6 +35,7 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
         // Title
         final JLabel title = new JLabel(ManageEmployeeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         // UserID label
         userIDLabel = new JLabel("");

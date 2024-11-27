@@ -5,6 +5,7 @@ import entity.Manager;
 import entity.Shift;
 import entity.WorkWeek;
 import interface_adapter.logged_in.EmployeeController;
+import interface_adapter.schedule.ScheduleState;
 import interface_adapter.schedule.ScheduleViewModel;
 
 import javax.swing.*;
@@ -24,14 +25,14 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * The View for the Welcome Use Case.
+ * The View where the users can see their schedule.
  */
 public class ScheduleView extends JFrame implements ActionListener, PropertyChangeListener {
     private final String viewName = "schedule";
     private final ScheduleViewModel scheduleViewModel;
 
     private List<Shift> shiftList = new ArrayList<>();
-    private final List<LocalDate> currentWeek = new ArrayList<>();
+    private final WorkWeek currentWeek;
 
     private EmployeeController employeeController;
 
@@ -54,13 +55,10 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
 
         });
 
-        // Title
         LocalDate today = LocalDate.now();
-        WorkWeek currentWeek = new WorkWeek(today, scheduleViewModel.getState().getShifts());
-//        if (scheduleViewModel.getState().getParentState().getUser() instanceof Manager) {
-//            currentWeek.combineAllOverlappingShifts();
-//        }
+        currentWeek = new WorkWeek(today, scheduleViewModel.getState().getShifts());
 
+        // Title
         final JLabel title = new JLabel(currentWeek.toString());
         title.setFont(new Font("Calibri", Font.BOLD, 20));
 
@@ -123,6 +121,7 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
             schedulePanel.add(time, c);
         }
 
+        // get all shifts for this week
         this.shiftList = currentWeek.getShifts();
 
         // CUSTOM SHIFTS FOR DISPLAY TESTS
@@ -141,8 +140,10 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
 //            }
 //        });
 
+        // Manager's Schedule View
         if (scheduleViewModel.getState().getParentState().getUser() instanceof Manager) {
             for (LocalDate day : currentWeek.getDaysOfWeek()) {
+                // get all shifts for day
                 List<Shift> dayShifts = new ArrayList<>();
                 List<List<Shift>> shiftBlocks = WorkWeek.getShiftBlocks(dayShifts);
 
@@ -152,10 +153,12 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
                 constraints.weighty = 1.0;
                 constraints.insets = new Insets(1, 1, 1, 1);
 
+                // create a visual shift box that also covers any overlapping shifts
                 for (List<Shift> block : shiftBlocks) {
                     if (block.size() > 0) {
                         Shift firstShift = block.get(0);
                         Shift lastShift = block.get(block.size() - 1);
+
                         constraints.gridx = firstShift.getDay().getDayOfWeek().getValue() % 7 + 1;
                         constraints.gridy = (int) ((firstShift.getStartTime().getHour() +
                                 (firstShift.getStartTime().getMinute() / 60.0)) * 2
@@ -185,6 +188,7 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
             }
         }
 
+        // Employee's Schedule View
         if (scheduleViewModel.getState().getParentState().getUser() instanceof Employee) {
             for (Shift shift : shiftList) {
 

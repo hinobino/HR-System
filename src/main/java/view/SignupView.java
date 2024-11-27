@@ -34,6 +34,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
         final JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         final LabelTextPanel userIDInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.USERID_LABEL), userIDInputField);
@@ -43,10 +44,10 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
 
         final JPanel buttons = new JPanel();
-        signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
-        buttons.add(signUp);
         toWelcome = new JButton(SignupViewModel.TO_WELCOME_BUTTON_LABEL);
         buttons.add(toWelcome);
+        signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
+        buttons.add(signUp);
 
         signUp.addActionListener(
                 new ActionListener() {
@@ -85,13 +86,22 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         addPasswordListener();
         addRepeatPasswordListener();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        this.add(title);
-        this.add(userIDInfo);
-        this.add(passwordInfo);
-        this.add(repeatPasswordInfo);
-        this.add(buttons);
+        c.gridx = 0;
+        c.gridy = 0;
+        this.add(title, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy++;
+        this.add(userIDInfo, c);
+        c.gridy++;
+        this.add(passwordInfo, c);
+        c.gridy++;
+        this.add(repeatPasswordInfo, c);
+        c.gridy++;
+        this.add(buttons, c);
     }
 
     private void addUserIDListener() {

@@ -36,14 +36,6 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the correct logged in view.
 
-        // TODO: Currently still using the LoggedInState file, will need to make separate states
-        //  for Manager and Employee views. Once we do this, these next 4 lines will probably have
-        //  to be doubled and placed in their respective if statements
-//        final LoggedInState loggedInState = managerViewModel.getState();
-//        loggedInState.setUser(response.getUser());
-//        this.managerViewModel.setState(loggedInState);
-//        this.managerViewModel.firePropertyChanged();
-
         // NOTE: We are assuming here that the user will always be either an Employee or a Manager.
 
         // Switches to Employee (logged in) View.
@@ -69,15 +61,6 @@ public class LoginPresenter implements LoginOutputBoundary {
             this.viewManagerModel.setState(managerViewModel.getViewName());
             this.viewManagerModel.firePropertyChanged();
         }
-//      // OLD CODE-- keeping in case of change in implementation
-//        final LoggedInState loggedInState = managerViewModel.getState();
-//        loggedInState.setUser(response.getUser());
-//        this.managerViewModel.setState(loggedInState);
-//        this.managerViewModel.firePropertyChanged();
-
-        // This just changes which view is displayed
-//        this.viewManagerModel.setState(managerViewModel.getViewName());
-//        this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
@@ -93,5 +76,4 @@ public class LoginPresenter implements LoginOutputBoundary {
         viewManagerModel.setState(welcomeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
-
 }

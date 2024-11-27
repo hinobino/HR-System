@@ -12,14 +12,14 @@ import interface_adapter.schedule_shift.ScheduleShiftState;
 import interface_adapter.schedule_shift.ScheduleShiftViewModel;
 import use_case.logged_in.manager.ManagerOutputBoundary;
 import use_case.logged_in.manager.ManagerOutputData;
-import view.ManagerView;
 import view.ScheduleView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * The Presenter for the Manager Use Case.
+ */
 public class ManagerPresenter implements ManagerOutputBoundary {
 
     private final ViewManagerModel viewManagerModel;

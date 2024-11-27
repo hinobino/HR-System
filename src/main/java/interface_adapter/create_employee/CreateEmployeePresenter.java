@@ -1,7 +1,7 @@
 package interface_adapter.create_employee;
 
-import entity.Manager;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.employee_list.EmployeeListViewModel;
 import interface_adapter.logged_in.ManagerViewModel;
 import use_case.create_employee.CreateEmployeeOutputBoundary;
 import use_case.create_employee.CreateEmployeeOutputData;
@@ -11,13 +11,16 @@ public class CreateEmployeePresenter implements CreateEmployeeOutputBoundary {
     private final CreateEmployeeViewModel createEmployeeViewModel;
     public ViewManagerModel viewManagerModel;
     public ManagerViewModel managerViewModel;
+    public EmployeeListViewModel employeeListViewModel;
 
     public CreateEmployeePresenter(ViewManagerModel viewManagerModel,
                                    CreateEmployeeViewModel createEmployeeViewModel,
-                                   ManagerViewModel managerViewModel) {
+                                   ManagerViewModel managerViewModel,
+                                   EmployeeListViewModel employeeListViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.createEmployeeViewModel = createEmployeeViewModel;
         this.managerViewModel = managerViewModel;
+        this.employeeListViewModel = employeeListViewModel;
     }
 
     @Override
@@ -43,5 +46,12 @@ public class CreateEmployeePresenter implements CreateEmployeeOutputBoundary {
         viewManagerModel.setState(managerViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
+    @Override
+    public void switchToEmployeeListView() {
+        viewManagerModel.setState(employeeListViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
 
 }
