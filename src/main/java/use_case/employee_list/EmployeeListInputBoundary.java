@@ -10,6 +10,11 @@ public interface EmployeeListInputBoundary {
     void selectEmployee(Employee employee);
 
     /**
+     * Executes the switch to create employee view use case.
+     */
+    void switchToCreateEmployeeView();
+
+    /**
      * Executes the switch to manger view use case.
      */
     void switchToManagerView();
