@@ -38,6 +38,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         final JLabel title = new JLabel(LoginViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         final LabelTextPanel userIDInfo = new LabelTextPanel(
                 new JLabel(LoginViewModel.USERID_LABEL), userIDInputField);
@@ -45,10 +46,21 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 new JLabel(LoginViewModel.PASSWORD_LABEL), passwordInputField);
 
         final JPanel buttons = new JPanel();
-        logIn = new JButton(LoginViewModel.LOGIN_BUTTON_LABEL);
-        buttons.add(logIn);
+        buttons.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.weightx = 1.0;
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+//        gbc.anchor = GridBagConstraints.WEST;
         toWelcome = new JButton(LoginViewModel.TO_WELCOME_BUTTON_LABEL);
-        buttons.add(toWelcome);
+        buttons.add(toWelcome, gbc);
+
+        gbc.gridx++;
+//        gbc.anchor = GridBagConstraints.EAST;
+        logIn = new JButton(LoginViewModel.LOGIN_BUTTON_LABEL);
+        buttons.add(logIn, gbc);
+
 
         logIn.addActionListener(
                 new ActionListener() {
@@ -101,8 +113,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
             }
         });
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         passwordInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
@@ -127,11 +137,28 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
             }
         });
 
-        this.add(title);
-        this.add(userIDInfo);
-        this.add(userIDErrorField);
-        this.add(passwordInfo);
-        this.add(buttons);
+
+
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        userIDErrorField.setForeground(LoginViewModel.ERROR_LABEL_COLOR);
+        passwordErrorField.setForeground(LoginViewModel.ERROR_LABEL_COLOR);
+
+        c.gridx = 0;
+        c.gridy = 0;
+        this.add(title, c);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy++;
+        this.add(userIDInfo, c);
+        c.gridy++;
+        c.fill = GridBagConstraints.NONE;
+        this.add(userIDErrorField, c);
+        c.gridy++;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        this.add(passwordInfo, c);
+        c.gridy++;
+        this.add(buttons, c);
     }
 
     @Override

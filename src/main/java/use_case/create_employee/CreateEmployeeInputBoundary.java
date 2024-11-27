@@ -11,7 +11,12 @@ public interface CreateEmployeeInputBoundary {
     void execute(CreateEmployeeInputData createEmployeeInputData);
 
     /**
-     * Executes the switch to welcome view use case.
+     * Executes the switch to manager view use case.
      */
     void switchToManagerView();
+
+    /**
+     * Executes the switch to manage employee view use case.
+     */
+    void switchToEmployeeListView();
 }

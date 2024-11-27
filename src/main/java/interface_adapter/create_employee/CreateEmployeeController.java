@@ -35,4 +35,9 @@ public class CreateEmployeeController {
         createEmployeeInteractor.switchToManagerView();
     }
 
+    /**
+     * Executes the switch to Manage Employee View Use Case.
+     */
+    public void switchToEmployeeListView() { createEmployeeInteractor.switchToEmployeeListView(); }
+
 }

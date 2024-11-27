@@ -19,4 +19,8 @@ public interface CreateEmployeeOutputBoundary {
      */
     void switchToManagerView();
 
+    /**
+     * Switches to the Manage Employee View
+     */
+    void switchToEmployeeListView();
 }

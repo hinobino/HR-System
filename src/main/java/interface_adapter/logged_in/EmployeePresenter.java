@@ -7,6 +7,9 @@ import use_case.logged_in.employee.EmployeeOutputData;
 import use_case.logged_in.employee.EmployeeOutputBoundary;
 import view.ScheduleView;
 
+/**
+ * The Presenter for the Employee Use Case.
+ */
 public class EmployeePresenter implements EmployeeOutputBoundary {
 
     private ViewManagerModel viewManagerModel;
@@ -18,16 +21,20 @@ public class EmployeePresenter implements EmployeeOutputBoundary {
         this.scheduleViewModel = scheduleViewModel;
     }
 
-    public void switchToScheduleView(EmployeeOutputData employeeOutputData) {
+    public void openScheduleView(EmployeeOutputData employeeOutputData) {
         String userID = employeeOutputData.getUserID();
+        LoggedInState loggedInState = employeeOutputData.getLoggedInState();
+
         final ScheduleState scheduleState = scheduleViewModel.getState();
         scheduleState.setUserID(userID);
         scheduleState.setShifts(employeeOutputData.getShifts());
+        scheduleState.setParentState(loggedInState);
 
         this.scheduleViewModel.setState(scheduleState);
         this.scheduleViewModel.firePropertyChanged();
 
         ScheduleView scheduleView = new ScheduleView(scheduleViewModel);
+        loggedInState.setScheduleView(scheduleView);
         scheduleView.setVisible(true);
     }
 }

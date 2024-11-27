@@ -8,5 +8,5 @@ public interface EmployeeInputBoundary {
     /**
      * Switches to the Login View.
      */
-    void switchToScheduleView(EmployeeInputData employeeInputData);
+    void openScheduleView(EmployeeInputData employeeInputData);
 }

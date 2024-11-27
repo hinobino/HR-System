@@ -28,24 +28,34 @@ public class WelcomeView extends JPanel implements ActionListener, PropertyChang
 
         final JLabel title = new JLabel(WelcomeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
+        final JPanel titlePanel = new JPanel();
+        titlePanel.add(title);
 
         // Create a panel to hold the Login and Sign-up buttons.
         final JPanel buttons = new JPanel();
+        buttons.setLayout(new GridBagLayout());
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Login button
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         loginButton = new JButton(WelcomeViewModel.LOGIN_BUTTON_LABEL);
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttons.add(loginButton);
+        buttons.add(loginButton, gbc);
 
         // Manager Sign-up button
+        gbc.gridy++;
         managerSignUpButton = new JButton(WelcomeViewModel.MANAGER_SIGNUP_BUTTON_LABEL);
         managerSignUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttons.add(managerSignUpButton);
+        buttons.add(managerSignUpButton, gbc);
 
         // Activate Employee button
+        gbc.gridy++;
         activateEmployeeButton = new JButton(WelcomeViewModel.ACTIVATE_EMPLOYEE_BUTTON_LABEL);
         activateEmployeeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttons.add(activateEmployeeButton);
+        buttons.add(activateEmployeeButton, gbc);
 
         loginButton.addActionListener(
                 new ActionListener() {
@@ -74,13 +84,14 @@ public class WelcomeView extends JPanel implements ActionListener, PropertyChang
                 }
         );
 
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        this.add(title);
-        this.add(buttons);
-
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+        this.add(titlePanel, c);
+        c.gridy++;
+        c.anchor = GridBagConstraints.CENTER;
+        this.add(buttons, c);
     }
 
     public String getViewName() {

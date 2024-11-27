@@ -36,10 +36,12 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
         // Title
         final JLabel title = new JLabel(EmployeeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         // Welcome message
         welcomeLabel = new JLabel("");
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        welcomeLabel.setFont(welcomeLabel.getFont().deriveFont(Font.PLAIN, 16));
 
         // Panel for buttons
         final JPanel buttons = new JPanel();
@@ -69,7 +71,7 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final LoggedInState currentState = employeeViewModel.getState();
-                        logoutController.execute(currentState.getUserID());
+                        logoutController.execute(currentState);
                     }
                 }
         );
@@ -80,7 +82,9 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final LoggedInState currentState = employeeViewModel.getState();
-                        employeeController.switchToScheduleView(currentState.getUserID());
+                        if (currentState.getScheduleView() == null) {
+                            employeeController.openScheduleView(currentState);
+                        }
                     }
                 }
         );
@@ -93,7 +97,6 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
         this.add(title, gbc);
         this.add(welcomeLabel, gbc);
         this.add(buttons, gbc);
-
     }
 
     @Override
