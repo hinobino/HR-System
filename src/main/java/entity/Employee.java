@@ -1,5 +1,6 @@
 package entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class Employee extends User {
     private List<Shift> shifts;
     private int hoursWorked = 0;
     private double payRate = 17.20;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     /**
      * Constructor for an Employee object.
@@ -53,6 +56,22 @@ public class Employee extends User {
      */
     public double getPayRate() {
         return payRate;
+    }
+
+    /**
+     * Return the date the employee started working.
+     * @return the start date.
+     */
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * Return the date the employee stopped working.
+     * @return the end date.
+     */
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
     /**
@@ -109,6 +128,22 @@ public class Employee extends User {
      */
     public void setPayRate(double payRate) {
         this.payRate = payRate;
+    }
+
+    /**
+     * Return the date the employee started working.
+     * @param startDate the start date.
+     */
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    /**
+     * Return the date the employee started working.
+     * @param endDate the start date.
+     */
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
 }

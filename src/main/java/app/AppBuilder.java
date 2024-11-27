@@ -336,7 +336,8 @@ public class AppBuilder {
     }
 
     public AppBuilder addEmployeeListUseCase() {
-        final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(manageEmployeeViewModel, managerViewModel, viewManagerModel);
+        final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(
+                manageEmployeeViewModel, createEmployeeViewModel, managerViewModel, viewManagerModel);
         final EmployeeListInputBoundary employeeListInteractor = new EmployeeListInteractor(
                 userDataAccessObject,
                 employeeListOutputBoundary
