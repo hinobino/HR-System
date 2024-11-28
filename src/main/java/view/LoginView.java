@@ -59,6 +59,8 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         gbc.gridx++;
 //        gbc.anchor = GridBagConstraints.EAST;
         logIn = new JButton(LoginViewModel.LOGIN_BUTTON_LABEL);
+        logIn.setBackground(new Color(18, 130, 255));
+        logIn.setForeground(Color.WHITE);
         buttons.add(logIn, gbc);
 
 

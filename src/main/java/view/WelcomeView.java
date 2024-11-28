@@ -43,6 +43,8 @@ public class WelcomeView extends JPanel implements ActionListener, PropertyChang
         gbc.gridy = 0;
         loginButton = new JButton(WelcomeViewModel.LOGIN_BUTTON_LABEL);
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loginButton.setBackground(new Color(18, 130, 255));
+        loginButton.setForeground(Color.WHITE);
         buttons.add(loginButton, gbc);
 
         // Manager Sign-up button
