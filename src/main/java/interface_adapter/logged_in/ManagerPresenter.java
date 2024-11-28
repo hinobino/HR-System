@@ -32,8 +32,10 @@ public class ManagerPresenter implements ManagerOutputBoundary {
     private ScheduleViewModel scheduleViewModel;
 
     public ManagerPresenter(CreateEmployeeViewModel createEmployeeViewModel,
-                EmployeeListViewModel employeeListViewModel, ScheduleShiftViewModel scheduleShiftViewModel,
-                ScheduleViewModel scheduleViewModel, ManageShiftsViewModel manageShiftsViewModel, 
+                            EmployeeListViewModel employeeListViewModel,
+                            ScheduleShiftViewModel scheduleShiftViewModel,
+                            ScheduleViewModel scheduleViewModel,
+                            ManageShiftsViewModel manageShiftsViewModel,
                             ViewManagerModel viewManagerModel) {
 
         this.createEmployeeViewModel = createEmployeeViewModel;
