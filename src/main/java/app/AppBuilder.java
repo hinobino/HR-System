@@ -235,15 +235,17 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addScheduleView() {
-        scheduleViewModel = new ScheduleViewModel();
-        scheduleView = new ScheduleView(scheduleViewModel);
-        return this;
-    }
-
     public AppBuilder addManageShiftsView() {
         manageShiftsViewModel = new ManageShiftsViewModel();
         manageShiftsView = new ManageShiftsView(manageShiftsViewModel);
+        cardPanel.add(manageShiftsView, manageShiftsView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addScheduleView() {
+        scheduleViewModel = new ScheduleViewModel();
+        scheduleView = new ScheduleView(scheduleViewModel);
+        // NOT ADDED TO CARD PANEL BC IT IS A NEW JFRAME
         return this;
     }
 
