@@ -59,4 +59,35 @@ public class PublicHolidayAPIAccessObject {
         }
     }
 
+    public String getHolidayName(LocalDate date) {
+        final int year = date.getYear();
+        final int month = date.getMonthValue();
+        final int day = date.getDayOfMonth();
+
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+        final Request request = new Request.Builder()
+                .url(
+                        String.format("%s?api_key=%s&country=%s&year=%d&month=%d&day=%d", API_BASE_URL,
+                                getAPIToken(), region, year, month, day)
+                )
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        try {
+            final Response response = client.newCall(request).execute();
+            final String responseBody = response.body().toString();
+
+            if (responseBody.startsWith("{")) {
+                final JSONObject responseObj = new JSONObject(responseBody);
+                throw new RuntimeException(responseObj.getJSONObject("error").getString("message"));
+            } else {
+                final JSONArray holidays = new JSONArray(responseBody);
+                return holidays.getJSONObject(0).getString("name");
+            }
+        }
+        catch (IOException | JSONException event) {
+            throw new RuntimeException(event);
+        }
+    }
 }

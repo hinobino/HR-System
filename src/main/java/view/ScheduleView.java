@@ -134,6 +134,8 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
         this.add(buttonPanel, BorderLayout.SOUTH);
 
         cardLayout.show(cardContainer, weekNames.get(0));
+
+        // FOR TESTING
 //        this.setVisible(true);
     }
 

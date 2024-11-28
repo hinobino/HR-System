@@ -1,5 +1,6 @@
 package view;
 
+import data_access.PublicHolidayAPIAccessObject;
 import entity.Employee;
 import entity.Manager;
 import entity.Shift;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ScheduleWeekView extends JPanel implements ActionListener, PropertyChangeListener {
 //    private final String viewName = "schedule";
     private final ScheduleViewModel scheduleViewModel;
+    private final PublicHolidayAPIAccessObject publicHolidayAPIAccessObject = new PublicHolidayAPIAccessObject("CA");
 
     private List<Shift> shiftList = new ArrayList<>();
     private final WorkWeek currentWeek;
@@ -38,6 +40,7 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 
+        // OLD SOLO WINDOW IMPLEMENTATION-- KEEPING FOR REFERENCE
 //        this.addWindowListener(new WindowAdapter() {
 //            @Override
 //            public void windowClosing(WindowEvent e) {
@@ -49,7 +52,6 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
 
 //        LocalDate today = LocalDate.now();
 //        this.currentWeek = new Workweek(today, scheduleViewModel.getState().getShifts());
-        currentWeek = new WorkWeek(date, scheduleViewModel.getState().getShifts());
 
         // Title
 //        final JLabel title = new JLabel(currentWeek.toString());
@@ -63,6 +65,8 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
 //        gbc.fill = GridBagConstraints.NONE; // don't stretch
 //        gbc.insets = new Insets(1,1,1,1);
 //        this.add(title, gbc);
+
+        currentWeek = new WorkWeek(date, scheduleViewModel.getState().getShifts());
 
         // Schedule Panel
         JPanel schedulePanel = new JPanel();
@@ -116,7 +120,6 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
 
         // get all shifts for this week
         this.shiftList = currentWeek.getShifts();
-        System.out.println(shiftList);
 
         // CUSTOM SHIFTS FOR DISPLAY TESTS
 //        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(9,30), LocalTime.of(10,0), new Employee("e", "e")));
@@ -137,6 +140,40 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
         // Manager's Schedule View
         if (scheduleViewModel.getState().getParentState().getUser() instanceof Manager) {
             for (LocalDate day : currentWeek.getDaysOfWeek()) {
+                GridBagConstraints constraints = new GridBagConstraints();
+                constraints.fill = GridBagConstraints.BOTH;
+                constraints.weightx = 1.0;
+                constraints.weighty = 1.0;
+                constraints.insets = new Insets(1, 1, 1, 1);
+
+
+
+                // FOR DISPLAY TESTS-- COMMENT OUT OTHER IF STATEMENT HEADER + holidayName BELOW
+//                if (day.getDayOfWeek().equals(currentWeek.getDaysOfWeek().get(0).getDayOfWeek())) {
+//                    String holidayName = "New Year's Day";
+
+                // TODO: commented out for now because this throws an error for too many requests
+                //  per second... don't know what to do
+//                if (publicHolidayAPIAccessObject.holidayOn(day)) {
+//                    String holidayName = publicHolidayAPIAccessObject.getHolidayName(day);
+//
+//                    constraints.gridx = day.getDayOfWeek().getValue() % 7 + 1;
+//                    constraints.gridy = 1;
+//
+//                    constraints.gridwidth = 1;
+//                    constraints.gridheight = 18;
+//
+//                    JPanel holidayBlock = new JPanel(new GridBagLayout());
+//                    holidayBlock.setBackground(ScheduleViewModel.GRID_COLOR);
+//
+//                    JLabel holidayLabel = new JLabel(holidayName, JLabel.CENTER);
+//                    holidayLabel.setForeground(Color.BLACK);
+
+                    holidayBlock.add(holidayLabel);
+                    schedulePanel.add(holidayBlock, constraints);
+                    continue;
+                }
+
                 // get all shifts for day
                 List<Shift> dayShifts = new ArrayList<>();
                 for (Shift shift : shiftList) {
@@ -144,15 +181,7 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
                         dayShifts.add(shift);
                     }
                 }
-                System.out.println("dayShifts: " + day + dayShifts);
                 List<List<Shift>> shiftBlocks = WorkWeek.getShiftBlocks(dayShifts);
-                System.out.println("shiftBlocks: " + day + shiftBlocks);
-
-                GridBagConstraints constraints = new GridBagConstraints();
-                constraints.fill = GridBagConstraints.BOTH;
-                constraints.weightx = 1.0;
-                constraints.weighty = 1.0;
-                constraints.insets = new Insets(1, 1, 1, 1);
 
                 // create a visual shift box that also covers any overlapping shifts
                 for (List<Shift> block : shiftBlocks) {
