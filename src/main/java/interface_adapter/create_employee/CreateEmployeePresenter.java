@@ -1,6 +1,7 @@
 package interface_adapter.create_employee;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.employee_list.EmployeeListState;
 import interface_adapter.employee_list.EmployeeListViewModel;
 import interface_adapter.logged_in.ManagerViewModel;
 import use_case.create_employee.CreateEmployeeOutputBoundary;
@@ -30,7 +31,12 @@ public class CreateEmployeePresenter implements CreateEmployeeOutputBoundary {
         this.createEmployeeViewModel.setState(createEmployeeState);
         createEmployeeViewModel.firePropertyChanged();
 
-        viewManagerModel.setState(managerViewModel.getViewName());
+        final EmployeeListState employeeListState = employeeListViewModel.getState();
+        employeeListState.setEmployeeList(response.getEmployees());
+        this.employeeListViewModel.setState(employeeListState);
+        employeeListViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(employeeListViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
