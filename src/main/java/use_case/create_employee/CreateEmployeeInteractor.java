@@ -43,9 +43,8 @@ public class CreateEmployeeInteractor implements CreateEmployeeInputBoundary {
             currentManager.addEmployee(inactiveEmployee);
 
             final CreateEmployeeOutputData createEmployeeOutputData = new CreateEmployeeOutputData(
-                    createEmployeeInputData.getNewUserID(),
-                    false
-            );
+                    createEmployeeInputData.getNewUserID(), currentManager.getEmployees(),
+                    false);
             createEmployeePresenter.prepareSuccessView(createEmployeeOutputData);
         }
     }
