@@ -168,11 +168,11 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
 //
 //                    JLabel holidayLabel = new JLabel(holidayName, JLabel.CENTER);
 //                    holidayLabel.setForeground(Color.BLACK);
-
-                    holidayBlock.add(holidayLabel);
-                    schedulePanel.add(holidayBlock, constraints);
-                    continue;
-                }
+//
+//                    holidayBlock.add(holidayLabel);
+//                    schedulePanel.add(holidayBlock, constraints);
+//                    continue;
+//                }
 
                 // get all shifts for day
                 List<Shift> dayShifts = new ArrayList<>();
