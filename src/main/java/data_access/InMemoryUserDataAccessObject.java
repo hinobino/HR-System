@@ -62,6 +62,10 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public void addShiftToWorkday(Shift newShift, Workday workday) {
         workday.addShift(newShift);
+
+        if (!workdayExists(newShift.getDay())) {
+            workdays.put(newShift.getDay(), workday);
+        }
     }
 
     @Override

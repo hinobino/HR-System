@@ -74,7 +74,6 @@ public class ScheduleShiftInteractor implements ScheduleShiftInputBoundary {
         else {
             // Create a new shift with the given data
             Shift newShift = shiftFactory.create(day, startTime, endTime, employee);
-            userDataAccessObject.save(newShift);
 
             // If a workday for the current date exists already, add this shift to it
             if (userDataAccessObject.workdayExists(day)) {
@@ -87,18 +86,20 @@ public class ScheduleShiftInteractor implements ScheduleShiftInputBoundary {
                 }
                 else {
                     userDataAccessObject.addShiftToWorkday(newShift, workday);
+                    userDataAccessObject.save(newShift);
                 }
             }
 
             // Otherwise, create a workday and add the shift.
             else {
                 Workday workday = workdayFactory.create();
+                userDataAccessObject.save(newShift);
                 userDataAccessObject.addShiftToWorkday(newShift, workday);
-            }
 
-            // Success state
-            ScheduleShiftOutputData outputData = new ScheduleShiftOutputData(day, startTime, endTime, employee, false);
-            scheduleShiftPresenter.prepareSuccessView(outputData);
+                // Success state
+                ScheduleShiftOutputData outputData = new ScheduleShiftOutputData(day, startTime, endTime, employee, false);
+                scheduleShiftPresenter.prepareSuccessView(outputData);
+            }
         }
     }
 
