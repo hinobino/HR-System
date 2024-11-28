@@ -45,6 +45,11 @@ public class LogoutPresenter implements LogoutOutputBoundary {
         // We also need to set the username in the LoggedInState to
         // the empty string.
 
+        // Close running schedule view
+        if (response.getLoggedInState().getScheduleView() != null) {
+            response.getLoggedInState().getScheduleView().dispose();
+        }
+
         // have prepareSuccessView update the LoggedInState
         // 1. get the LoggedInState out of the appropriate View Model,
         LoggedInState loggedInState = new LoggedInState();

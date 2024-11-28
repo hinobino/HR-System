@@ -1,21 +1,17 @@
 package interface_adapter.logged_in;
 
 import entity.User;
+import view.ScheduleView;
 
 /**
  * The State information representing the logged-in user.
  */
 public class LoggedInState {
     private User user;
-    // TODO: These next two attributes can probably just be accessed through the User object.
-    //  We are just missing a setUserID and setPassword under the User class, which we would need
-    //  if we want to use the User object to implement these same methods in this class.
-    // This situation compares how we also added User object attibute to LoginOutputData,
-    // but there we had to access it through the User object because that is all that is being
-    // passed into the Class constructor...
     private String userID = "";
     private String password = "";
     private String passwordError;
+    private ScheduleView scheduleView = null;
 
     public LoggedInState(LoggedInState copy) {
         user = copy.user;
@@ -25,6 +21,8 @@ public class LoggedInState {
     }
 
     public LoggedInState() {}
+
+    public User getUser() { return user; }
 
     public String getUserID() {
         return user.getUserID();
@@ -38,9 +36,10 @@ public class LoggedInState {
         return passwordError;
     }
 
+    public ScheduleView getScheduleView() { return scheduleView; }
+
     public void setUser(User user) { this.user = user; }
 
-    // TODO: this only changes the class userID, not the user object's userID
     public void setUserID(String userID) {
         this.userID = userID;
     }
@@ -52,4 +51,6 @@ public class LoggedInState {
     public void setPasswordError(String passwordError) {
         this.passwordError = passwordError;
     }
+
+    public void setScheduleView(ScheduleView scheduleView) { this.scheduleView = scheduleView; }
 }

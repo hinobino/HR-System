@@ -2,6 +2,8 @@ package interface_adapter.manage_employee;
 
 import entity.Employee;
 
+import java.time.LocalDate;
+
 public class ManageEmployeeState {
 
     private Employee employee;
@@ -17,6 +19,17 @@ public class ManageEmployeeState {
 
     public String getUserId() {
         return employee.getUserID();
+    }
+
+    public String getEmploymentPeriod() {
+        String employmentPeriod = "";
+        if(employee.getStartDate() != null) {
+            employmentPeriod += "Employee from " + employee.getStartDate().toString();
+        }
+        if(employee.getEndDate() != null) {
+            employmentPeriod += " to " + employee.getEndDate().toString();
+        }
+        return employmentPeriod;
     }
 
     public String getStaus() {

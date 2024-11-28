@@ -24,4 +24,10 @@ public interface ManagerInputBoundary {
      * Switches to manage shifts view.
      */
     void switchToManageShiftsView();
+    
+    /**
+     * Opens the schedule view.
+     */
+    void openScheduleView(ManagerInputData managerInputData);
+
 }

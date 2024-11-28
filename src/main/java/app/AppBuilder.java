@@ -103,8 +103,6 @@ public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
 
-    // NOTE: TEMPORARILY USING EmployeeFactory INSTEAD OF CommonUserFactory (LIKE IN LAB 5),
-    // NEED TO IMPLEMENT DIFFERENT FACTORIES LATER
     private final EmployeeFactory employeeFactory = new EmployeeFactory();
     private final ManagerFactory managerFactory = new ManagerFactory();
     private final ShiftFactory shiftFactory = new ShiftFactory();
@@ -189,6 +187,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Employee View to the application.
+     * @return this builder
+     */
     public AppBuilder addEmployeeView() {
         employeeViewModel = new EmployeeViewModel();
         employeeView = new EmployeeView(employeeViewModel);
@@ -196,6 +198,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Activate Account View to the application.
+     * @return this builder
+     */
     public AppBuilder addActivateAccountView() {
         activateAccountViewModel = new ActivateAccountViewModel();
         activateAccountView = new ActivateAccountView(activateAccountViewModel);
@@ -203,6 +209,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Create Employee View to the application.
+     * @return this builder
+     */
     public AppBuilder addCreateEmployeeView() {
         createEmployeeViewModel = new CreateEmployeeViewModel();
         createEmployeeView = new CreateEmployeeView(createEmployeeViewModel);
@@ -210,6 +220,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Employee List View to the application.
+     * @return this builder
+     */
     public AppBuilder addEmployeeListView() {
         employeeListViewModel = new EmployeeListViewModel();
         employeeListView = new EmployeeListView(employeeListViewModel);
@@ -228,13 +242,21 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Schedule Shift View to the application.
+     * @return this builder
+     */
     public AppBuilder addScheduleShiftView() {
         scheduleShiftViewModel = new ScheduleShiftViewModel();
         scheduleShiftView = new ScheduleShiftView(scheduleShiftViewModel);
         cardPanel.add(scheduleShiftView, scheduleShiftView.getViewName());
         return this;
     }
-
+    
+    /**
+     * Adds the Manage Shifts View to the application.
+     * @return this builder
+     */
     public AppBuilder addManageShiftsView() {
         manageShiftsViewModel = new ManageShiftsViewModel();
         manageShiftsView = new ManageShiftsView(manageShiftsViewModel);
@@ -242,6 +264,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Schedule View to the application.
+     * @return this builder
+     */
     public AppBuilder addScheduleView() {
         scheduleViewModel = new ScheduleViewModel();
         scheduleView = new ScheduleView(scheduleViewModel);
@@ -249,6 +275,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Welcome Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(signupViewModel,
                 activateAccountViewModel, loginViewModel, viewManagerModel);
@@ -304,6 +334,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Employee Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addEmployeeUseCase() {
         final EmployeeOutputBoundary employeeOutputBoundary = new EmployeePresenter(viewManagerModel,scheduleViewModel);
         final EmployeeInputBoundary employeeInteractor = new EmployeeInteractor(userDataAccessObject, employeeOutputBoundary);
@@ -312,6 +346,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Manager Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addManagerUseCase() {
         final ManagerOutputBoundary managerOutputBoundary = new ManagerPresenter(createEmployeeViewModel,
                 employeeListViewModel, scheduleShiftViewModel, viewManagerModel, manageShiftsViewModel);
@@ -322,11 +360,16 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Create Employee Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addCreateEmployeeUseCase() {
         final CreateEmployeeOutputBoundary createEmployeeOutputBoundary = new CreateEmployeePresenter(
                 viewManagerModel,
                 createEmployeeViewModel,
-                managerViewModel
+                managerViewModel,
+                employeeListViewModel
         );
 
         final CreateEmployeeInputBoundary createEmployeeInteractor = new CreateEmployeeInteractor(
@@ -340,6 +383,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Logout Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
                 managerViewModel, employeeViewModel, welcomeViewModel, userDataAccessObject);
@@ -351,8 +398,13 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Employee List Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addEmployeeListUseCase() {
-        final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(manageEmployeeViewModel, managerViewModel, viewManagerModel);
+        final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(
+                manageEmployeeViewModel, createEmployeeViewModel, managerViewModel, viewManagerModel);
         final EmployeeListInputBoundary employeeListInteractor = new EmployeeListInteractor(
                 userDataAccessObject,
                 employeeListOutputBoundary
@@ -363,6 +415,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Manage Employee Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addManageEmployeeUseCase() {
         final ManageEmployeeOutputBoundary manageEmployeeOutputBoundary = new ManageEmployeePresenter(manageEmployeeViewModel, employeeListViewModel, viewManagerModel);
         final ManageEmployeeInputBoundary manageEmployeeInteractor = new ManageEmployeeInteractor(userDataAccessObject, manageEmployeeOutputBoundary);
@@ -371,6 +427,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Schedule Shift Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addScheduleShiftUseCase() {
         final ScheduleShiftOutputBoundary scheduleShiftOutputBoundary = new ScheduleShiftPresenter(
                 viewManagerModel,

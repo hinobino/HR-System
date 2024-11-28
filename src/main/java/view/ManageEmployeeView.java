@@ -20,6 +20,7 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
     private final JLabel statusLabel;
     private final JLabel payLabel;
     private final JLabel hoursWorkedLabel;
+    private final JLabel employmentPeriodLabel;
 
     private final JButton changeStatus;
     private final JButton changePay;
@@ -34,10 +35,15 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
         // Title
         final JLabel title = new JLabel(ManageEmployeeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         // UserID label
         userIDLabel = new JLabel("");
         userIDLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Employment period label
+        employmentPeriodLabel = new JLabel("");
+        employmentPeriodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Panel for buttons
         final JPanel buttons = new JPanel();
@@ -122,6 +128,7 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(userIDLabel);
+        this.add(employmentPeriodLabel);
         this.add(buttons);
     }
 
@@ -130,6 +137,7 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
         if (evt.getPropertyName().equals("state")) {
             final ManageEmployeeState state = (ManageEmployeeState) evt.getNewValue();
             userIDLabel.setText(ManageEmployeeViewModel.USERID_LABEL + state.getUserId() + ".");
+            employmentPeriodLabel.setText(state.getEmploymentPeriod());
             statusLabel.setText(ManageEmployeeViewModel.STATUS_LABEL + state.getStaus());
             payLabel.setText(ManageEmployeeViewModel.PAY_LABEL + state.getPay());
             hoursWorkedLabel.setText(ManageEmployeeViewModel.HOURS_WORKED_LABEL + state.getHoursWorked());

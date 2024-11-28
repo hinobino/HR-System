@@ -8,6 +8,7 @@ import entity.Workday;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
 import use_case.employee_list.EmployeeListUserDataAccessInterface;
+import use_case.logged_in.employee.EmployeeUserDataAccessInterface;
 import use_case.logged_in.manager.ManagerUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
@@ -35,6 +36,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         ManageEmployeeUserDataAccessInterface,
         ScheduleShiftUserDataAccessInterface,
         ManagerUserDataAccessInterface,
+        EmployeeUserDataAccessInterface,
         ManageShiftsUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
@@ -99,13 +101,15 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         Employee employee = (Employee) users.get(userID);
         employee.setPassword(password);
         employee.setStatus("active");
-
+        employee.setStartDate(LocalDate.now());
+        employee.setEndDate(null);
     }
 
     @Override
     public void inactivateUser(String userID) {
         Employee employee = (Employee) users.get(userID);
         employee.setStatus("inactive");
+        employee.setEndDate(LocalDate.now());
     }
 
     @Override

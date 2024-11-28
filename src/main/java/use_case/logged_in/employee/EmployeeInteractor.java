@@ -3,7 +3,7 @@ package use_case.logged_in.employee;
 import data_access.InMemoryUserDataAccessObject;
 
 public class EmployeeInteractor implements EmployeeInputBoundary {
-    private final InMemoryUserDataAccessObject userDataAccessObject;
+    private final EmployeeUserDataAccessInterface userDataAccessObject;
     private final EmployeeOutputBoundary employeeOutputBoundary;
 
     public EmployeeInteractor(InMemoryUserDataAccessObject userDataAccessObject, EmployeeOutputBoundary employeeOutputBoundary) {
@@ -12,9 +12,10 @@ public class EmployeeInteractor implements EmployeeInputBoundary {
     }
 
     @Override
-    public void switchToScheduleView(EmployeeInputData employeeInputData) {
-        final EmployeeOutputData employeeOutputData = new EmployeeOutputData(employeeInputData
-                .getUserID(), userDataAccessObject.getShifts(employeeInputData.getUserID()));
-        employeeOutputBoundary.switchToScheduleView(employeeOutputData);
+    public void openScheduleView(EmployeeInputData employeeInputData) {
+        EmployeeOutputData employeeOutputData = new EmployeeOutputData(employeeInputData
+                .getLoggedInState(), userDataAccessObject.getShifts(userDataAccessObject
+                .getCurrentUserID()));
+        employeeOutputBoundary.openScheduleView(employeeOutputData);
     }
 }

@@ -7,10 +7,10 @@ import interface_adapter.ViewModel;
  */
 public class SignupViewModel extends ViewModel<SignupState> {
 
-    public static final String TITLE_LABEL = "Signup View";
+    public static final String TITLE_LABEL = "Manager Signup";
     public static final String USERID_LABEL = "Enter User ID";
     public static final String PASSWORD_LABEL = "Choose Password";
-    public static final String REPEAT_PASSWORD_LABEL = "Enter Your Password Again";
+    public static final String REPEAT_PASSWORD_LABEL = "Confirm Password";
 
     public static final String SIGNUP_BUTTON_LABEL = "Sign Up";
     public static final String TO_WELCOME_BUTTON_LABEL = "Back to Welcome Page";

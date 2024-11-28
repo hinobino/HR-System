@@ -36,6 +36,7 @@ public class EmployeeListView extends JPanel implements PropertyChangeListener {
         // Title
         final JLabel title = new JLabel(EmployeeListViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         //Panel for table
         table = new JTable(new Object[1][2], EmployeeListViewModel.COLUMN_NAMES) {
@@ -82,6 +83,15 @@ public class EmployeeListView extends JPanel implements PropertyChangeListener {
                             final EmployeeListState currentState = employeeListViewModel.getState();
                             employeeListController.selectEmployee(currentState.getEmployee((String) table.getValueAt(row, 0)));
                         }
+                    }
+                }
+        );
+
+        createEmployee.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        employeeListController.switchToCreateEmployeeView();
                     }
                 }
         );

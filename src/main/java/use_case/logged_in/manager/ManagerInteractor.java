@@ -1,5 +1,7 @@
 package use_case.logged_in.manager;
 
+import use_case.logged_in.employee.EmployeeOutputData;
+
 /**
  * The Manager Interactor.
  */
@@ -40,5 +42,13 @@ public class ManagerInteractor implements ManagerInputBoundary {
                 userDataAccessObject.getEmployees(userDataAccessObject.getCurrentUserID())
         );
         managerOutputBoundary.switchToManageShiftsView(outputData);
+    }
+
+    public void openScheduleView(ManagerInputData managerInputData) {
+        ManagerOutputData managerOutputData = new ManagerOutputData(managerInputData
+                .getLoggedInState(), userDataAccessObject.getEmployees(userDataAccessObject
+                .getCurrentUserID()));
+
+        managerOutputBoundary.openScheduleView(managerOutputData);
     }
 }

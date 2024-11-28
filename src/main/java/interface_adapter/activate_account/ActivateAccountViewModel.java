@@ -7,10 +7,10 @@ import interface_adapter.ViewModel;
  */
 public class ActivateAccountViewModel extends ViewModel<ActivateAccountState> {
 
-    public static final String TITLE_LABEL = "Activate Account View";
+    public static final String TITLE_LABEL = "Activate Account";
     public static final String USERID_LABEL = "Enter User ID";
     public static final String PASSWORD_LABEL = "Choose Password";
-    public static final String REPEAT_PASSWORD_LABEL = "Enter Your Password Again";
+    public static final String REPEAT_PASSWORD_LABEL = "Confirm Password";
 
     public static final String ACTIVATE_ACCOUNT_BUTTON_LABEL = "Activate Account";
     public static final String TO_WELCOME_BUTTON_LABEL = "Back to Welcome Page";

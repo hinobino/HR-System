@@ -34,27 +34,30 @@ public class ActivateAccountView extends JPanel implements ActionListener, Prope
 
         final JLabel title = new JLabel(ActivateAccountViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
-        final JPanel inputs = new JPanel();
-        inputs.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
         final LabelTextPanel userIDInfo = new LabelTextPanel(
                 new JLabel(ActivateAccountViewModel.USERID_LABEL), userIDInputField);
-        gbc.gridy++;
         final LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel(ActivateAccountViewModel.PASSWORD_LABEL), passwordInputField);
-        gbc.gridy++;
         final LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
                 new JLabel(ActivateAccountViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
 
         final JPanel buttons = new JPanel();
-        activateAccount = new JButton(ActivateAccountViewModel.ACTIVATE_ACCOUNT_BUTTON_LABEL);
-        buttons.add(activateAccount);
+        buttons.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.weightx = 1.0;
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+//        gbc.anchor = GridBagConstraints.WEST;
         toWelcome = new JButton(ActivateAccountViewModel.TO_WELCOME_BUTTON_LABEL);
-        buttons.add(toWelcome);
+        buttons.add(toWelcome, gbc);
+        gbc.gridx++;
+//        gbc.anchor = GridBagConstraints.EAST;
+        activateAccount = new JButton(ActivateAccountViewModel.ACTIVATE_ACCOUNT_BUTTON_LABEL);
+        buttons.add(activateAccount, gbc);
+
 
         activateAccount.addActionListener(
                 new ActionListener() {
@@ -87,13 +90,21 @@ public class ActivateAccountView extends JPanel implements ActionListener, Prope
         addPasswordListener();
         addRepeatPasswordListener();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        this.add(title);
-        this.add(userIDInfo);
-        this.add(passwordInfo);
-        this.add(repeatPasswordInfo);
-        this.add(buttons);
+        c.gridx = 0;
+        c.gridy = 0;
+        this.add(title, c);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy++;
+        this.add(userIDInfo, c);
+        c.gridy++;
+        this.add(passwordInfo, c);
+        c.gridy++;
+        this.add(repeatPasswordInfo, c);
+        c.gridy++;
+        this.add(buttons, c);
     }
 
     private void addUserIDListener() {

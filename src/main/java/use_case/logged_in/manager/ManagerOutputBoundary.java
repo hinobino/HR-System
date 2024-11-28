@@ -10,4 +10,6 @@ public interface ManagerOutputBoundary {
     void switchToScheduleShiftView(ManagerOutputData managerOutputData);
 
     void switchToManageShiftsView(ManagerOutputData outputData);
+
+    void openScheduleView(ManagerOutputData managerOutputData);
 }
