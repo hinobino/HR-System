@@ -56,6 +56,8 @@ public class ActivateAccountView extends JPanel implements ActionListener, Prope
         gbc.gridx++;
 //        gbc.anchor = GridBagConstraints.EAST;
         activateAccount = new JButton(ActivateAccountViewModel.ACTIVATE_ACCOUNT_BUTTON_LABEL);
+        activateAccount.setBackground(new Color(18, 130, 255));
+        activateAccount.setForeground(Color.WHITE);
         buttons.add(activateAccount, gbc);
 
 

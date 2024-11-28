@@ -6,6 +6,7 @@ import interface_adapter.schedule.ScheduleViewModel;
 import use_case.logged_in.employee.EmployeeOutputData;
 import use_case.logged_in.employee.EmployeeOutputBoundary;
 import view.ScheduleView;
+import view.ScheduleWeekView;
 
 /**
  * The Presenter for the Employee Use Case.

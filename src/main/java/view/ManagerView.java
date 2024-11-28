@@ -69,6 +69,10 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         buttons.add(setShift, gbc);
 
         gbc.gridy++;
+        manageShifts = new JButton("Manage Shifts");
+        buttons.add(manageShifts, gbc);
+
+        gbc.gridy++;
         employees = new JButton(ManagerViewModel.EMPLOYEES_LABEL);
         buttons.add(employees, gbc);
 
@@ -79,10 +83,6 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         gbc.gridy++;
         logOut = new JButton("Log Out");
         buttons.add(logOut, gbc);
-
-        gbc.gridy++;
-        manageShifts = new JButton("Manage Shifts");
-        buttons.add(manageShifts, gbc);
 
 //        createEmployee.addActionListener(
 //                new ActionListener() {
