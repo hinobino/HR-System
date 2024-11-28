@@ -456,6 +456,7 @@ public class AppBuilder {
     public AppBuilder addManageShiftsUseCase() {
         final ManageShiftsOutputBoundary manageShiftsOutputBoundary = new ManageShiftsPresenter(
                 managerViewModel,
+                manageShiftsViewModel,
                 viewManagerModel
         );
         final ManageShiftsInputBoundary manageShiftsInteractor = new ManageShiftsInteractor(userDataAccessObject,

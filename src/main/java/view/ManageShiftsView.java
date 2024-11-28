@@ -44,7 +44,7 @@ public class ManageShiftsView extends JPanel implements PropertyChangeListener {
         };
 
         scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(100, 100));
+        scrollPane.setPreferredSize(new Dimension(500, 300));
         table.setFillsViewportHeight(true);
 
         // Buttons
@@ -64,7 +64,7 @@ public class ManageShiftsView extends JPanel implements PropertyChangeListener {
                             JOptionPane.showMessageDialog(ManageShiftsView.this,
                                     "Please select a shift.", "Error", JOptionPane.ERROR_MESSAGE);
                         } else {
-                            final ManageShiftsState manageShiftsState = new ManageShiftsState();
+                            final ManageShiftsState manageShiftsState = manageShiftsViewModel.getState();
                             Shift shift = manageShiftsState.getShiftByID((String) table.getValueAt(row, 1));
                             manageShiftsController.execute(shift);
                         }
