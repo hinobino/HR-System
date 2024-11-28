@@ -31,6 +31,13 @@ public class ManagerController {
     }
 
     /**
+     * Executes the switch to Manage Shifts View Use Case.
+     */
+    public void switchToManageShiftsView() {
+        managerInputBoundary.switchToManageShiftsView();
+    }
+  
+    /**
      * Executes the open Schedule View Use Case.
      *
      * @param loggedInState the state of the current logged in view
@@ -39,5 +46,4 @@ public class ManagerController {
         final ManagerInputData managerInputData = new ManagerInputData(loggedInState);
         managerInputBoundary.openScheduleView(managerInputData);
     }
-
 }

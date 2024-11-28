@@ -71,9 +71,15 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
         inputs.add(employeeSelectInfo);
 
         final JPanel buttons = new JPanel();
+
         back = new JButton(ScheduleShiftViewModel.BACK_WELCOME_LABEL);
+        back.setForeground(new Color(20, 20, 20));
+        back.setBackground(new Color(200, 200, 200));
         buttons.add(back);
+
         submit = new JButton(ScheduleShiftViewModel.SCHEDULE_SHIFT_BUTTON_LABEL);
+        submit.setForeground(new Color(230, 230, 230));
+        submit.setBackground(new Color(18, 130, 255));
         buttons.add(submit);
 
         back.addActionListener(

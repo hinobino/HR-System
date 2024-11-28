@@ -6,6 +6,8 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.create_employee.CreateEmployeeViewModel;
 import interface_adapter.employee_list.EmployeeListState;
 import interface_adapter.employee_list.EmployeeListViewModel;
+import interface_adapter.manage_shifts.ManageShiftsState;
+import interface_adapter.manage_shifts.ManageShiftsViewModel;
 import interface_adapter.schedule.ScheduleState;
 import interface_adapter.schedule.ScheduleViewModel;
 import interface_adapter.schedule_shift.ScheduleShiftState;
@@ -26,15 +28,19 @@ public class ManagerPresenter implements ManagerOutputBoundary {
     private final CreateEmployeeViewModel createEmployeeViewModel;
     private ScheduleShiftViewModel scheduleShiftViewModel;
     private final EmployeeListViewModel employeeListViewModel;
+    private final ManageShiftsViewModel manageShiftsViewModel;
     private ScheduleViewModel scheduleViewModel;
 
     public ManagerPresenter(CreateEmployeeViewModel createEmployeeViewModel,
                 EmployeeListViewModel employeeListViewModel, ScheduleShiftViewModel scheduleShiftViewModel,
-                ScheduleViewModel scheduleViewModel, ViewManagerModel viewManagerModel) {
+                ScheduleViewModel scheduleViewModel, ManageShiftsViewModel manageShiftsViewModel, 
+                            ViewManagerModel viewManagerModel) {
+
         this.createEmployeeViewModel = createEmployeeViewModel;
         this.scheduleShiftViewModel = scheduleShiftViewModel;
         this.viewManagerModel = viewManagerModel;
         this.employeeListViewModel = employeeListViewModel;
+        this.manageShiftsViewModel = manageShiftsViewModel;
         this.scheduleViewModel = scheduleViewModel;
     }
 
@@ -66,6 +72,16 @@ public class ManagerPresenter implements ManagerOutputBoundary {
     }
 
     @Override
+    public void switchToManageShiftsView(ManagerOutputData outputData) {
+        final ManageShiftsState manageShiftsState = manageShiftsViewModel.getState();
+        manageShiftsState.setShifts(outputData.getEmployees());
+        manageShiftsViewModel.setState(manageShiftsState);
+        manageShiftsViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(manageShiftsViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+    
     public void openScheduleView(ManagerOutputData managerOutputData) {
         String userID = managerOutputData.getUserID();
         LoggedInState loggedInState = managerOutputData.getLoggedInState();
