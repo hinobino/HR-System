@@ -146,16 +146,14 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
                 constraints.weighty = 1.0;
                 constraints.insets = new Insets(1, 1, 1, 1);
 
-
-
                 // FOR DISPLAY TESTS-- COMMENT OUT OTHER IF STATEMENT HEADER + holidayName BELOW
 //                if (day.getDayOfWeek().equals(currentWeek.getDaysOfWeek().get(0).getDayOfWeek())) {
 //                    String holidayName = "New Year's Day";
 
                 // TODO: commented out for now because this throws an error for too many requests
                 //  per second... don't know what to do
-//                if (publicHolidayAPIAccessObject.holidayOn(day)) {
-//                    String holidayName = publicHolidayAPIAccessObject.getHolidayName(day);
+//                if (publicHolidayAPIAccessObject.holidayOn2(day)) {
+//                    List<String> holidayNames = publicHolidayAPIAccessObject.getHolidayNames(day);
 //
 //                    constraints.gridx = day.getDayOfWeek().getValue() % 7 + 1;
 //                    constraints.gridy = 1;
@@ -166,7 +164,16 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
 //                    JPanel holidayBlock = new JPanel(new GridBagLayout());
 //                    holidayBlock.setBackground(ScheduleViewModel.GRID_COLOR);
 //
-//                    JLabel holidayLabel = new JLabel(holidayName, JLabel.CENTER);
+//                    String description = "";
+//                    for (String holidayName : holidayNames) {
+//                        description += "<html>" + holidayName + "<br>";
+//                    }
+//                    if (!description.isEmpty()) {
+//                        description += "<html>";
+//                    }
+//                    System.out.println(description);
+//
+//                    JLabel holidayLabel = new JLabel(description, JLabel.CENTER);
 //                    holidayLabel.setForeground(Color.BLACK);
 //
 //                    holidayBlock.add(holidayLabel);
