@@ -46,8 +46,6 @@ public class WorkWeek {
                 }
             });
         }
-
-
     }
 
     public List<Shift> getShifts() {

@@ -42,7 +42,6 @@ import interface_adapter.welcome.WelcomeViewModel;
 import use_case.activate_account.ActivateAccountInputBoundary;
 import use_case.activate_account.ActivateAccountInteractor;
 import use_case.activate_account.ActivateAccountOutputBoundary;
-import use_case.create_employee.CreateEmployeeOutputData;
 import use_case.employee_list.EmployeeListInputBoundary;
 import use_case.employee_list.EmployeeListInteractor;
 import use_case.employee_list.EmployeeListOutputBoundary;
