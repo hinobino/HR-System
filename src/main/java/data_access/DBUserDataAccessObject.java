@@ -23,12 +23,8 @@ import java.util.Map;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
-        ActivateAccountUserDataAccessInterface,
-        CreateEmployeeUserDataAccessInterface,
-        LogoutUserDataAccessInterface,
-        EmployeeListUserDataAccessInterface,
-        ScheduleShiftUserDataAccessInterface,
-        ManagerUserDataAccessInterface {
+        LogoutUserDataAccessInterface
+{
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -84,26 +80,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
      */
     @Override
     public Map<String, Employee> getEmployees() {
-        return Map.of();
-    }
-
-    /**
-     * Returns a list of all the registered employee objects.
-     *
-     * @return a Map of type Employee, containing all registered employees.
-     */
-    @Override
-    public Map<String, Employee> getEmployees(String managerID) {
-    }
-
-    /**
-     * Save a given Shift in its Employee's shift instance variable.
-     *
-     * @param newShift the Shift to save.
-     */
-    @Override
-    public void save(Shift newShift) {
-
+        Map<String, Employee> employees = new HashMap<>();
+        if (get(USERNAME) instanceof Manager){
+            employees = ((Manager) get(USERNAME)).getEmployees();
+        };
+        return employees;
     }
 
     @Override
@@ -124,39 +105,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    /**
-     * Check if a workday taking place on the given day exists or not.
-     *
-     * @param day the date of the workday as a LocalDate object
-     * @return true if a workday exists on the given date already.
-     */
-    @Override
-    public boolean workdayExists(LocalDate day) {
-        return false;
-    }
-
-    /**
-     * Find the workday with the given date.
-     *
-     * @param day the date of the workday as a LocalDate object.
-     * @return the Workday taking place on the given date or null if no such workday exists.
-     */
-    @Override
-    public Workday getWorkdayByDate(LocalDate day) {
-        return null;
-    }
-
-    /**
-     * Add the given shift to the given Workday.
-     *
-     * @param newShift the shift.
-     * @param workday  the workday.
-     */
-    @Override
-    public void addShiftToWorkday(Shift newShift, Workday workday) {
-
     }
 
     @Override
@@ -190,11 +138,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    @Override
-    public void activateUser(String userID, String password) {
-
     }
 
     @Override
