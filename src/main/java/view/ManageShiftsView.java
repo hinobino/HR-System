@@ -42,6 +42,7 @@ public class ManageShiftsView extends JPanel implements PropertyChangeListener {
                 return false;
             }
         };
+        table.getTableHeader().setReorderingAllowed(false);
 
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(500, 300));

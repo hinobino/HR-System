@@ -48,6 +48,7 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
         );
 
         endTimeSelect.setEditable(false);
+        endTimeSelect.setSelectedIndex(TimeFormatter.VALID_TIMES.length - 1);
         final LabelTextPanel endTimeSelectInfo = new LabelTextPanel(
                 new JLabel(ScheduleShiftViewModel.END_TIME_LABEL), endTimeSelect
         );

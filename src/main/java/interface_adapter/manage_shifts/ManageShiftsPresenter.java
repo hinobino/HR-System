@@ -25,6 +25,7 @@ public class ManageShiftsPresenter implements ManageShiftsOutputBoundary {
 
     @Override
     public void switchToManagerView() {
+        manageShiftsViewModel.setState(new ManageShiftsState());
         viewManagerModel.setState(managerViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
