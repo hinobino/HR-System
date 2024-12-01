@@ -1,36 +1,44 @@
 package interface_adapter.view_schedule;
 
+import entity.WorkWeek;
 import use_case.view_schedule.ScheduleOutputBoundary;
 import use_case.view_schedule.ScheduleOutputData;
-import view.ScheduleWeekView;
 
 import java.awt.*;
-import java.time.LocalDate;
 
 public class SchedulePresenter implements ScheduleOutputBoundary {
 
-    public SchedulePresenter() {
+    private final ScheduleViewModel scheduleViewModel;
 
+    public SchedulePresenter(ScheduleViewModel scheduleViewModel) {
+        this.scheduleViewModel = scheduleViewModel;
     }
 
     @Override
     public void showPreviousWeek(ScheduleOutputData scheduleOutputData) {
-//        ScheduleViewModel scheduleViewModel = new ScheduleViewModel(); // get from output data
-//        LocalDate date = LocalDate.now(); // get from output data, calculate minus week in interactor
-//        ScheduleWeekView scheduleWeekView = new ScheduleWeekView(scheduleViewModel, date);
-
-        String weekName = scheduleOutputData.getWeekName();
+        WorkWeek workWeek = scheduleOutputData.getWorkWeek();
         Container weekContainer = scheduleOutputData.getWeekContainer();
         CardLayout weekLayout = (CardLayout) weekContainer.getLayout();
 
-        weekLayout.show(weekContainer, weekName);
+        ScheduleState scheduleState = scheduleViewModel.getState();
+        scheduleState.setWeek(workWeek);
+        scheduleViewModel.setState(scheduleState);
+        scheduleViewModel.firePropertyChanged("week");
+
+        weekLayout.show(weekContainer, workWeek.toString());
     }
 
     @Override
     public void showNextWeek(ScheduleOutputData scheduleOutputData) {
-        String weekName = scheduleOutputData.getWeekName();
+        WorkWeek workWeek = scheduleOutputData.getWorkWeek();
         Container weekContainer = scheduleOutputData.getWeekContainer();
         CardLayout weekLayout = (CardLayout) weekContainer.getLayout();
-        weekLayout.show(weekContainer, weekName);
+
+        ScheduleState scheduleState = scheduleViewModel.getState();
+        scheduleState.setWeek(workWeek);
+        scheduleViewModel.setState(scheduleState);
+        scheduleViewModel.firePropertyChanged("week");
+
+        weekLayout.show(weekContainer, workWeek.toString());
     }
 }

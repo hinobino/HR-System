@@ -5,6 +5,7 @@ import entity.Shift;
 import entity.WorkWeek;
 import interface_adapter.logged_in.LoggedInState;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ public class ScheduleState {
     private List<Shift> shifts;
     private Map<Employee, List<Shift>> allEmployeeShifts;
     private LoggedInState loggedInState = new LoggedInState();
+    private Container container;
     private WorkWeek workWeek;
 
     public ScheduleState() {}
@@ -40,5 +42,13 @@ public class ScheduleState {
     public LoggedInState getParentState() {
         return loggedInState;
     }
+
+    public void setWeekContainer(Container cardContainer) { this.container = cardContainer; }
+
+    public Container getWeekContainer() { return container; }
+
+    public void setWeek(WorkWeek week) { this.workWeek = week; }
+
+    public WorkWeek getWeek() { return workWeek; }
 
 }

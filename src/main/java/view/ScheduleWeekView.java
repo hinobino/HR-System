@@ -30,12 +30,10 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
 
     private List<Shift> shiftList = new ArrayList<>();
     private final WorkWeek currentWeek;
-    // TODO TEMP
     private String[] days;
+    private JPanel schedulePanel;
 
-    private EmployeeController employeeController;
-
-    public ScheduleWeekView(ScheduleViewModel scheduleViewModel, LocalDate date) {
+    public ScheduleWeekView(ScheduleViewModel scheduleViewModel, WorkWeek week) {
         this.scheduleViewModel = scheduleViewModel;
         this.scheduleViewModel.addPropertyChangeListener(this);
 
@@ -43,36 +41,10 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 
-        // OLD SOLO WINDOW IMPLEMENTATION-- KEEPING FOR REFERENCE
-//        this.addWindowListener(new WindowAdapter() {
-//            @Override
-//            public void windowClosing(WindowEvent e) {
-//                scheduleViewModel.getState().getParentState().setScheduleView(null);
-//                ScheduleWeekView.this.dispose();
-//            }
-//
-//        });
-
-//        LocalDate today = LocalDate.now();
-//        this.currentWeek = new Workweek(today, scheduleViewModel.getState().getShifts());
-
-        // Title
-//        final JLabel title = new JLabel(currentWeek.toString());
-//        title.setFont(new Font("Calibri", Font.BOLD, 20));
-//
-//        gbc.gridy = 0; // first row
-//        gbc.weightx = 1.0; // allow horizontal expansion
-//        gbc.weighty = 0; // don't allow vertical expansion
-//        gbc.gridwidth = GridBagConstraints.REMAINDER; // span full grid width
-//        gbc.anchor = GridBagConstraints.CENTER; // center title
-//        gbc.fill = GridBagConstraints.NONE; // don't stretch
-//        gbc.insets = new Insets(1,1,1,1);
-//        this.add(title, gbc);
-
-        currentWeek = new WorkWeek(date, scheduleViewModel.getState().getShifts());
+        currentWeek = week;
 
         // Schedule Panel
-        JPanel schedulePanel = new JPanel();
+        schedulePanel = new JPanel();
         schedulePanel.setLayout(new GridBagLayout());
         schedulePanel.setBackground(ScheduleViewModel.GRID_COLOR);
         GridBagConstraints c = new GridBagConstraints();
@@ -121,7 +93,57 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
             schedulePanel.add(time, c);
         }
 
-        // get all shifts for this week
+        addShifts();
+        // addHolidays call is commented out for now because the API throws an error for too many
+        // requests per second/too large of a time range for request... currently no solution
+//        addHolidays(currentWeek);
+
+        // Empty cells for shift grid
+        for (int row = 1; row <= times.length * 2; row++) {
+            for (int col = 1; col <= days.length - 1; col++) {
+                JPanel cell = new JPanel();
+
+                // differentiate the cell colours based on hour / half hour for clear visuals
+                if (row % 2 == 1) { cell.setBackground(ScheduleViewModel.HOUR_COLOR); }
+                else { cell.setBackground(ScheduleViewModel.HALF_HOUR_COLOR); }
+
+                cell.setOpaque(true);
+                c.insets = new Insets(1,1,1,1);
+                c.gridheight = 1;
+                c.gridx = col;
+                c.gridy = row;
+                schedulePanel.add(cell, c);
+            }
+        }
+
+        // add schedule panel
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        this.add(schedulePanel, gbc);
+
+        // FOR DISPLAY TEST
+//        this.setVisible(true);
+    }
+
+    public WorkWeek getWeek() {
+        return currentWeek;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("week")) {
+            addShifts();
+        }
+    }
+
+    public void addShifts() {
         this.shiftList = currentWeek.getShifts();
 
         // CUSTOM SHIFTS FOR DISPLAY TESTS
@@ -148,41 +170,6 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
                 constraints.weightx = 1.0;
                 constraints.weighty = 1.0;
                 constraints.insets = new Insets(1, 1, 1, 1);
-
-                // FOR DISPLAY TESTS-- COMMENT OUT OTHER IF STATEMENT HEADER + holidayName BELOW
-//                if (day.getDayOfWeek().equals(currentWeek.getDaysOfWeek().get(0).getDayOfWeek())) {
-//                    String holidayName = "New Year's Day";
-
-                // TODO: commented out for now because this throws an error for too many requests
-                //  per second... don't know what to do
-//                if (publicHolidayAPIAccessObject.holidayOn2(day)) {
-//                    List<String> holidayNames = publicHolidayAPIAccessObject.getHolidayNames(day);
-//
-//                    constraints.gridx = day.getDayOfWeek().getValue() % 7 + 1;
-//                    constraints.gridy = 1;
-//
-//                    constraints.gridwidth = 1;
-//                    constraints.gridheight = 18;
-//
-//                    JPanel holidayBlock = new JPanel(new GridBagLayout());
-//                    holidayBlock.setBackground(ScheduleViewModel.GRID_COLOR);
-//
-//                    String description = "";
-//                    for (String holidayName : holidayNames) {
-//                        description += "<html>" + holidayName + "<br>";
-//                    }
-//                    if (!description.isEmpty()) {
-//                        description += "<html>";
-//                    }
-//                    System.out.println(description);
-//
-//                    JLabel holidayLabel = new JLabel(description, JLabel.CENTER);
-//                    holidayLabel.setForeground(Color.BLACK);
-//
-//                    holidayBlock.add(holidayLabel);
-//                    schedulePanel.add(holidayBlock, constraints);
-//                    continue;
-//                }
 
                 // get all shifts for day
                 List<Shift> dayShifts = new ArrayList<>();
@@ -257,60 +244,49 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
                 schedulePanel.add(shiftBlock, shiftConstraints);
             }
         }
+    }
 
-        // Empty cells for shift grid
-        for (int row = 1; row <= times.length * 2; row++) {
-            for (int col = 1; col <= days.length - 1; col++) {
-                JPanel cell = new JPanel();
+    private void addHolidays(WorkWeek currentWeek) {
+        for (LocalDate day : currentWeek.getDaysOfWeek()) {
+            GridBagConstraints holidayConstraints = new GridBagConstraints();
+            holidayConstraints.fill = GridBagConstraints.BOTH;
+            holidayConstraints.weightx = 1.0;
+            holidayConstraints.weighty = 1.0;
+            holidayConstraints.insets = new Insets(1, 1, 1, 1);
 
-                // differentiate the cell colours based on hour / half hour for clear visuals
-                if (row % 2 == 1) { cell.setBackground(ScheduleViewModel.HOUR_COLOR); }
-                else { cell.setBackground(ScheduleViewModel.HALF_HOUR_COLOR); }
+        // FOR DISPLAY TESTS-- COMMENT OUT OTHER IF STATEMENT HEADER + holidayNames BELOW
+//        if (day.getDayOfWeek().equals(currentWeek.getDaysOfWeek().get(0).getDayOfWeek())) {
+//            List<String> holidayNames = new ArrayList<>();
+//            holidayNames.add("New Year's Day");
 
-                cell.setOpaque(true);
-                c.insets = new Insets(1,1,1,1);
-                c.gridheight = 1;
-                c.gridx = col;
-                c.gridy = row;
-                schedulePanel.add(cell, c);
+        // holidayOn method uses one day per request, issue: API throws error for too many requests
+        // holidayOn2 method uses one year per request, issue: API free trial only lets us request by days
+        if (publicHolidayAPIAccessObject.holidayOn2(day)) {
+            List<String> holidayNames = publicHolidayAPIAccessObject.getHolidayNames(day);
+
+                holidayConstraints.gridx = day.getDayOfWeek().getValue() % 7 + 1;
+                holidayConstraints.gridy = 1;
+
+                holidayConstraints.gridwidth = 1;
+                holidayConstraints.gridheight = 18;
+
+                JPanel holidayBlock = new JPanel(new GridBagLayout());
+                holidayBlock.setBackground(ScheduleViewModel.GRID_COLOR);
+
+                String description = "";
+                for (String holidayName : holidayNames) {
+                    description += "<html>" + holidayName + "<br>";
+                }
+                if (!description.isEmpty()) {
+                    description += "<html>";
+                }
+
+                JLabel holidayLabel = new JLabel(description, JLabel.CENTER);
+                holidayLabel.setForeground(Color.BLACK);
+
+                holidayBlock.add(holidayLabel);
+                schedulePanel.add(holidayBlock, holidayConstraints);
             }
         }
-
-        // add schedule panel
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        this.add(schedulePanel, gbc);
-
-//        // Download Button
-//        JButton downloadButton = new JButton(ScheduleViewModel.DOWNLOAD_LABEL);
-//        downloadButton.addActionListener(e -> {});
-//        gbc.gridy++;
-//        gbc.weightx = 1.0;
-//        gbc.weighty = 0;
-//        gbc.anchor = GridBagConstraints.EAST;
-//        gbc.fill = GridBagConstraints.NONE;
-//        this.add(downloadButton, gbc);
-
-        // FOR DISPLAY TEST
-//        this.setVisible(true);
     }
-
-    public WorkWeek getWeek() {
-        return currentWeek;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-    }
-
-//    public String getViewName() {
-//        return viewName;
-//    }
 }

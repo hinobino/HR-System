@@ -471,10 +471,11 @@ public class AppBuilder {
     }
 
     public AppBuilder addViewScheduleUseCase() {
-        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter();
+        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(scheduleViewModel);
         final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(userDataAccessObject, scheduleOutputBoundary);
         final ScheduleController controller = new ScheduleController(scheduleInteractor);
         scheduleView.setScheduleController(controller);
+        scheduleViewModel.setScheduleController(controller);
         return this;
     }
 

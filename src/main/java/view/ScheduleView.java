@@ -1,7 +1,11 @@
 package view;
 
+import entity.WorkWeek;
 import interface_adapter.view_schedule.ScheduleController;
+import interface_adapter.view_schedule.ScheduleState;
 import interface_adapter.view_schedule.ScheduleViewModel;
+import use_case.view_schedule.ScheduleInputBoundary;
+import use_case.view_schedule.ScheduleInputData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +37,8 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
         this.scheduleViewModel = scheduleViewModel;
         this.scheduleViewModel.addPropertyChangeListener(this);
 
+        setScheduleController(scheduleViewModel.getScheduleController());
+
         this.setTitle(ScheduleViewModel.VIEW_LABEL);
         this.setSize(900, 540);
 
@@ -51,13 +57,21 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
 
         LocalDate currentWeekDate = LocalDate.now();
 
+        WorkWeek currentWeek = new WorkWeek(LocalDate.now(), scheduleViewModel.getState().getShifts());
+
         // create and add week pages for 4 weeks (including current week)
         for (int i = 0; i < 4; i++) {
-            LocalDate weekStart = currentWeekDate.plusWeeks(i);
-            ScheduleWeekView scheduleWeekView = new ScheduleWeekView(scheduleViewModel, weekStart);
+//            LocalDate weekStart = currentWeekDate.plusWeeks(i);
+            WorkWeek week = new WorkWeek(currentWeek.getStartOfWeek().plusWeeks(i),
+                    scheduleViewModel.getState().getShifts());
+//            WorkWeek week = new WorkWeek(weekStart, scheduleViewModel.getState().getShifts());
+            ScheduleWeekView scheduleWeekView = new ScheduleWeekView(scheduleViewModel, week);
             weekNames.add(scheduleWeekView.getWeek().toString());
             cardContainer.add(scheduleWeekView, weekNames.get(i));
         }
+
+        scheduleViewModel.getState().setWeekContainer(cardContainer);
+        scheduleViewModel.getState().setWeek(currentWeek);
 
         previousButton = new JButton("<");
         nextButton = new JButton(">");
@@ -69,11 +83,18 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
                         // calculate the index of the previous week
                         weekIndex = (weekIndex - 1 + weekNames.size()) % weekNames.size();
                         // grab the week name for the respective index; similar to state name
-                        String weekName = weekNames.get(weekIndex);
+//                        String weekName = weekNames.get(weekIndex);
 
                         // pass in cardContainer so we can control it in other files,
                         // weekName is the state name we are changing to.
-                        scheduleController.showPreviousWeek(cardContainer, weekName);
+//                        scheduleController.showPreviousWeek(cardContainer, weekName);
+                        final ScheduleState currentState = scheduleViewModel.getState();
+
+                        scheduleController.showPreviousWeek(
+                                currentState.getWeekContainer(),
+                                currentState.getWeek(),
+                                currentState.getShifts());
+
                         updateButton();
                     }
                 }
@@ -85,9 +106,18 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         // see comments for previousButton action listener
                         weekIndex = (weekIndex + 1) % weekNames.size();
-                        String weekName = weekNames.get(weekIndex);
+//                        String weekName = weekNames.get(weekIndex);
 
-                        scheduleController.showNextWeek(cardContainer, weekName);
+                        final ScheduleState currentState = scheduleViewModel.getState();
+
+//                        WorkWeek nextWeek = new WorkWeek(currentState.getWeek()
+//                                .getStartOfWeek().plusWeeks(1),
+//                                scheduleViewModel.getState().getShifts());
+                        scheduleController.showNextWeek(
+                                currentState.getWeekContainer(),
+                                currentState.getWeek(),
+                                currentState.getShifts());
+
                         updateButton();
                     }
                 }
@@ -133,12 +163,6 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
 
         // TODO implement download button
         downloadButton.addActionListener(e -> {});
-//        gbc.gridy++;
-//        gbc.weightx = 1.0;
-//        gbc.weighty = 0;
-//        gbc.anchor = GridBagConstraints.EAST;
-//        gbc.fill = GridBagConstraints.NONE;
-//        buttonPanel.add(downloadButton);
 
         this.add(headerPanel, BorderLayout.NORTH);
         this.add(cardContainer, BorderLayout.CENTER);
@@ -147,7 +171,7 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
         cardLayout.show(cardContainer, weekNames.get(0));
 
         // FOR TESTING
-        this.setVisible(true);
+//        this.setVisible(true);
     }
 
     private void updateButton() {

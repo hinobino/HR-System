@@ -60,7 +60,7 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
 //        createEmployee = new JButton(ManagerViewModel.CREATE_EMPLOYEE_LABEL);
 //        buttons.add(createEmployee, gbc);
 
-        gbc.gridy++;
+//        gbc.gridy++;
         schedule = new JButton(ManagerViewModel.SCHEDULE_LABEL);
         buttons.add(schedule, gbc);
 
@@ -103,7 +103,6 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        // TODO: Implement these action listeners.
         schedule.addActionListener(
             new ActionListener() {
                 @Override
@@ -115,6 +114,8 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                 }
             }
         );
+
+        // TODO: Implement these action listeners.
         requests.addActionListener(e -> {});
 
         setShift.addActionListener(

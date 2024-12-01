@@ -1,8 +1,10 @@
 package use_case.view_schedule;
 
-import view.ScheduleWeekView;
+import entity.Shift;
+import entity.WorkWeek;
 
 import java.awt.*;
+import java.util.List;
 
 public class ScheduleInteractor implements ScheduleInputBoundary {
 
@@ -18,17 +20,26 @@ public class ScheduleInteractor implements ScheduleInputBoundary {
     @Override
     public void showPreviousWeek(ScheduleInputData scheduleInputData) {
         Container weekContainer = scheduleInputData.getWeekContainer();
-        String weekName = scheduleInputData.getWeekName();
-        ScheduleOutputData scheduleOutputData = new ScheduleOutputData(weekContainer, weekName);
+        WorkWeek workWeek = scheduleInputData.getWorkWeek();
+        List<Shift> shifts = scheduleInputData.getShifts();
+
+        WorkWeek previousWeek = new WorkWeek(workWeek.getStartOfWeek().plusWeeks(-1), shifts);
+
+        ScheduleOutputData scheduleOutputData =
+                new ScheduleOutputData(weekContainer, previousWeek, shifts);
         scheduleOutputBoundary.showPreviousWeek(scheduleOutputData);
     }
 
     @Override
     public void showNextWeek(ScheduleInputData scheduleInputData) {
         Container weekContainer = scheduleInputData.getWeekContainer();
-        String weekName = scheduleInputData.getWeekName();
+        WorkWeek workWeek = scheduleInputData.getWorkWeek();
+        List<Shift> shifts = scheduleInputData.getShifts();
 
-        ScheduleOutputData scheduleOutputData = new ScheduleOutputData(weekContainer, weekName);
+        WorkWeek nextWeek = new WorkWeek(workWeek.getStartOfWeek().plusWeeks(1), shifts);
+
+        ScheduleOutputData scheduleOutputData =
+                new ScheduleOutputData(weekContainer, nextWeek, shifts);
         scheduleOutputBoundary.showNextWeek(scheduleOutputData);
     }
 }

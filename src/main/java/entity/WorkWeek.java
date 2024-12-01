@@ -54,6 +54,8 @@ public class WorkWeek {
 
     public List<LocalDate> getDaysOfWeek() { return daysOfWeek; }
 
+    public LocalDate getStartOfWeek() { return startOfWeek; }
+
     @Override
     public String toString() {
         return startOfWeek.getMonth().getDisplayName(TextStyle.FULL, Locale.CANADA) + " "

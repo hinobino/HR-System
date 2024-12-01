@@ -1,9 +1,12 @@
 package interface_adapter.view_schedule;
 
+import entity.Shift;
+import entity.WorkWeek;
 import use_case.view_schedule.ScheduleInputBoundary;
 import use_case.view_schedule.ScheduleInputData;
 
 import java.awt.*;
+import java.util.List;
 
 public class ScheduleController {
 
@@ -12,13 +15,15 @@ public class ScheduleController {
     public ScheduleController(ScheduleInputBoundary scheduleInputBoundary) {
         this.scheduleInputBoundary = scheduleInputBoundary;
     }
-    public void showPreviousWeek(Container weekContainer, String weekName) {
-        final ScheduleInputData scheduleInputData = new ScheduleInputData(weekContainer, weekName);
+    public void showPreviousWeek(Container weekContainer, WorkWeek workWeek, List<Shift> shifts) {
+        final ScheduleInputData scheduleInputData =
+                new ScheduleInputData(weekContainer, workWeek, shifts);
         scheduleInputBoundary.showPreviousWeek(scheduleInputData);
     }
 
-    public void showNextWeek(Container weekContainer, String weekName) {
-        final ScheduleInputData scheduleInputData = new ScheduleInputData(weekContainer, weekName);
+    public void showNextWeek(Container weekContainer, WorkWeek workWeek, List<Shift> shifts) {
+        final ScheduleInputData scheduleInputData =
+                new ScheduleInputData(weekContainer, workWeek, shifts);
         scheduleInputBoundary.showNextWeek(scheduleInputData);
     }
 }
