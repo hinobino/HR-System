@@ -5,6 +5,7 @@ import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logout.LogoutController;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -85,6 +86,14 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                         if (currentState.getScheduleView() == null) {
                             employeeController.openScheduleView(currentState);
                         }
+                    }
+                }
+        );
+        requestLeave.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        employeeController.switchToTimeOffRequestView();
                     }
                 }
         );
