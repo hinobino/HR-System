@@ -24,7 +24,7 @@ public class EmployeeListState {
         for (Map.Entry<String, Employee> userObj : employees.entrySet()) {
             ArrayList<String> row = new ArrayList<>();
             row.add(userObj.getKey());
-            row.add(userObj.getValue().getStatus());
+            row.add(userObj.getValue().getStatus().toUpperCase());
             employeeList[i] = row.toArray(new String[row.size()]);
             i++;
         }

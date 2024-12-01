@@ -48,6 +48,7 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
         );
 
         endTimeSelect.setEditable(false);
+        endTimeSelect.setSelectedIndex(TimeFormatter.VALID_TIMES.length - 1);
         final LabelTextPanel endTimeSelectInfo = new LabelTextPanel(
                 new JLabel(ScheduleShiftViewModel.END_TIME_LABEL), endTimeSelect
         );
@@ -181,6 +182,8 @@ public class ScheduleShiftView extends JPanel implements ActionListener, Propert
 
     public void resetView() {
         dateInputField.setValue(null);
+        startTimeSelect.setSelectedIndex(0);
+        endTimeSelect.setSelectedIndex(TimeFormatter.VALID_TIMES.length - 1);
         ScheduleShiftState newState = new ScheduleShiftState();
         newState.setEmployees(scheduleShiftViewModel.getState().getEmployees());
         scheduleShiftViewModel.setState(newState);
