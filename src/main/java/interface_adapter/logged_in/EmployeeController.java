@@ -2,6 +2,8 @@ package interface_adapter.logged_in;
 
 import use_case.logged_in.employee.EmployeeInputBoundary;
 import use_case.logged_in.employee.EmployeeInputData;
+import view.ViewManager;
+
 
 /**
  * The controller for the logged in use case.
@@ -22,4 +24,8 @@ public class EmployeeController {
         final EmployeeInputData employeeInputData = new EmployeeInputData(loggedInState);
         employeeInputBoundary.openScheduleView(employeeInputData);
     }
+    public void switchToTimeOffRequestView() {
+        ViewManager.switchToTimeOffRequestView();
+    }
+
 }
