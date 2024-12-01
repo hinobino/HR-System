@@ -49,6 +49,7 @@ public class Main {
                                             .addManageEmployeeUseCase()
                                             .addScheduleShiftUseCase()
                                             .addManageShiftsUseCase()
+                                            .addViewScheduleUseCase()
                                             .build();
 
         application.pack();

@@ -26,7 +26,9 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.manage_shifts.ManageShiftsController;
 import interface_adapter.manage_shifts.ManageShiftsPresenter;
 import interface_adapter.manage_shifts.ManageShiftsViewModel;
-import interface_adapter.schedule.ScheduleViewModel;
+import interface_adapter.view_schedule.ScheduleController;
+import interface_adapter.view_schedule.SchedulePresenter;
+import interface_adapter.view_schedule.ScheduleViewModel;
 import interface_adapter.manage_employee.ManageEmployeeController;
 import interface_adapter.manage_employee.ManageEmployeePresenter;
 import interface_adapter.manage_employee.ManageEmployeeViewModel;
@@ -66,6 +68,9 @@ import use_case.schedule_shift.ScheduleShiftOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.view_schedule.ScheduleInputBoundary;
+import use_case.view_schedule.ScheduleInteractor;
+import use_case.view_schedule.ScheduleOutputBoundary;
 import use_case.welcome.WelcomeInputBoundary;
 import use_case.welcome.WelcomeInteractor;
 import use_case.welcome.WelcomeOutputBoundary;
@@ -462,6 +467,14 @@ public class AppBuilder {
                 manageShiftsOutputBoundary);
         final ManageShiftsController controller = new ManageShiftsController(manageShiftsInteractor);
         manageShiftsView.setManageShiftsController(controller);
+        return this;
+    }
+
+    public AppBuilder addViewScheduleUseCase() {
+        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter();
+        final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(userDataAccessObject, scheduleOutputBoundary);
+        final ScheduleController controller = new ScheduleController(scheduleInteractor);
+        scheduleView.setScheduleController(controller);
         return this;
     }
 

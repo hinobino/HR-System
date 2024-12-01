@@ -6,7 +6,8 @@ import entity.Manager;
 import entity.Shift;
 import entity.WorkWeek;
 import interface_adapter.logged_in.EmployeeController;
-import interface_adapter.schedule.ScheduleViewModel;
+import interface_adapter.view_schedule.ScheduleState;
+import interface_adapter.view_schedule.ScheduleViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +30,8 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
 
     private List<Shift> shiftList = new ArrayList<>();
     private final WorkWeek currentWeek;
+    // TODO TEMP
+    private String[] days;
 
     private EmployeeController employeeController;
 
@@ -79,7 +82,7 @@ public class ScheduleWeekView extends JPanel implements ActionListener, Property
         c.insets = new Insets(1,1,1,1);
 
         // Schedule Headers
-        String[] days = {"", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+        days = new String[]{"", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
         String[] times = {
                 "09:00", //               _______
                 "10:00", //              | Shift |_______
