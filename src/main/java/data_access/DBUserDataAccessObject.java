@@ -368,7 +368,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
      * @return a Map of type Employee, containing all registered employees.
      */
     @Override
-    public Map<String, Employee> getEmployees(String currentManagerID) {
+    public Map<String, Employee> getEmployeesByManager(String currentManagerID) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         final Request request = new Request.Builder()
