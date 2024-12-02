@@ -51,6 +51,8 @@ public class Main {
                                             .addScheduleShiftUseCase()
                                             .addManageShiftsUseCase()
                                             .addTimeOffRequestUseCase()
+                                            .addViewScheduleUseCase()
+
                                             .build();
 
         application.pack();

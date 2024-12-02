@@ -42,6 +42,7 @@ public class ManageShiftsView extends JPanel implements PropertyChangeListener {
                 return false;
             }
         };
+        table.getTableHeader().setReorderingAllowed(false);
 
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(500, 300));
@@ -49,6 +50,9 @@ public class ManageShiftsView extends JPanel implements PropertyChangeListener {
 
         // Buttons
         deleteShiftButton = new JButton(ManageShiftsViewModel.DELETE_SHIFT_BUTTON_LABEL);
+        deleteShiftButton.setForeground(new Color(240, 240, 240));
+        deleteShiftButton.setBackground(new Color(255, 26, 26));
+
         backButton = new JButton(ManageShiftsViewModel.BACK_BUTTON_LABEL);
 
         final JPanel buttons = new JPanel();

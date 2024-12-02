@@ -1,7 +1,5 @@
 package use_case.logged_in.manager;
 
-import use_case.logged_in.employee.EmployeeOutputData;
-
 /**
  * The Manager Interactor.
  */

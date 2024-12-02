@@ -17,6 +17,7 @@ import use_case.manage_employee.ManageEmployeeUserDataAccessInterface;
 import use_case.manage_shifts.ManageShiftsUserDataAccessInterface;
 import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.view_schedule.ScheduleUserDataAccessInterface;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -37,7 +38,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         ScheduleShiftUserDataAccessInterface,
         ManagerUserDataAccessInterface,
         EmployeeUserDataAccessInterface,
-        ManageShiftsUserDataAccessInterface {
+        ManageShiftsUserDataAccessInterface,
+        ScheduleUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
     private final Map<LocalDate, Workday> workdays = new HashMap<>();
