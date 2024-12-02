@@ -100,8 +100,8 @@ public class EmployeeListView extends JPanel implements PropertyChangeListener, 
                     return false;
                 }
             });
-            table.getColumnModel().getColumn(1).setCellRenderer(new CustomeTableCellRenderer());
-            table.getColumnModel().getColumn(2).setCellRenderer(new CustomeTableCellRenderer());
+            table.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer());
+            table.getColumnModel().getColumn(2).setCellRenderer(new CustomTableCellRenderer());
         }
     }
 
