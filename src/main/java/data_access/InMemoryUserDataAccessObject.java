@@ -132,7 +132,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public Map<String, Employee> getEmployees(String managerID) {
+    public Map<String, Employee> getEmployeesByManager(String managerID) {
         return ((Manager) users.get(managerID)).getEmployees();
     }
 
