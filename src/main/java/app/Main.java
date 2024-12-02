@@ -37,6 +37,7 @@ public class Main {
                                             .addManageShiftsView()
                                             .addScheduleShiftView()
                                             .addScheduleView()
+                                            .addTimeOffRequestView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
@@ -49,6 +50,7 @@ public class Main {
                                             .addManageEmployeeUseCase()
                                             .addScheduleShiftUseCase()
                                             .addManageShiftsUseCase()
+                                            .addTimeOffRequestUseCase()
                                             .build();
 
         application.pack();

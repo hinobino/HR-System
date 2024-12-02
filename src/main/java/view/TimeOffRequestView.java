@@ -45,6 +45,10 @@ public class TimeOffRequestView extends JPanel implements PropertyChangeListener
         add(new JScrollPane(requestTable));
     }
 
+    public String getViewName() {
+        return timeOffRequestViewModel.getViewName();
+    }
+
     public void setTimeOffRequestController(TimeOffRequestController controller) {
         this.timeOffRequestController = controller;
     }
