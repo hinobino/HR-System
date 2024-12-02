@@ -140,9 +140,7 @@ public class ManageEmployeeView extends JPanel implements PropertyChangeListener
             userIDLabel.setText(ManageEmployeeViewModel.USERID_LABEL + state.getUserId() + ".");
             employmentPeriodLabel.setText(state.getEmploymentPeriod());
             statusLabel.setText(ManageEmployeeViewModel.STATUS_LABEL + state.getStaus());
-            if (state.getEmployee().getPassword() != "") {
-                changeStatus.setEnabled(true);
-            }
+            changeStatus.setEnabled(!"".equals(state.getEmployee().getPassword()));
             payLabel.setText(ManageEmployeeViewModel.PAY_LABEL + state.getPay());
             hoursWorkedLabel.setText(ManageEmployeeViewModel.HOURS_WORKED_LABEL + state.getHoursWorked());
             if(state.getPayError()) {

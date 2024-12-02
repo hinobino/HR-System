@@ -54,6 +54,6 @@ public class ManageEmployeeInteractor implements ManageEmployeeInputBoundary {
 
     @Override
     public void switchToEmployeeListView() {
-        manageEmployeeOutputBoundary.switchToEmployeeListView(userDataAccessInterface.getEmployees());
+        manageEmployeeOutputBoundary.switchToEmployeeListView(userDataAccessInterface.getEmployeesByManager(userDataAccessInterface.getCurrentUserID()));
     }
 }
