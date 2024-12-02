@@ -17,13 +17,12 @@ import java.beans.PropertyChangeListener;
 /**
  * The View where the manager can see a list of employees
  */
-public class EmployeeListView extends JPanel implements PropertyChangeListener {
+public class EmployeeListView extends JPanel implements PropertyChangeListener, MouseListener, ActionListener {
 
     private final String viewName = "employee list";
     private final EmployeeListViewModel employeeListViewModel;
     private final JTable table;
     private final JScrollPane scrollPane;
-    private final JButton manageEmployee;
     private final JButton createEmployee;
     private final JButton backButton;
 
@@ -39,13 +38,14 @@ public class EmployeeListView extends JPanel implements PropertyChangeListener {
         title.setFont(title.getFont().deriveFont(Font.BOLD, 24));
 
         //Panel for table
-        table = new JTable(new Object[1][2], EmployeeListViewModel.COLUMN_NAMES) {
+        table = new JTable(new Object[1][3], EmployeeListViewModel.COLUMN_NAMES) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         table.getTableHeader().setReorderingAllowed(false);
+        table.addMouseListener(this);
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(100, 100));
         table.setFillsViewportHeight(true);
@@ -58,35 +58,12 @@ public class EmployeeListView extends JPanel implements PropertyChangeListener {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        manageEmployee = new JButton(EmployeeListViewModel.MANAGE_EMPLOYEE_LABEL);
-        buttons.add(manageEmployee, gbc);
-
-        gbc.gridy++;
-        gbc.gridx = 0;
         createEmployee = new JButton(EmployeeListViewModel.CREATE_EMPLOYEE_LABEL);
         buttons.add(createEmployee,gbc);
 
         gbc.gridx = 1;
         backButton = new JButton(EmployeeListViewModel.BACK_BUTTON_LABEL);
         buttons.add(backButton, gbc);
-
-        manageEmployee.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        final int row = table.getSelectedRow();
-                        if (row == -1) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Please select an employee.",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                        else {
-                            final EmployeeListState currentState = employeeListViewModel.getState();
-                            employeeListController.selectEmployee(currentState.getEmployee((String) table.getValueAt(row, 0)));
-                        }
-                    }
-                }
-        );
 
         createEmployee.addActionListener(
                 new ActionListener() {
@@ -123,8 +100,39 @@ public class EmployeeListView extends JPanel implements PropertyChangeListener {
                     return false;
                 }
             });
+            table.getColumnModel().getColumn(1).setCellRenderer(new CustomeTableCellRenderer());
+            table.getColumnModel().getColumn(2).setCellRenderer(new CustomeTableCellRenderer());
         }
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int column = table.getColumnModel().getColumnIndexAtX(e.getX());
+        int row = e.getY()/table.getRowHeight();
+
+        if(row < table.getRowCount() && row >= 0 && column == 2) {
+            Object value = table.getValueAt(row, column);
+            if(value instanceof JButton) {
+                JButton button = (JButton) value;
+                button.addActionListener(
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                final EmployeeListState currentState = employeeListViewModel.getState();
+                                employeeListController.selectEmployee(currentState.getEmployee((String) table.getValueAt(row, 0)));
+                            }
+                        });
+                button.doClick();
+            }
+        }
+    }
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+
+    public void actionPerformed(ActionEvent e) {}
+
 
     public String getViewName() {
         return viewName;
