@@ -22,14 +22,14 @@ public class ManagerInteractor implements ManagerInputBoundary {
     @Override
     public void switchToEmployeeListView() {
         ManagerOutputData outputData = new ManagerOutputData(
-                userDataAccessObject.getEmployees(userDataAccessObject.getCurrentUserID())
+                userDataAccessObject.getEmployeesByManager(userDataAccessObject.getCurrentUserID())
         );
         managerOutputBoundary.switchToEmployeeListView(outputData);
     }
 
     public void switchToScheduleShiftView() {
         ManagerOutputData outputData = new ManagerOutputData(
-                userDataAccessObject.getEmployees(userDataAccessObject.getCurrentUserID())
+                userDataAccessObject.getEmployeesByManager(userDataAccessObject.getCurrentUserID())
         );
         managerOutputBoundary.switchToScheduleShiftView(outputData);
     }
@@ -37,14 +37,14 @@ public class ManagerInteractor implements ManagerInputBoundary {
     @Override
     public void switchToManageShiftsView() {
         ManagerOutputData outputData = new ManagerOutputData(
-                userDataAccessObject.getEmployees(userDataAccessObject.getCurrentUserID())
+                userDataAccessObject.getEmployeesByManager(userDataAccessObject.getCurrentUserID())
         );
         managerOutputBoundary.switchToManageShiftsView(outputData);
     }
 
     public void openScheduleView(ManagerInputData managerInputData) {
         ManagerOutputData managerOutputData = new ManagerOutputData(managerInputData
-                .getLoggedInState(), userDataAccessObject.getEmployees(userDataAccessObject
+                .getLoggedInState(), userDataAccessObject.getEmployeesByManager(userDataAccessObject
                 .getCurrentUserID()));
 
         managerOutputBoundary.openScheduleView(managerOutputData);

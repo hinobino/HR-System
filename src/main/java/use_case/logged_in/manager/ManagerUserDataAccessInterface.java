@@ -1,7 +1,6 @@
 package use_case.logged_in.manager;
 
 import entity.Employee;
-import entity.Shift;
 
 import java.util.Map;
 
@@ -18,6 +17,6 @@ public interface ManagerUserDataAccessInterface {
      * @param currentManagerID the ID of the current manager whose employees we are retrieving.
      * @return a Map of type Employee, containing all registered employees.
      */
-    Map<String, Employee> getEmployees(String currentManagerID);
+    Map<String, Employee> getEmployeesByManager(String currentManagerID);
 
 }
