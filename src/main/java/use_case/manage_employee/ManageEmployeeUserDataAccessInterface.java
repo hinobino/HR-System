@@ -28,5 +28,5 @@ public interface ManageEmployeeUserDataAccessInterface {
      */
     void inactivateUser(String userID);
 
-    Map<String, Employee> getEmployees(String managerID);
+    Map<String, Employee> getEmployeesByManager(String managerID);
 }
