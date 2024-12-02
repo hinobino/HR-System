@@ -115,8 +115,17 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
             }
         );
 
-        // TODO: Implement these action listeners.
+        requests.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        managerController.switchToTimeOffRequestView();
+                    }
+                }
+        );
+
         requests.addActionListener(e -> {});
+
 
         setShift.addActionListener(
                 new ActionListener() {

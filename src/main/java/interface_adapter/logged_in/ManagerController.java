@@ -2,6 +2,8 @@ package interface_adapter.logged_in;
 
 import use_case.logged_in.manager.ManagerInputBoundary;
 import use_case.logged_in.manager.ManagerInputData;
+import view.ViewManager;
+
 
 public class ManagerController {
 
@@ -46,4 +48,8 @@ public class ManagerController {
         final ManagerInputData managerInputData = new ManagerInputData(loggedInState);
         managerInputBoundary.openScheduleView(managerInputData);
     }
+    public void switchToTimeOffRequestView() {
+        ViewManager.switchToTimeOffRequestView();
+    }
+
 }

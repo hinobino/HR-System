@@ -68,6 +68,17 @@ public class ViewModel<T> {
     public void firePropertyChanged(String propertyName) {
         this.support.firePropertyChange(propertyName, null, this.state);
     }
+    /**
+     * Fires a property changed event with old and new values specified.
+     *
+     * @param propertyName the name of the property that has changed
+     * @param oldValue the old value of the property
+     * @param newValue the new value of the property
+     */
+    public void firePropertyChanged(String propertyName, Object oldValue, Object newValue) {
+        this.support.firePropertyChange(propertyName, oldValue, newValue);
+    }
+
 
     /**
      * Adds a PropertyChangeListener to this ViewModel.

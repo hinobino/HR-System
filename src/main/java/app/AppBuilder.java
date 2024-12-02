@@ -1,6 +1,7 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
+import data_access.TimeOffRequestDataAccessObject;
 import entity.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.activate_account.ActivateAccountController;
@@ -41,6 +42,9 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import interface_adapter.time_off.TimeOffRequestController;
+import interface_adapter.time_off.TimeOffRequestPresenter;
+import interface_adapter.time_off.TimeOffRequestViewModel;
 import use_case.activate_account.ActivateAccountInputBoundary;
 import use_case.activate_account.ActivateAccountInteractor;
 import use_case.activate_account.ActivateAccountOutputBoundary;
@@ -80,6 +84,9 @@ import use_case.logged_in.manager.ManagerOutputBoundary;
 import use_case.create_employee.CreateEmployeeInputBoundary;
 import use_case.create_employee.CreateEmployeeInteractor;
 import use_case.create_employee.CreateEmployeeOutputBoundary;
+import use_case.time_off_request.TimeOffRequestInputBoundary;
+import use_case.time_off_request.TimeOffRequestInteractor;
+import use_case.time_off_request.TimeOffRequestOutputBoundary;
 import view.*;
 
 import javax.swing.*;
@@ -142,6 +149,8 @@ public class AppBuilder {
     private ScheduleViewModel scheduleViewModel;
     private ManageShiftsView manageShiftsView;
     private ManageShiftsViewModel manageShiftsViewModel;
+    private TimeOffRequestView timeOffRequestView;
+    private TimeOffRequestViewModel timeOffRequestViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -278,6 +287,11 @@ public class AppBuilder {
         // NOT ADDED TO CARD PANEL BC IT IS A NEW JFRAME
         return this;
     }
+    /**
+     * Adds the Time Off Request View to the application.
+     * @return this builder
+     */
+    //implement
 
     /**
      * Adds the Welcome Use Case to the application.
@@ -469,6 +483,17 @@ public class AppBuilder {
         manageShiftsView.setManageShiftsController(controller);
         return this;
     }
+    /**
+     * Adds the Time Off Request View to the application.
+     * @return this builder
+     */
+    public AppBuilder addTimeOffRequestView() {
+        timeOffRequestViewModel = new TimeOffRequestViewModel();
+        timeOffRequestView = new TimeOffRequestView(timeOffRequestViewModel);
+        cardPanel.add(timeOffRequestView, timeOffRequestView.getViewName());
+        return this;
+    }
+
 
     public AppBuilder addViewScheduleUseCase() {
         final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(scheduleViewModel);
@@ -495,4 +520,21 @@ public class AppBuilder {
 
         return application;
     }
+
+    /**
+     * Adds the Time Off Request Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addTimeOffRequestUseCase() {
+        final TimeOffRequestOutputBoundary timeOffRequestOutputBoundary = new TimeOffRequestPresenter(timeOffRequestViewModel);
+        final TimeOffRequestDataAccessObject timeOffRequestDataAccessObject = new TimeOffRequestDataAccessObject(); // Correct type here
+        final TimeOffRequestInputBoundary timeOffRequestInteractor = new TimeOffRequestInteractor(timeOffRequestDataAccessObject, timeOffRequestOutputBoundary);
+        final TimeOffRequestController controller = new TimeOffRequestController(timeOffRequestInteractor);
+        timeOffRequestView.setTimeOffRequestController(controller);
+        return this;
+    }
+
+
+
+
 }
