@@ -1,12 +1,11 @@
 package view;
 
-import entity.Employee;
-import entity.Manager;
-import entity.Shift;
 import entity.WorkWeek;
-import interface_adapter.logged_in.EmployeeController;
-import interface_adapter.schedule.ScheduleState;
-import interface_adapter.schedule.ScheduleViewModel;
+import interface_adapter.view_schedule.ScheduleController;
+import interface_adapter.view_schedule.ScheduleState;
+import interface_adapter.view_schedule.ScheduleViewModel;
+import use_case.view_schedule.ScheduleInputBoundary;
+import use_case.view_schedule.ScheduleInputData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,35 +15,36 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-/**
- * The View where the users can see their schedule.
- */
 public class ScheduleView extends JFrame implements ActionListener, PropertyChangeListener {
     private final String viewName = "schedule";
     private final ScheduleViewModel scheduleViewModel;
 
-    private List<Shift> shiftList = new ArrayList<>();
-    private final WorkWeek currentWeek;
+    private final CardLayout cardLayout;
+    private Container cardContainer;
+    private List<String> weekNames = new ArrayList<>();
+    private int weekIndex = 0;
+    JButton previousButton;
+    JButton nextButton;
+    JLabel weekLabel;
 
-    private EmployeeController employeeController;
+    private ScheduleController scheduleController;
 
     public ScheduleView(ScheduleViewModel scheduleViewModel) {
         this.scheduleViewModel = scheduleViewModel;
         this.scheduleViewModel.addPropertyChangeListener(this);
 
+        setScheduleController(scheduleViewModel.getScheduleController());
+
         this.setTitle(ScheduleViewModel.VIEW_LABEL);
         this.setSize(900, 540);
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
+
+        cardLayout = new CardLayout();
+        cardContainer = new Container();
+        cardContainer.setLayout(cardLayout);
 
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -55,218 +55,150 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
 
         });
 
-        LocalDate today = LocalDate.now();
-        currentWeek = new WorkWeek(today, scheduleViewModel.getState().getShifts());
+        LocalDate currentWeekDate = LocalDate.now();
 
-        // Title
-        final JLabel title = new JLabel(currentWeek.toString());
-        title.setFont(new Font("Calibri", Font.BOLD, 20));
+        WorkWeek currentWeek = new WorkWeek(LocalDate.now(), scheduleViewModel.getState().getShifts());
 
-        gbc.gridy = 0; // first row
-        gbc.weightx = 1.0; // allow horizontal expansion
-        gbc.weighty = 0; // don't allow vertical expansion
-        gbc.gridwidth = GridBagConstraints.REMAINDER; // span full grid width
-        gbc.anchor = GridBagConstraints.CENTER; // center title
-        gbc.fill = GridBagConstraints.NONE; // don't stretch
-        gbc.insets = new Insets(1,1,1,1);
-        this.add(title, gbc);
-
-        // Schedule Panel
-        JPanel schedulePanel = new JPanel();
-        schedulePanel.setLayout(new GridBagLayout());
-        schedulePanel.setBackground(ScheduleViewModel.GRID_COLOR);
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1.0;
-        c.weighty = 1.0;
-        c.insets = new Insets(1,1,1,1);
-
-        // Schedule Headers
-        String[] days = {"", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-        String[] times = {
-                "09:00", //               _______
-                "10:00", //              | Shift |_______
-                "11:00", //              |_______| Shift |
-                "12:00", //                      |       |
-                "13:00", //                      |_______|
-                "14:00",
-                "15:00",
-                "16:00",
-                "17:00"
-        };
-        // add column headers (days of the week)
-        for (int i = 0; i < days.length; i++) {
-            JLabel day = new JLabel(days[i], JLabel.CENTER);
-            day.setFont(day.getFont().deriveFont(Font.BOLD));
-            day.setBackground(ScheduleViewModel.HEADER_COLOR);
-            day.setOpaque(true);
-            c.gridx = i;
-            c.gridy = 0;
-            c.weightx = 1.0;
-            c.weighty = 0;
-            schedulePanel.add(day, c);
-        }
-        // add row headers (times of the day)
-        for (int i = 0; i < times.length; i++) {
-            JLabel time = new JLabel(times[i], JLabel.CENTER);
-            time.setVerticalAlignment(SwingConstants.TOP);
-            time.setBackground(ScheduleViewModel.HEADER_COLOR);
-            time.setFont(time.getFont().deriveFont(Font.BOLD));
-            time.setOpaque(true);
-            c.gridheight = 2;
-            c.gridx = 0;
-            c.gridy = i * 2 + 1;
-            c.weightx = 0;
-            c.weighty = 1.0;
-            schedulePanel.add(time, c);
+        // create and add week pages for 4 weeks (including current week)
+        for (int i = 0; i < 4; i++) {
+//            LocalDate weekStart = currentWeekDate.plusWeeks(i);
+            WorkWeek week = new WorkWeek(currentWeek.getStartOfWeek().plusWeeks(i),
+                    scheduleViewModel.getState().getShifts());
+//            WorkWeek week = new WorkWeek(weekStart, scheduleViewModel.getState().getShifts());
+            ScheduleWeekView scheduleWeekView = new ScheduleWeekView(scheduleViewModel, week);
+            weekNames.add(scheduleWeekView.getWeek().toString());
+            cardContainer.add(scheduleWeekView, weekNames.get(i));
         }
 
-        // get all shifts for this week
-        this.shiftList = currentWeek.getShifts();
+        scheduleViewModel.getState().setWeekContainer(cardContainer);
+        scheduleViewModel.getState().setWeek(currentWeek);
 
-        // CUSTOM SHIFTS FOR DISPLAY TESTS
-//        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(9,30), LocalTime.of(10,0), new Employee("e", "e")));
-//        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(11,0), LocalTime.of(16,30), new Employee("f", "f")));
-//        this.shiftList.add(new Shift(LocalDate.of(2024,11,27), LocalTime.of(13,30), LocalTime.of(16,30), new Employee("g", "g")));
+        previousButton = new JButton("<");
+        nextButton = new JButton(">");
 
-//        Collections.sort(shiftList, new Comparator<Shift>() {
-//            @Override
-//            public int compare(Shift o1, Shift o2) {
-//                int value1 = o1.getDay().compareTo(o2.getDay());
-//                if (value1 == 0) {
-//                    return o1.getStartTime().compareTo(o2.getStartTime());
-//                }
-//                return value1;
-//            }
-//        });
+        previousButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // calculate the index of the previous week
+                        weekIndex = (weekIndex - 1 + weekNames.size()) % weekNames.size();
+                        // grab the week name for the respective index; similar to state name
+//                        String weekName = weekNames.get(weekIndex);
 
-        // Manager's Schedule View
-        if (scheduleViewModel.getState().getParentState().getUser() instanceof Manager) {
-            for (LocalDate day : currentWeek.getDaysOfWeek()) {
-                // get all shifts for day
-                List<Shift> dayShifts = new ArrayList<>();
-                List<List<Shift>> shiftBlocks = WorkWeek.getShiftBlocks(dayShifts);
+                        // pass in cardContainer so we can control it in other files,
+                        // weekName is the state name we are changing to.
+//                        scheduleController.showPreviousWeek(cardContainer, weekName);
+                        final ScheduleState currentState = scheduleViewModel.getState();
 
-                GridBagConstraints constraints = new GridBagConstraints();
-                constraints.fill = GridBagConstraints.BOTH;
-                constraints.weightx = 1.0;
-                constraints.weighty = 1.0;
-                constraints.insets = new Insets(1, 1, 1, 1);
+                        scheduleController.showPreviousWeek(
+                                currentState.getWeekContainer(),
+                                currentState.getWeek(),
+                                currentState.getShifts());
 
-                // create a visual shift box that also covers any overlapping shifts
-                for (List<Shift> block : shiftBlocks) {
-                    if (block.size() > 0) {
-                        Shift firstShift = block.get(0);
-                        Shift lastShift = block.get(block.size() - 1);
-
-                        constraints.gridx = firstShift.getDay().getDayOfWeek().getValue() % 7 + 1;
-                        constraints.gridy = (int) ((firstShift.getStartTime().getHour() +
-                                (firstShift.getStartTime().getMinute() / 60.0)) * 2
-                                - ScheduleViewModel.TIME_TO_GRIDY_OFFSET);
-
-                        constraints.gridwidth = 1;
-                        constraints.gridheight = (int) ((Duration.between(firstShift.getStartTime(), lastShift.getEndTime()).toMinutes() / 60.0) * 2);
-
-                        JPanel shiftBlock = new JPanel();
-                        shiftBlock.setBackground(ScheduleViewModel.SHIFT_COLOR);
-
-                        String description = "";
-                        for (Shift shift : block) {
-                            description += "<html>" + shift.getStartTime() + "-" + shift.getEndTime()
-                                    + ": " + shift.getEmployee().getUserID() + "<br>";
-                        }
-                        if (!description.isEmpty()) {
-                            description += "<html>";
-                        }
-
-                        JLabel shiftLabel = new JLabel(description, JLabel.CENTER);
-                        shiftLabel.setForeground(Color.WHITE);
-                        shiftBlock.add(shiftLabel);
-                        schedulePanel.add(shiftBlock, constraints);
+                        updateButton();
                     }
                 }
-            }
-        }
+        );
 
-        // Employee's Schedule View
-        if (scheduleViewModel.getState().getParentState().getUser() instanceof Employee) {
-            for (Shift shift : shiftList) {
+        nextButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // see comments for previousButton action listener
+                        weekIndex = (weekIndex + 1) % weekNames.size();
+//                        String weekName = weekNames.get(weekIndex);
 
-                GridBagConstraints shiftConstraints = new GridBagConstraints();
-                shiftConstraints.fill = GridBagConstraints.BOTH;
-                shiftConstraints.weightx = 1.0;
-                shiftConstraints.weighty = 1.0;
-                shiftConstraints.insets = new Insets(1, 1, 1, 1);
+                        final ScheduleState currentState = scheduleViewModel.getState();
 
-                // get time as an hour float (ex. 09:30 = 9.5 hours), convert to half hour
-                // (ex. 09:30 = 19 half hours), and subtract offset to get start index.
-                shiftConstraints.gridy = (int) ((shift.getStartTime().getHour() +
-                        (shift.getStartTime().getMinute() / 60.0)) * 2
-                        - ScheduleViewModel.TIME_TO_GRIDY_OFFSET);
+//                        WorkWeek nextWeek = new WorkWeek(currentState.getWeek()
+//                                .getStartOfWeek().plusWeeks(1),
+//                                scheduleViewModel.getState().getShifts());
+                        scheduleController.showNextWeek(
+                                currentState.getWeekContainer(),
+                                currentState.getWeek(),
+                                currentState.getShifts());
 
-                shiftConstraints.gridx = shift.getDay().getDayOfWeek().getValue() % 7 + 1;
-                shiftConstraints.gridwidth = 1;
-                shiftConstraints.gridheight = (int) (shift.length() * 2);
+                        updateButton();
+                    }
+                }
+        );
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(5, 5, 5, 5);
 
-                JPanel shiftBlock = new JPanel();
-                shiftBlock.setBackground(ScheduleViewModel.SHIFT_COLOR);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.WEST;
+        c.weightx = 0;
+        headerPanel.add(previousButton, c);
 
-                JLabel shiftLabel = new JLabel("Shift", JLabel.CENTER);
-                shiftLabel.setForeground(Color.WHITE);
-                shiftBlock.add(shiftLabel);
-                schedulePanel.add(shiftBlock, shiftConstraints);
-            }
-        }
+        weekLabel = new JLabel(weekNames.get(weekIndex));
+        weekLabel.setFont(weekLabel.getFont().deriveFont(Font.BOLD, 24));
+        c.gridx++;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.CENTER;
+        c.weightx = 1.0;
+        headerPanel.add(weekLabel, c);
 
-        // Empty cells for shift grid
-        for (int row = 1; row <= times.length * 2; row++) {
-            for (int col = 1; col <= days.length - 1; col++) {
-                JPanel cell = new JPanel();
+        c.gridx++;
+        c.anchor = GridBagConstraints.EAST;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.0;
+        headerPanel.add(nextButton, c);
 
-                // differentiate the cell colours based on hour / half hour for clear visuals
-                if (row % 2 == 1) { cell.setBackground(ScheduleViewModel.HOUR_COLOR); }
-                else { cell.setBackground(ScheduleViewModel.HALF_HOUR_COLOR); }
-
-                cell.setOpaque(true);
-                c.insets = new Insets(1,1,1,1);
-                c.gridheight = 1;
-                c.gridx = col;
-                c.gridy = row;
-                schedulePanel.add(cell, c);
-            }
-        }
-
-        // add schedule panel
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        this.add(schedulePanel, gbc);
+        updateButton();
 
         // Download Button
         JButton downloadButton = new JButton(ScheduleViewModel.DOWNLOAD_LABEL);
-        downloadButton.addActionListener(e -> {});
-        gbc.gridy++;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.fill = GridBagConstraints.NONE;
-        this.add(downloadButton, gbc);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c2 = new GridBagConstraints();
+//        c2.fill = GridBagConstraints.NONE;
+        c2.weightx = 1.0;
+        c2.insets = new Insets(5, 5, 5, 5);
+        c2.anchor = GridBagConstraints.EAST;
+        buttonPanel.add(downloadButton, c2);
 
-        // FOR DISPLAY TEST
+        // TODO implement download button
+        downloadButton.addActionListener(e -> {});
+
+        this.add(headerPanel, BorderLayout.NORTH);
+        this.add(cardContainer, BorderLayout.CENTER);
+        this.add(buttonPanel, BorderLayout.SOUTH);
+
+        cardLayout.show(cardContainer, weekNames.get(0));
+
+        // FOR TESTING
 //        this.setVisible(true);
+    }
+
+    private void updateButton() {
+        previousButton.setEnabled(weekIndex > 0);
+        nextButton.setEnabled(weekIndex < weekNames.size() - 1);
+        weekLabel.setText(weekNames.get(weekIndex));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
     }
 
     public String getViewName() {
         return viewName;
+    }
+
+    public void getScheduleController(ScheduleController scheduleController) {
+        this.scheduleController = scheduleController;
+    }
+
+    public void setScheduleController(ScheduleController scheduleController) {
+        this.scheduleController = scheduleController;
     }
 }

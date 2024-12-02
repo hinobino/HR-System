@@ -2,6 +2,7 @@ package interface_adapter.logged_in;
 
 import entity.User;
 import view.ScheduleView;
+import view.ScheduleWeekView;
 
 /**
  * The State information representing the logged-in user.

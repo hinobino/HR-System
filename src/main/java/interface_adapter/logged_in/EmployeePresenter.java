@@ -1,8 +1,8 @@
 package interface_adapter.logged_in;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.schedule.ScheduleState;
-import interface_adapter.schedule.ScheduleViewModel;
+import interface_adapter.view_schedule.ScheduleState;
+import interface_adapter.view_schedule.ScheduleViewModel;
 import use_case.logged_in.employee.EmployeeOutputData;
 import use_case.logged_in.employee.EmployeeOutputBoundary;
 import view.ScheduleView;

@@ -1,6 +1,7 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
+import data_access.TimeOffRequestDataAccessObject;
 import entity.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.activate_account.ActivateAccountController;
@@ -23,7 +24,12 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
-import interface_adapter.schedule.ScheduleViewModel;
+import interface_adapter.manage_shifts.ManageShiftsController;
+import interface_adapter.manage_shifts.ManageShiftsPresenter;
+import interface_adapter.manage_shifts.ManageShiftsViewModel;
+import interface_adapter.view_schedule.ScheduleController;
+import interface_adapter.view_schedule.SchedulePresenter;
+import interface_adapter.view_schedule.ScheduleViewModel;
 import interface_adapter.manage_employee.ManageEmployeeController;
 import interface_adapter.manage_employee.ManageEmployeePresenter;
 import interface_adapter.manage_employee.ManageEmployeeViewModel;
@@ -36,10 +42,12 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import interface_adapter.time_off.TimeOffRequestController;
+import interface_adapter.time_off.TimeOffRequestPresenter;
+import interface_adapter.time_off.TimeOffRequestViewModel;
 import use_case.activate_account.ActivateAccountInputBoundary;
 import use_case.activate_account.ActivateAccountInteractor;
 import use_case.activate_account.ActivateAccountOutputBoundary;
-import use_case.create_employee.CreateEmployeeOutputData;
 import use_case.employee_list.EmployeeListInputBoundary;
 import use_case.employee_list.EmployeeListInteractor;
 import use_case.employee_list.EmployeeListOutputBoundary;
@@ -55,12 +63,18 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.manage_employee.ManageEmployeeInputBoundary;
 import use_case.manage_employee.ManageEmployeeInteractor;
 import use_case.manage_employee.ManageEmployeeOutputBoundary;
+import use_case.manage_shifts.ManageShiftsInputBoundary;
+import use_case.manage_shifts.ManageShiftsInteractor;
+import use_case.manage_shifts.ManageShiftsOutputBoundary;
 import use_case.schedule_shift.ScheduleShiftInputBoundary;
 import use_case.schedule_shift.ScheduleShiftInteractor;
 import use_case.schedule_shift.ScheduleShiftOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.view_schedule.ScheduleInputBoundary;
+import use_case.view_schedule.ScheduleInteractor;
+import use_case.view_schedule.ScheduleOutputBoundary;
 import use_case.welcome.WelcomeInputBoundary;
 import use_case.welcome.WelcomeInteractor;
 import use_case.welcome.WelcomeOutputBoundary;
@@ -70,6 +84,9 @@ import use_case.logged_in.manager.ManagerOutputBoundary;
 import use_case.create_employee.CreateEmployeeInputBoundary;
 import use_case.create_employee.CreateEmployeeInteractor;
 import use_case.create_employee.CreateEmployeeOutputBoundary;
+import use_case.time_off_request.TimeOffRequestInputBoundary;
+import use_case.time_off_request.TimeOffRequestInteractor;
+import use_case.time_off_request.TimeOffRequestOutputBoundary;
 import view.*;
 
 import javax.swing.*;
@@ -130,6 +147,10 @@ public class AppBuilder {
     private ScheduleShiftViewModel scheduleShiftViewModel;
     private ScheduleView scheduleView;
     private ScheduleViewModel scheduleViewModel;
+    private ManageShiftsView manageShiftsView;
+    private ManageShiftsViewModel manageShiftsViewModel;
+    private TimeOffRequestView timeOffRequestView;
+    private TimeOffRequestViewModel timeOffRequestViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -244,6 +265,17 @@ public class AppBuilder {
         cardPanel.add(scheduleShiftView, scheduleShiftView.getViewName());
         return this;
     }
+    
+    /**
+     * Adds the Manage Shifts View to the application.
+     * @return this builder
+     */
+    public AppBuilder addManageShiftsView() {
+        manageShiftsViewModel = new ManageShiftsViewModel();
+        manageShiftsView = new ManageShiftsView(manageShiftsViewModel);
+        cardPanel.add(manageShiftsView, manageShiftsView.getViewName());
+        return this;
+    }
 
     /**
      * Adds the Schedule View to the application.
@@ -252,8 +284,14 @@ public class AppBuilder {
     public AppBuilder addScheduleView() {
         scheduleViewModel = new ScheduleViewModel();
         scheduleView = new ScheduleView(scheduleViewModel);
+        // NOT ADDED TO CARD PANEL BC IT IS A NEW JFRAME
         return this;
     }
+    /**
+     * Adds the Time Off Request View to the application.
+     * @return this builder
+     */
+    //implement
 
     /**
      * Adds the Welcome Use Case to the application.
@@ -331,8 +369,13 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addManagerUseCase() {
-        final ManagerOutputBoundary managerOutputBoundary = new ManagerPresenter(createEmployeeViewModel,
-                employeeListViewModel, scheduleShiftViewModel, scheduleViewModel, viewManagerModel);
+        final ManagerOutputBoundary managerOutputBoundary = new ManagerPresenter(
+                createEmployeeViewModel,
+                employeeListViewModel,
+                scheduleShiftViewModel,
+                scheduleViewModel,
+                manageShiftsViewModel,
+                viewManagerModel);
         final ManagerInputBoundary managerInteractor = new ManagerInteractor(userDataAccessObject,
                 managerOutputBoundary);
         final ManagerController controller = new ManagerController(managerInteractor);
@@ -428,6 +471,39 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addManageShiftsUseCase() {
+        final ManageShiftsOutputBoundary manageShiftsOutputBoundary = new ManageShiftsPresenter(
+                managerViewModel,
+                manageShiftsViewModel,
+                viewManagerModel
+        );
+        final ManageShiftsInputBoundary manageShiftsInteractor = new ManageShiftsInteractor(userDataAccessObject,
+                manageShiftsOutputBoundary);
+        final ManageShiftsController controller = new ManageShiftsController(manageShiftsInteractor);
+        manageShiftsView.setManageShiftsController(controller);
+        return this;
+    }
+    /**
+     * Adds the Time Off Request View to the application.
+     * @return this builder
+     */
+    public AppBuilder addTimeOffRequestView() {
+        timeOffRequestViewModel = new TimeOffRequestViewModel();
+        timeOffRequestView = new TimeOffRequestView(timeOffRequestViewModel);
+        cardPanel.add(timeOffRequestView, timeOffRequestView.getViewName());
+        return this;
+    }
+
+
+    public AppBuilder addViewScheduleUseCase() {
+        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(scheduleViewModel);
+        final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(userDataAccessObject, scheduleOutputBoundary);
+        final ScheduleController controller = new ScheduleController(scheduleInteractor);
+        scheduleView.setScheduleController(controller);
+        scheduleViewModel.setScheduleController(controller);
+        return this;
+    }
+
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
@@ -444,4 +520,21 @@ public class AppBuilder {
 
         return application;
     }
+
+    /**
+     * Adds the Time Off Request Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addTimeOffRequestUseCase() {
+        final TimeOffRequestOutputBoundary timeOffRequestOutputBoundary = new TimeOffRequestPresenter(timeOffRequestViewModel);
+        final TimeOffRequestDataAccessObject timeOffRequestDataAccessObject = new TimeOffRequestDataAccessObject(); // Correct type here
+        final TimeOffRequestInputBoundary timeOffRequestInteractor = new TimeOffRequestInteractor(timeOffRequestDataAccessObject, timeOffRequestOutputBoundary);
+        final TimeOffRequestController controller = new TimeOffRequestController(timeOffRequestInteractor);
+        timeOffRequestView.setTimeOffRequestController(controller);
+        return this;
+    }
+
+
+
+
 }

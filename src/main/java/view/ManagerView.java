@@ -30,6 +30,7 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
     private final JButton requests;
 //    private final JButton createEmployee;
     private final JButton logOut;
+    private final JButton manageShifts;
 
     private ManagerController managerController;
 
@@ -59,13 +60,17 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
 //        createEmployee = new JButton(ManagerViewModel.CREATE_EMPLOYEE_LABEL);
 //        buttons.add(createEmployee, gbc);
 
-        gbc.gridy++;
+//        gbc.gridy++;
         schedule = new JButton(ManagerViewModel.SCHEDULE_LABEL);
         buttons.add(schedule, gbc);
 
         gbc.gridy++;
         setShift = new JButton(ManagerViewModel.SET_SHIFT_LABEL);
         buttons.add(setShift, gbc);
+
+        gbc.gridy++;
+        manageShifts = new JButton("Manage Shifts");
+        buttons.add(manageShifts, gbc);
 
         gbc.gridy++;
         employees = new JButton(ManagerViewModel.EMPLOYEES_LABEL);
@@ -98,7 +103,6 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        // TODO: Implement these action listeners.
         schedule.addActionListener(
             new ActionListener() {
                 @Override
@@ -110,7 +114,18 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                 }
             }
         );
+
+        requests.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        managerController.switchToTimeOffRequestView();
+                    }
+                }
+        );
+
         requests.addActionListener(e -> {});
+
 
         setShift.addActionListener(
                 new ActionListener() {
@@ -126,6 +141,15 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         managerController.switchToEmployeeListView();
+                    }
+                }
+        );
+
+        manageShifts.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        managerController.switchToManageShiftsView();
                     }
                 }
         );

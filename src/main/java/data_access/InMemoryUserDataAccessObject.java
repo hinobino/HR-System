@@ -14,8 +14,10 @@ import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.manage_employee.ManageEmployeeInteractor;
 import use_case.manage_employee.ManageEmployeeUserDataAccessInterface;
+import use_case.manage_shifts.ManageShiftsUserDataAccessInterface;
 import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.view_schedule.ScheduleUserDataAccessInterface;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -35,7 +37,9 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         ManageEmployeeUserDataAccessInterface,
         ScheduleShiftUserDataAccessInterface,
         ManagerUserDataAccessInterface,
-        EmployeeUserDataAccessInterface {
+        EmployeeUserDataAccessInterface,
+        ManageShiftsUserDataAccessInterface,
+        ScheduleUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
     private final Map<LocalDate, Workday> workdays = new HashMap<>();
@@ -60,6 +64,10 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public void addShiftToWorkday(Shift newShift, Workday workday) {
         workday.addShift(newShift);
+
+        if (!workdayExists(newShift.getDay())) {
+            workdays.put(newShift.getDay(), workday);
+        }
     }
 
     @Override
@@ -124,7 +132,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public Map<String, Employee> getEmployees(String managerID) {
+    public Map<String, Employee> getEmployeesByManager(String managerID) {
         return ((Manager) users.get(managerID)).getEmployees();
     }
 

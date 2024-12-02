@@ -46,8 +46,6 @@ public class WorkWeek {
                 }
             });
         }
-
-
     }
 
     public List<Shift> getShifts() {
@@ -55,6 +53,8 @@ public class WorkWeek {
     }
 
     public List<LocalDate> getDaysOfWeek() { return daysOfWeek; }
+
+    public LocalDate getStartOfWeek() { return startOfWeek; }
 
     @Override
     public String toString() {
