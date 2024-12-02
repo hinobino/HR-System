@@ -17,6 +17,8 @@ public interface ManageEmployeeUserDataAccessInterface {
      */
     User get(String userID);
 
+    String getCurrentUserID();
+
     void setPayRate(String userID, Double newPayRate);
 
     void activateUser(String userID, String password);
@@ -26,5 +28,5 @@ public interface ManageEmployeeUserDataAccessInterface {
      */
     void inactivateUser(String userID);
 
-    Map<String, Employee> getEmployees();
+    Map<String, Employee> getEmployees(String managerID);
 }
