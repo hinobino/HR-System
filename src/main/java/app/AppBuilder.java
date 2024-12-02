@@ -1,6 +1,7 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
+import data_access.TimeOffRequestDataAccessObject;
 import entity.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.activate_account.ActivateAccountController;
@@ -483,9 +484,15 @@ public class AppBuilder {
         return this;
     }
     /**
-     * Adds the Time Off Request Use Case to the application.
+     * Adds the Time Off Request View to the application.
      * @return this builder
      */
+    public AppBuilder addTimeOffRequestView() {
+        timeOffRequestViewModel = new TimeOffRequestViewModel();
+        timeOffRequestView = new TimeOffRequestView(timeOffRequestViewModel);
+        cardPanel.add(timeOffRequestView, timeOffRequestView.getViewName());
+        return this;
+    }
 
 
     public AppBuilder addViewScheduleUseCase() {
@@ -513,4 +520,21 @@ public class AppBuilder {
 
         return application;
     }
+
+    /**
+     * Adds the Time Off Request Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addTimeOffRequestUseCase() {
+        final TimeOffRequestOutputBoundary timeOffRequestOutputBoundary = new TimeOffRequestPresenter(timeOffRequestViewModel);
+        final TimeOffRequestDataAccessObject timeOffRequestDataAccessObject = new TimeOffRequestDataAccessObject(); // Correct type here
+        final TimeOffRequestInputBoundary timeOffRequestInteractor = new TimeOffRequestInteractor(timeOffRequestDataAccessObject, timeOffRequestOutputBoundary);
+        final TimeOffRequestController controller = new TimeOffRequestController(timeOffRequestInteractor);
+        timeOffRequestView.setTimeOffRequestController(controller);
+        return this;
+    }
+
+
+
+
 }

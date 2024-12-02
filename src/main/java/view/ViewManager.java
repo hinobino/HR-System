@@ -12,8 +12,8 @@ import java.beans.PropertyChangeListener;
  * in the ViewManagerModel and updates which View should be visible.
  */
 public class ViewManager implements PropertyChangeListener {
-    private final CardLayout cardLayout;
-    private final JPanel views;
+    private static CardLayout cardLayout;
+    private static JPanel views;
     private final ViewManagerModel viewManagerModel;
 
     public ViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {
@@ -29,5 +29,8 @@ public class ViewManager implements PropertyChangeListener {
             final String viewModelName = (String) evt.getNewValue();
             cardLayout.show(views, viewModelName);
         }
+    }
+    public static void switchToTimeOffRequestView() {
+        cardLayout.show(views, "timeOffRequestView");
     }
 }

@@ -1,5 +1,6 @@
 package use_case.time_off_request;
 
+import data_access.InMemoryUserDataAccessObject;
 import data_access.TimeOffRequestDataAccessObject;
 import entity.TimeOffRequest;
 
@@ -14,6 +15,7 @@ public class TimeOffRequestInteractor implements TimeOffRequestInputBoundary {
         this.dataAccessObject = dataAccessObject;
         this.outputBoundary = outputBoundary;
     }
+
 
     @Override
     public void submitRequest(TimeOffRequestInputData inputData) {

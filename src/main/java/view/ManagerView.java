@@ -124,6 +124,9 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        requests.addActionListener(e -> {});
+
+
         setShift.addActionListener(
                 new ActionListener() {
                     @Override
