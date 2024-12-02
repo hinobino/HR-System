@@ -8,8 +8,8 @@ import interface_adapter.employee_list.EmployeeListState;
 import interface_adapter.employee_list.EmployeeListViewModel;
 import interface_adapter.manage_shifts.ManageShiftsState;
 import interface_adapter.manage_shifts.ManageShiftsViewModel;
-import interface_adapter.schedule.ScheduleState;
-import interface_adapter.schedule.ScheduleViewModel;
+import interface_adapter.view_schedule.ScheduleState;
+import interface_adapter.view_schedule.ScheduleViewModel;
 import interface_adapter.schedule_shift.ScheduleShiftState;
 import interface_adapter.schedule_shift.ScheduleShiftViewModel;
 import use_case.logged_in.manager.ManagerOutputBoundary;
@@ -83,7 +83,8 @@ public class ManagerPresenter implements ManagerOutputBoundary {
         viewManagerModel.setState(manageShiftsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
-    
+
+    // TODO add all this info into output data (calculated in interactor?) instead of calculating here
     public void openScheduleView(ManagerOutputData managerOutputData) {
         String userID = managerOutputData.getUserID();
         LoggedInState loggedInState = managerOutputData.getLoggedInState();
