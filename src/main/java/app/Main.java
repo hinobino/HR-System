@@ -52,6 +52,7 @@ public class Main {
                                             .addManageShiftsUseCase()
                                             .addTimeOffRequestUseCase()
                                             .addViewScheduleUseCase()
+                                            .addExportCalendarUseCase()
 
                                             .build();
 

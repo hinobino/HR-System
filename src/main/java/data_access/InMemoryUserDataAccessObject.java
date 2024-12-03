@@ -7,6 +7,7 @@ import entity.User;
 import entity.Workday;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
+import use_case.export_calendar.ExportCalendarUserDataAccessInterface;
 import use_case.logged_in.employee.EmployeeUserDataAccessInterface;
 import use_case.logged_in.manager.ManagerUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -36,7 +37,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         ManagerUserDataAccessInterface,
         EmployeeUserDataAccessInterface,
         ManageShiftsUserDataAccessInterface,
-        ScheduleUserDataAccessInterface {
+        ScheduleUserDataAccessInterface,
+        ExportCalendarUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
     private final Map<LocalDate, Workday> workdays = new HashMap<>();
@@ -139,5 +141,10 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     public void saveWorkday(LocalDate date, Workday workday) {
         workdays.put(date, workday);
+    }
+
+    @Override
+    public Employee getEmployee() {
+        return ((Employee) users.get(currentUserID));
     }
 }
