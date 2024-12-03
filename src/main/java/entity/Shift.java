@@ -2,7 +2,7 @@ package entity;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 /**
  * The representation of a shift.
@@ -12,8 +12,8 @@ public class Shift {
     private static long iDCounter = 0;
 
     private LocalDate day;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private Employee employee;
     private String ID;
 
@@ -24,7 +24,7 @@ public class Shift {
      * @param endTime the end time of the shift.
      * @param employee the employee assigned to the shift.
      */
-    public Shift(LocalDate day, LocalTime startTime, LocalTime endTime, Employee employee) {
+    public Shift(LocalDate day, LocalDateTime startTime, LocalDateTime endTime, Employee employee) {
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -40,19 +40,19 @@ public class Shift {
         this.day = day;
     }
 
-    public LocalTime getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalTime getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
