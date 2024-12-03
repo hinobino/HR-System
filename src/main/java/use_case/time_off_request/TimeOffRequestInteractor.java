@@ -1,6 +1,5 @@
 package use_case.time_off_request;
 
-import data_access.InMemoryUserDataAccessObject;
 import data_access.TimeOffRequestDataAccessObject;
 import entity.TimeOffRequest;
 

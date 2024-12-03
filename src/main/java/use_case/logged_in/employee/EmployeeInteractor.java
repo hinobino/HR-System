@@ -1,6 +1,5 @@
 package use_case.logged_in.employee;
 
-import data_access.InMemoryUserDataAccessObject;
 import entity.Shift;
 import entity.WorkWeek;
 import entity.WorkWeekFactory;
@@ -15,7 +14,7 @@ public class EmployeeInteractor implements EmployeeInputBoundary {
     private final EmployeeOutputBoundary employeeOutputBoundary;
     private final WorkWeekFactory workWeekFactory;
 
-    public EmployeeInteractor(InMemoryUserDataAccessObject userDataAccessObject,
+    public EmployeeInteractor(EmployeeUserDataAccessObject userDataAccessObject,
                               EmployeeOutputBoundary employeeOutputBoundary,
                               WorkWeekFactory workWeekFactory) {
         this.userDataAccessObject = userDataAccessObject;
