@@ -1,6 +1,9 @@
 package view;
 
 import entity.WorkWeek;
+import interface_adapter.export_calendar.ExportCalendarController;
+import interface_adapter.export_calendar.ExportCalendarState;
+import interface_adapter.export_calendar.ExportCalendarViewModel;
 import interface_adapter.view_schedule.ScheduleController;
 import interface_adapter.view_schedule.ScheduleState;
 import interface_adapter.view_schedule.ScheduleViewModel;
@@ -22,6 +25,7 @@ import java.util.List;
 public class ScheduleView extends JFrame implements ActionListener, PropertyChangeListener {
     private final String viewName = "schedule";
     private final ScheduleViewModel scheduleViewModel;
+    private final ExportCalendarViewModel exportCalendarViewModel;
 
     private final CardLayout cardLayout;
     private Container cardContainer;
@@ -29,15 +33,20 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
     private int weekIndex = 0;
     JButton previousButton;
     JButton nextButton;
+    JButton downloadButton;
     JLabel weekLabel;
 
     private ScheduleController scheduleController;
+    private ExportCalendarController exportCalendarController;
 
-    public ScheduleView(ScheduleViewModel scheduleViewModel) {
+    public ScheduleView(ScheduleViewModel scheduleViewModel, ExportCalendarViewModel exportCalendarViewModel) {
         this.scheduleViewModel = scheduleViewModel;
         this.scheduleViewModel.addPropertyChangeListener(this);
+        this.exportCalendarViewModel = exportCalendarViewModel;
+        this.exportCalendarViewModel.addPropertyChangeListener(this);
 
         setScheduleController(scheduleViewModel.getState().getScheduleController());
+        setExportCalendarController(exportCalendarViewModel.getState().getExportCalendarController());
 
         this.setTitle(ScheduleViewModel.VIEW_LABEL);
         this.setSize(900, 540);
@@ -169,7 +178,7 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
 
 
             // Download Button
-            JButton downloadButton = new JButton(ScheduleViewModel.DOWNLOAD_LABEL);
+            downloadButton = new JButton(ScheduleViewModel.DOWNLOAD_LABEL);
             JPanel buttonPanel = new JPanel();
             buttonPanel.setLayout(new GridBagLayout());
             GridBagConstraints c2 = new GridBagConstraints();
@@ -179,8 +188,18 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
             c2.anchor = GridBagConstraints.EAST;
             buttonPanel.add(downloadButton, c2);
 
-            // TODO implement download button
-            downloadButton.addActionListener(e -> {
+            downloadButton.addActionListener(
+                    new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    final ExportCalendarState currentState = ExportCalendarViewModel.getState();
+
+                    exportCalendarController.execute(
+                            currentState.getEmployee());
+
+                    updateButton();
+                }
             });
 
             this.add(headerPanel, BorderLayout.NORTH);
@@ -227,5 +246,8 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
 
     public void setScheduleController(ScheduleController scheduleController) {
         this.scheduleController = scheduleController;
+    }
+    public void setExportCalendarController(ExportCalendarController exportCalendarController) {
+        this.exportCalendarController = exportCalendarController;
     }
 }
