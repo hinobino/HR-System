@@ -1,6 +1,7 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
+import data_access.DBUserDataAccessObject;
 import data_access.TimeOffRequestDataAccessObject;
 import entity.*;
 import interface_adapter.ViewManagerModel;
@@ -428,10 +429,7 @@ public class AppBuilder {
     public AppBuilder addEmployeeListUseCase() {
         final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(
                 manageEmployeeViewModel, createEmployeeViewModel, managerViewModel, viewManagerModel);
-        final EmployeeListInputBoundary employeeListInteractor = new EmployeeListInteractor(
-                userDataAccessObject,
-                employeeListOutputBoundary
-        );
+        final EmployeeListInputBoundary employeeListInteractor = new EmployeeListInteractor(employeeListOutputBoundary);
 
         final EmployeeListController controller = new EmployeeListController(employeeListInteractor);
         employeeListView.setEmployeeListController(controller);

@@ -1,12 +1,10 @@
 package use_case.logged_in.employee;
 
-import data_access.InMemoryUserDataAccessObject;
-
 public class EmployeeInteractor implements EmployeeInputBoundary {
     private final EmployeeUserDataAccessInterface userDataAccessObject;
     private final EmployeeOutputBoundary employeeOutputBoundary;
 
-    public EmployeeInteractor(InMemoryUserDataAccessObject userDataAccessObject, EmployeeOutputBoundary employeeOutputBoundary) {
+    public EmployeeInteractor(EmployeeUserDataAccessInterface userDataAccessObject, EmployeeOutputBoundary employeeOutputBoundary) {
         this.userDataAccessObject = userDataAccessObject;
         this.employeeOutputBoundary = employeeOutputBoundary;
     }

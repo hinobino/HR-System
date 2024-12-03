@@ -1,18 +1,15 @@
 package interface_adapter.logout;
 
-import data_access.InMemoryUserDataAccessObject;
 import entity.Employee;
 import entity.Manager;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.ManagerViewModel;
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
-import interface_adapter.welcome.WelcomeState;
 import interface_adapter.welcome.WelcomeViewModel;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.logout.LogoutOutputData;
+import use_case.logout.LogoutUserDataAccessInterface;
 
 /**
  * The Presenter for the Logout Use Case.
@@ -23,13 +20,13 @@ public class LogoutPresenter implements LogoutOutputBoundary {
     private EmployeeViewModel employeeViewModel;
     private WelcomeViewModel welcomeViewModel;
     private ViewManagerModel viewManagerModel;
-    private InMemoryUserDataAccessObject userDataAccessObject;
+    private LogoutUserDataAccessInterface userDataAccessObject;
 
     public LogoutPresenter(ViewManagerModel viewManagerModel,
                           ManagerViewModel managerViewModel,
                            EmployeeViewModel employeeViewModel,
                            WelcomeViewModel welcomeViewModel,
-                           InMemoryUserDataAccessObject userDataAccessObject) {
+                           LogoutUserDataAccessInterface userDataAccessObject) {
         this.viewManagerModel = viewManagerModel;
         this.managerViewModel = managerViewModel;
         this.employeeViewModel = employeeViewModel;
