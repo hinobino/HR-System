@@ -2,6 +2,7 @@ package use_case.schedule_shift;
 
 import entity.Employee;
 import entity.Shift;
+import entity.User;
 import entity.Workday;
 
 import java.time.LocalDate;
@@ -16,6 +17,13 @@ public interface ScheduleShiftUserDataAccessInterface {
      * @param newShift the Shift to save.
      */
     void save(Shift newShift);
+
+    /**
+     * Saves the user.
+     * @param user the user to save
+     */
+    void save(User user);
+
 
     /**
      * Check if a User of the given ID exists.
@@ -44,4 +52,6 @@ public interface ScheduleShiftUserDataAccessInterface {
      * @param workday the workday.
      */
     void addShiftToWorkday(Shift newShift, Workday workday);
+
+    void saveWorkday(LocalDate date, Workday workday);
 }
