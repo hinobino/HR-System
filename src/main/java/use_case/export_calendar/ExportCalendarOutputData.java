@@ -15,7 +15,7 @@ public class ExportCalendarOutputData {
         this.employee = employee;
     }
 
-    public Employee getEmployee() {return employee;}
+    public Employee getEmployee() {return this.employee;}
 
     public List<Shift> getShifts() {return employee.getShifts();}
 }
