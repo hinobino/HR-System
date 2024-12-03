@@ -13,6 +13,9 @@ import interface_adapter.create_employee.CreateEmployeeViewModel;
 import interface_adapter.employee_list.EmployeeListController;
 import interface_adapter.employee_list.EmployeeListPresenter;
 import interface_adapter.employee_list.EmployeeListViewModel;
+import interface_adapter.export_calendar.ExportCalendarController;
+import interface_adapter.export_calendar.ExportCalendarPresenter;
+import interface_adapter.export_calendar.ExportCalendarViewModel;
 import interface_adapter.logged_in.EmployeeController;
 import interface_adapter.logged_in.EmployeePresenter;
 import interface_adapter.logged_in.EmployeeViewModel;
@@ -51,6 +54,9 @@ import use_case.activate_account.ActivateAccountOutputBoundary;
 import use_case.employee_list.EmployeeListInputBoundary;
 import use_case.employee_list.EmployeeListInteractor;
 import use_case.employee_list.EmployeeListOutputBoundary;
+import use_case.export_calendar.ExportCalendarInputBoundary;
+import use_case.export_calendar.ExportCalendarInteractor;
+import use_case.export_calendar.ExportCalendarOutputBoundary;
 import use_case.logged_in.employee.EmployeeInputBoundary;
 import use_case.logged_in.employee.EmployeeInteractor;
 import use_case.logged_in.employee.EmployeeOutputBoundary;
@@ -152,6 +158,7 @@ public class AppBuilder {
     private ManageShiftsViewModel manageShiftsViewModel;
     private TimeOffRequestView timeOffRequestView;
     private TimeOffRequestViewModel timeOffRequestViewModel;
+    private ExportCalendarViewModel exportCalendarViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -284,7 +291,7 @@ public class AppBuilder {
      */
     public AppBuilder addScheduleView() {
         scheduleViewModel = new ScheduleViewModel();
-        scheduleView = new ScheduleView(scheduleViewModel);
+        scheduleView = new ScheduleView(scheduleViewModel, exportCalendarViewModel);
         // NOT ADDED TO CARD PANEL BC IT IS A NEW JFRAME
         return this;
     }
@@ -512,6 +519,21 @@ public class AppBuilder {
         final ScheduleController controller = new ScheduleController(scheduleInteractor);
         scheduleView.setScheduleController(controller);
         scheduleViewModel.getState().setScheduleController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Welcome Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addExportCalendarUseCase() {
+        final ExportCalendarOutputBoundary exportCalendarOutputBoundary = new ExportCalendarPresenter(viewManagerModel,
+                exportCalendarViewModel);
+        final ExportCalendarInputBoundary exportCalendarInteractor = new ExportCalendarInteractor(
+                userDataAccessObject, exportCalendarOutputBoundary);
+
+        final ExportCalendarController exportCalendarController = new ExportCalendarController(exportCalendarInteractor);
+        scheduleView.setExportCalendarController(exportCalendarController);
         return this;
     }
 
