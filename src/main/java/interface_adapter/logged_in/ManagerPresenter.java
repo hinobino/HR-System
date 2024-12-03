@@ -97,6 +97,8 @@ public class ManagerPresenter implements ManagerOutputBoundary {
             employeeShifts.addAll(employee.getShifts());
         }
         scheduleState.setShifts(employeeShifts);
+        scheduleState.setWeeks(managerOutputData.getWeeks());
+        scheduleState.setWeek(managerOutputData.getWeeks().get(0));
         scheduleState.setParentState(loggedInState);
 
         this.scheduleViewModel.setState(scheduleState);

@@ -15,6 +15,13 @@ public class ScheduleController {
     public ScheduleController(ScheduleInputBoundary scheduleInputBoundary) {
         this.scheduleInputBoundary = scheduleInputBoundary;
     }
+
+    public void showStartWeek(Container weekContainer, WorkWeek workWeek, List<Shift> shifts) {
+        final ScheduleInputData scheduleInputData =
+                new ScheduleInputData(weekContainer, workWeek, shifts);
+        scheduleInputBoundary.showStartWeek(scheduleInputData);
+    }
+
     public void showPreviousWeek(Container weekContainer, WorkWeek workWeek, List<Shift> shifts) {
         final ScheduleInputData scheduleInputData =
                 new ScheduleInputData(weekContainer, workWeek, shifts);

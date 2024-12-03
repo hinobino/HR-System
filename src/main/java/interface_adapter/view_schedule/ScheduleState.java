@@ -1,21 +1,21 @@
 package interface_adapter.view_schedule;
 
-import entity.Employee;
 import entity.Shift;
 import entity.WorkWeek;
 import interface_adapter.logged_in.LoggedInState;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ScheduleState {
     private String userID;
     private List<Shift> shifts;
-    private Map<Employee, List<Shift>> allEmployeeShifts;
     private LoggedInState loggedInState = new LoggedInState();
     private Container container;
     private WorkWeek workWeek;
+    private List<WorkWeek> weeks = new ArrayList<>();
+    private ScheduleController scheduleController;
 
     public ScheduleState() {}
 
@@ -51,4 +51,12 @@ public class ScheduleState {
 
     public WorkWeek getWeek() { return workWeek; }
 
+    public void setWeeks(List<WorkWeek> weeks) { this.weeks = weeks; }
+
+    public List<WorkWeek> getWeeks() { return weeks; }
+
+    public void setScheduleController(ScheduleController controller) {
+        this.scheduleController = controller; }
+
+    public ScheduleController getScheduleController() { return scheduleController; }
 }
