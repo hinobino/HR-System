@@ -1,7 +1,7 @@
 package entity;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 /**
  * Factory for creating shifts.
@@ -16,7 +16,7 @@ public class ShiftFactory {
      * @param employee the employee assigned to the shift.
      * @return a new shift object.
      */
-    public Shift create(LocalDate day, LocalTime startTime, LocalTime endTime, Employee employee) {
+    public Shift create(LocalDate day, LocalDateTime startTime, LocalDateTime endTime, Employee employee) {
         return new Shift(day, startTime, endTime, employee);
     }
 
