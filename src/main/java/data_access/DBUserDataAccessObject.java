@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
+import use_case.export_calendar.ExportCalendarUserDataAccessInterface;
 import use_case.logged_in.employee.EmployeeUserDataAccessInterface;
 import use_case.logged_in.manager.ManagerUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -35,7 +36,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         ManagerUserDataAccessInterface,
         EmployeeUserDataAccessInterface,
         ManageShiftsUserDataAccessInterface,
-        ScheduleUserDataAccessInterface {
+        ScheduleUserDataAccessInterface, ExportCalendarUserDataAccessInterface {
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -431,5 +432,33 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     @Override
     public void saveWorkday(LocalDate date, Workday workday) {
 
+    }
+
+    @Override
+    public Employee getEmployee() {
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final Request request = new Request.Builder()
+                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", currentUserID))
+                .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                final JSONObject userJSONObject = responseBody.getJSONObject("user");
+                final String name = userJSONObject.getString(USERNAME);
+                final String password = userJSONObject.getString(PASSWORD);
+                Employee employee = (Employee) userFactory.create(name, password);
+                return employee;
+            }
+            else {
+                throw new RuntimeException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }
