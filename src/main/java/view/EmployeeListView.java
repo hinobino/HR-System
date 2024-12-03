@@ -47,7 +47,7 @@ public class EmployeeListView extends JPanel implements PropertyChangeListener, 
         table.getTableHeader().setReorderingAllowed(false);
         table.addMouseListener(this);
         scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(100, 100));
+        scrollPane.setPreferredSize(new Dimension(100, 300));
         table.setFillsViewportHeight(true);
 
         // Panel for buttons
