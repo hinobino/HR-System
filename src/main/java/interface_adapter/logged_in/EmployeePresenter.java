@@ -28,6 +28,8 @@ public class EmployeePresenter implements EmployeeOutputBoundary {
         final ScheduleState scheduleState = scheduleViewModel.getState();
         scheduleState.setUserID(userID);
         scheduleState.setShifts(employeeOutputData.getShifts());
+        scheduleState.setWeeks(employeeOutputData.getWeeks());
+        scheduleState.setWeek(employeeOutputData.getWeeks().get(0));
         scheduleState.setParentState(loggedInState);
 
         this.scheduleViewModel.setState(scheduleState);

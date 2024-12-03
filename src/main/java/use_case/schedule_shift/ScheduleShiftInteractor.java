@@ -35,7 +35,6 @@ public class ScheduleShiftInteractor implements ScheduleShiftInputBoundary {
         final LocalTime endTime = scheduleShiftInputData.getEndTime();
         final Employee employee = scheduleShiftInputData.getEmployee();
 
-        // TODO: Implement checks for pre-approved leave
         // Ensure fields not blank
         if (day == null || startTime == null || endTime == null || employee == null) {
             scheduleShiftPresenter.prepareFailView("Please fill in all fields.");

@@ -119,6 +119,7 @@ public class AppBuilder {
     private final ManagerFactory managerFactory = new ManagerFactory();
     private final ShiftFactory shiftFactory = new ShiftFactory();
     private final WorkdayFactory workdayFactory = new WorkdayFactory();
+    private final WorkWeekFactory workWeekFactory = new WorkWeekFactory();
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -358,8 +359,13 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addEmployeeUseCase() {
-        final EmployeeOutputBoundary employeeOutputBoundary = new EmployeePresenter(viewManagerModel,scheduleViewModel);
-        final EmployeeInputBoundary employeeInteractor = new EmployeeInteractor(userDataAccessObject, employeeOutputBoundary);
+        final EmployeeOutputBoundary employeeOutputBoundary = new EmployeePresenter(
+                viewManagerModel,
+                scheduleViewModel);
+        final EmployeeInputBoundary employeeInteractor = new EmployeeInteractor(
+                userDataAccessObject,
+                employeeOutputBoundary,
+                workWeekFactory);
         final EmployeeController controller = new EmployeeController(employeeInteractor);
         employeeView.setEmployeeController(controller);
         return this;
@@ -377,8 +383,10 @@ public class AppBuilder {
                 scheduleViewModel,
                 manageShiftsViewModel,
                 viewManagerModel);
-        final ManagerInputBoundary managerInteractor = new ManagerInteractor(userDataAccessObject,
-                managerOutputBoundary);
+        final ManagerInputBoundary managerInteractor = new ManagerInteractor(
+                userDataAccessObject,
+                managerOutputBoundary,
+                workWeekFactory);
         final ManagerController controller = new ManagerController(managerInteractor);
         managerView.setManagerController(controller);
         return this;
@@ -430,7 +438,6 @@ public class AppBuilder {
         final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(
                 manageEmployeeViewModel, createEmployeeViewModel, managerViewModel, viewManagerModel);
         final EmployeeListInputBoundary employeeListInteractor = new EmployeeListInteractor(employeeListOutputBoundary);
-
         final EmployeeListController controller = new EmployeeListController(employeeListInteractor);
         employeeListView.setEmployeeListController(controller);
         return this;
@@ -494,11 +501,15 @@ public class AppBuilder {
 
 
     public AppBuilder addViewScheduleUseCase() {
-        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(scheduleViewModel);
-        final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(userDataAccessObject, scheduleOutputBoundary);
+        final ScheduleOutputBoundary scheduleOutputBoundary = new SchedulePresenter(
+                scheduleViewModel);
+        final ScheduleInputBoundary scheduleInteractor = new ScheduleInteractor(
+                userDataAccessObject,
+                scheduleOutputBoundary,
+                workWeekFactory);
         final ScheduleController controller = new ScheduleController(scheduleInteractor);
         scheduleView.setScheduleController(controller);
-        scheduleViewModel.setScheduleController(controller);
+        scheduleViewModel.getState().setScheduleController(controller);
         return this;
     }
 

@@ -427,4 +427,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             throw new RuntimeException(ex);
         }
     }
+
+    @Override
+    public void saveWorkday(LocalDate date, Workday workday) {
+
+    }
 }
