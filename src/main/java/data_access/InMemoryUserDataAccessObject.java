@@ -139,4 +139,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public List<Shift> getShifts(String employeeID) {
         return ((Employee) users.get(employeeID)).getShifts();
     }
+
+    public void saveWorkday(LocalDate date, Workday workday) {
+        workdays.put(date, workday);
+    }
 }
