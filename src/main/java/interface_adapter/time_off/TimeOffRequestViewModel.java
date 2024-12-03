@@ -24,7 +24,21 @@ public class TimeOffRequestViewModel extends ViewModel<List<TimeOffRequest>> {
     }
 
     public void updateRequest(TimeOffRequest request) {
-        // Add logic to update request
+        if (requestList != null) {
+            for (int i = 0; i < requestList.size(); i++) {
+                if (requestList.get(i).getRequestId().equals(request.getRequestId())) {
+                    TimeOffRequest oldRequest = requestList.get(i);
+                    requestList.set(i, request);
+                    this.firePropertyChanged("requestList", oldRequest, request);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void updateRequestList(List<TimeOffRequest> requests) {
+        this.requestList = requests;
+        this.firePropertyChanged("requestList", null, requests);
     }
 
     @Override

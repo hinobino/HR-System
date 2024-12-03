@@ -497,7 +497,7 @@ public class AppBuilder {
      */
     public AppBuilder addTimeOffRequestView() {
         timeOffRequestViewModel = new TimeOffRequestViewModel();
-        timeOffRequestView = new TimeOffRequestView(timeOffRequestViewModel);
+        timeOffRequestView = new TimeOffRequestView();
         cardPanel.add(timeOffRequestView, timeOffRequestView.getViewName());
         return this;
     }
@@ -541,12 +541,8 @@ public class AppBuilder {
         final TimeOffRequestOutputBoundary timeOffRequestOutputBoundary = new TimeOffRequestPresenter(timeOffRequestViewModel);
         final TimeOffRequestDataAccessObject timeOffRequestDataAccessObject = new TimeOffRequestDataAccessObject(); // Correct type here
         final TimeOffRequestInputBoundary timeOffRequestInteractor = new TimeOffRequestInteractor(timeOffRequestDataAccessObject, timeOffRequestOutputBoundary);
-        final TimeOffRequestController controller = new TimeOffRequestController(timeOffRequestInteractor);
+        final TimeOffRequestController controller = new TimeOffRequestController(timeOffRequestInteractor, timeOffRequestOutputBoundary); // Pass both input and output boundary
         timeOffRequestView.setTimeOffRequestController(controller);
         return this;
     }
-
-
-
-
 }

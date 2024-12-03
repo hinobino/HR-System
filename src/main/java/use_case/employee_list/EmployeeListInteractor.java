@@ -1,11 +1,12 @@
 package use_case.employee_list;
 
+import data_access.InMemoryUserDataAccessObject;
 import entity.Employee;
 
 public class EmployeeListInteractor implements EmployeeListInputBoundary {
     private final EmployeeListOutputBoundary employeeListPresenter;
 
-    public EmployeeListInteractor(EmployeeListOutputBoundary employeeListPresenter) {
+    public EmployeeListInteractor(InMemoryUserDataAccessObject userDataAccessObject, EmployeeListOutputBoundary employeeListPresenter) {
         this.employeeListPresenter = employeeListPresenter;
 
     }

@@ -2,22 +2,20 @@ package use_case.time_off_request;
 
 import entity.TimeOffRequest;
 
-import java.util.List;
-
 public class TimeOffRequestOutputData {
+    private final String status;
     private final TimeOffRequest timeOffRequest;
-    private final List<TimeOffRequest> requestList;
 
-    public TimeOffRequestOutputData(TimeOffRequest timeOffRequest, List<TimeOffRequest> requestList) {
+    public TimeOffRequestOutputData(String status, TimeOffRequest timeOffRequest) {
+        this.status = status;
         this.timeOffRequest = timeOffRequest;
-        this.requestList = requestList;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public TimeOffRequest getTimeOffRequest() {
         return timeOffRequest;
-    }
-
-    public List<TimeOffRequest> getRequestList() {
-        return requestList;
     }
 }

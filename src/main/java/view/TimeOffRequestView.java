@@ -1,72 +1,67 @@
 package view;
 
 import interface_adapter.time_off.TimeOffRequestController;
-import interface_adapter.time_off.TimeOffRequestViewModel;
-import java.time.LocalDate;
-
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-public class TimeOffRequestView extends JPanel implements PropertyChangeListener {
-    private final TimeOffRequestViewModel timeOffRequestViewModel;
-    private final JTable requestTable;
+public class TimeOffRequestView extends JPanel {
+    private TimeOffRequestController controller;
+
+    private final JButton submitRequestButton;
     private final JTextField startDateField;
     private final JTextField endDateField;
-    private TimeOffRequestController timeOffRequestController;
+    private final JButton backButton;
 
-    public TimeOffRequestView(TimeOffRequestViewModel timeOffRequestViewModel) {
-        this.timeOffRequestViewModel = timeOffRequestViewModel;
-        this.timeOffRequestViewModel.addPropertyChangeListener(this);
-
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        JLabel titleLabel = new JLabel("Time Off Request");
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(titleLabel);
+    public TimeOffRequestView() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         startDateField = new JTextField(10);
         endDateField = new JTextField(10);
-        JButton submitButton = new JButton("Submit Request");
-        submitButton.addActionListener(new SubmitRequestActionListener());
+        startDateField.setPreferredSize(new Dimension(100, 25)); // Set smaller preferred size
+        endDateField.setPreferredSize(new Dimension(100, 25)); // Set smaller preferred size
+        submitRequestButton = new JButton("Submit Request");
+        backButton = new JButton("Back");
 
-        add(new JLabel("Start Date (yyyy-mm-dd):"));
-        add(startDateField);
-        add(new JLabel("End Date (yyyy-mm-dd):"));
-        add(endDateField);
-        add(submitButton);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(new JLabel("Start Date (yyyy-mm-dd):"), gbc);
 
-        requestTable = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Request ID", "Start Date", "End Date", "Status"}));
-        add(new JScrollPane(requestTable));
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        add(startDateField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        add(new JLabel("End Date (yyyy-mm-dd):"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        add(endDateField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        add(submitRequestButton, gbc);
+
+        gbc.gridy = 3;
+        add(backButton, gbc);
+
+        // Add listener for the buttons
+        submitRequestButton.addActionListener(new SubmitRequestActionListener());
+        backButton.addActionListener(new BackButtonActionListener());
     }
 
     public String getViewName() {
-        return timeOffRequestViewModel.getViewName();
+        return "timeOffRequestView";
     }
 
     public void setTimeOffRequestController(TimeOffRequestController controller) {
-        this.timeOffRequestController = controller;
-    }
-
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("requestList".equals(evt.getPropertyName())) {
-            updateRequestTable();
-        }
-    }
-
-    private void updateRequestTable() {
-        DefaultTableModel model = (DefaultTableModel) requestTable.getModel();
-        model.setRowCount(0);
-        for (entity.TimeOffRequest request : timeOffRequestViewModel.getRequestList()) {
-            model.addRow(new Object[]{request.getRequestId(), request.getStartDate(), request.getEndDate(), request.isApproved() ? "Approved" : "Pending"});
-        }
+        this.controller = controller;
     }
 
     private class SubmitRequestActionListener implements ActionListener {
@@ -74,7 +69,24 @@ public class TimeOffRequestView extends JPanel implements PropertyChangeListener
         public void actionPerformed(ActionEvent e) {
             String startDate = startDateField.getText();
             String endDate = endDateField.getText();
-            timeOffRequestController.submitRequest("EMPLOYEE_ID", LocalDate.parse(startDate), LocalDate.parse(endDate));
+
+            if (controller != null) {
+                controller.submitRequest(startDate, endDate);
+            } else {
+                JOptionPane.showMessageDialog(TimeOffRequestView.this, "Controller not set for TimeOffRequestView.");
+            }
+        }
+    }
+
+    private class BackButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Assuming there's a CardLayout managing the views
+            Container parent = TimeOffRequestView.this.getParent();
+            if (parent != null && parent.getLayout() instanceof CardLayout) {
+                CardLayout cardLayout = (CardLayout) parent.getLayout();
+                cardLayout.show(parent, "employee"); // Switch back to the "employee" view
+            }
         }
     }
 }

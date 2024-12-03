@@ -1,7 +1,6 @@
 package interface_adapter.time_off;
 
 import entity.TimeOffRequest;
-import interface_adapter.time_off.TimeOffRequestViewModel; // Correct import path
 import use_case.time_off_request.TimeOffRequestOutputBoundary;
 import use_case.time_off_request.TimeOffRequestOutputData;
 
@@ -22,9 +21,22 @@ public class TimeOffRequestPresenter implements TimeOffRequestOutputBoundary {
     }
 
     @Override
-    public void presentAllRequests(TimeOffRequestOutputData outputData) {
-        // Retrieves the list of all TimeOffRequests and updates the view model.
-        List<TimeOffRequest> requests = outputData.getRequestList();
-        viewModel.setRequestList(requests);
+    public void presentAllRequests(List<TimeOffRequest> requests) {
+        viewModel.updateRequestList(requests);
+    }
+
+    @Override
+    public void requestSubmitted(TimeOffRequest request) {
+        viewModel.updateRequest(request);
+    }
+
+    @Override
+    public void requestApproved(TimeOffRequest request) {
+        viewModel.updateRequest(request);
+    }
+
+    @Override
+    public void requestDenied(TimeOffRequest request) {
+        viewModel.updateRequest(request);
     }
 }

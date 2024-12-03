@@ -4,6 +4,7 @@ import interface_adapter.logged_in.EmployeeController;
 import interface_adapter.logged_in.EmployeeViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.time_off.TimeOffRequestController;
 
 
 import javax.swing.*;
@@ -28,6 +29,8 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
     private final JButton logOut;
     private LogoutController logoutController;
     private EmployeeController employeeController;
+    private TimeOffRequestController timeOffRequestController;
+
 
     public EmployeeView(EmployeeViewModel employeeViewModel) {
         this.employeeViewModel = employeeViewModel;
@@ -88,10 +91,14 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        employeeController.switchToTimeOffRequestView();
+                        // Assuming you have a CardLayout managing different views.
+                        CardLayout cardLayout = (CardLayout) EmployeeView.this.getParent().getLayout();
+                        cardLayout.show(EmployeeView.this.getParent(), "timeOffRequestView");
                     }
                 }
         );
+
+
 
         // Format the whole EmployeeView
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

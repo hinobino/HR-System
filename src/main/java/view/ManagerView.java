@@ -1,6 +1,5 @@
 package view;
 
-import entity.Manager;
 import interface_adapter.logged_in.ManagerController;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.ManagerViewModel;
@@ -27,10 +26,10 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
     private final JButton schedule;
     private final JButton setShift;
     private final JButton employees;
-    private final JButton requests;
 //    private final JButton createEmployee;
     private final JButton logOut;
     private final JButton manageShifts;
+    private final JButton TimeOffRequests;
 
     private ManagerController managerController;
 
@@ -77,12 +76,14 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
         buttons.add(employees, gbc);
 
         gbc.gridy++;
-        requests = new JButton(ManagerViewModel.REQUESTS_LABEL);
-        buttons.add(requests, gbc);
+        TimeOffRequests = new JButton("Time Off Requests");
+        buttons.add(TimeOffRequests, gbc);
 
         gbc.gridy++;
         logOut = new JButton("Log Out");
         buttons.add(logOut, gbc);
+
+
 
 //        createEmployee.addActionListener(
 //                new ActionListener() {
@@ -115,16 +116,6 @@ public class ManagerView extends JPanel implements PropertyChangeListener {
             }
         );
 
-        requests.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        managerController.switchToTimeOffRequestView();
-                    }
-                }
-        );
-
-        requests.addActionListener(e -> {});
 
 
         setShift.addActionListener(
