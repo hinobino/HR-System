@@ -437,7 +437,6 @@ public class AppBuilder {
         final EmployeeListOutputBoundary employeeListOutputBoundary = new EmployeeListPresenter(
                 manageEmployeeViewModel, createEmployeeViewModel, managerViewModel, viewManagerModel);
         final EmployeeListInputBoundary employeeListInteractor = new EmployeeListInteractor(
-                userDataAccessObject,
                 employeeListOutputBoundary
         );
 
