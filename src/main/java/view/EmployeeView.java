@@ -24,7 +24,6 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
     private final JLabel welcomeLabel;
 
     private final JButton schedule;
-    private final JButton shifts;
     private final JButton requestLeave;
     private final JButton logOut;
     private LogoutController logoutController;
@@ -56,10 +55,6 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
         buttons.add(schedule, gbc);
 
         gbc.gridy++;
-        shifts = new JButton(EmployeeViewModel.SHIFTS_LABEL);
-        buttons.add(shifts, gbc);
-
-        gbc.gridy++;
         requestLeave = new JButton(EmployeeViewModel.REQUEST_LABEL);
         buttons.add(requestLeave, gbc);
 
@@ -77,7 +72,6 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        // TODO: Implement these action listeners.
         schedule.addActionListener(
                 new ActionListener() {
                     @Override
@@ -89,6 +83,7 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                     }
                 }
         );
+
         requestLeave.addActionListener(
                 new ActionListener() {
                     @Override
@@ -97,8 +92,6 @@ public class EmployeeView extends JPanel implements PropertyChangeListener {
                     }
                 }
         );
-        shifts.addActionListener(e -> {});
-        requestLeave.addActionListener(e -> {});
 
         // Format the whole EmployeeView
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
