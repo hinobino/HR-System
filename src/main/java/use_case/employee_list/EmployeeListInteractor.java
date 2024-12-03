@@ -5,8 +5,7 @@ import entity.Employee;
 public class EmployeeListInteractor implements EmployeeListInputBoundary {
     private final EmployeeListOutputBoundary employeeListPresenter;
 
-    public EmployeeListInteractor(EmployeeListUserDataAccessInterface userDataAccessObject,
-                                  EmployeeListOutputBoundary employeeListPresenter) {
+    public EmployeeListInteractor(EmployeeListOutputBoundary employeeListPresenter) {
         this.employeeListPresenter = employeeListPresenter;
 
     }

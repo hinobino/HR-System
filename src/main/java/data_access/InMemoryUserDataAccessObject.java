@@ -7,12 +7,10 @@ import entity.User;
 import entity.Workday;
 import use_case.activate_account.ActivateAccountUserDataAccessInterface;
 import use_case.create_employee.CreateEmployeeUserDataAccessInterface;
-import use_case.employee_list.EmployeeListUserDataAccessInterface;
 import use_case.logged_in.employee.EmployeeUserDataAccessInterface;
 import use_case.logged_in.manager.ManagerUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
-import use_case.manage_employee.ManageEmployeeInteractor;
 import use_case.manage_employee.ManageEmployeeUserDataAccessInterface;
 import use_case.manage_shifts.ManageShiftsUserDataAccessInterface;
 import use_case.schedule_shift.ScheduleShiftUserDataAccessInterface;
@@ -32,8 +30,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         LoginUserDataAccessInterface,
         ActivateAccountUserDataAccessInterface,
         CreateEmployeeUserDataAccessInterface,
-        LogoutUserDataAccessInterface, 
-        EmployeeListUserDataAccessInterface,
+        LogoutUserDataAccessInterface,
         ManageEmployeeUserDataAccessInterface,
         ScheduleShiftUserDataAccessInterface,
         ManagerUserDataAccessInterface,
